@@ -1,1 +1,5 @@
+blacksmith
 *.swp
+*.swo
+\#*\#
+*~
