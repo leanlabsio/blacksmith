@@ -22,5 +22,6 @@ func main() {
 	app.Commands = []cli.Command{
 		cmd.DaemonCmd,
 	}
+	app.Version = "0.0.1"
 	app.Run(os.Args)
 }

@@ -10,49 +10,55 @@ import (
 	"net/http"
 )
 
+//GitlabWebHook is a basic struct representing any gitlab webhook payload
 type GitlabWebHook struct {
 	ObjectKind string `json:"object_kind"`
 }
 
+//Repository represents gitlab repo info from webhook payload
 type Repository struct {
 	Name            string `json:"name"`
-	Url             string `json:"url"`
+	URL             string `json:"url"`
 	Description     string `json:"description"`
 	Homepage        string `json:"homepage"`
-	GitHttpUrl      string `json:"git_http_url"`
-	GitSshUrl       string `json:"git_ssh_url"`
+	GitHTTPURL      string `json:"git_http_url"`
+	GitSSHURL       string `json:"git_ssh_url"`
 	VisibilityLevel int    `json:"visibility_level"`
 }
 
+//Commit represents gitlab commit info from webhook payload
 type Commit struct {
-	Id        string `json:"id"`
+	ID        string `json:"id"`
 	Message   string `json:"message"`
 	Timestamp string `json:"timestamp"`
-	Url       string `json:"url"`
+	URL       string `json:"url"`
 	Author    User   `json:"author"`
 }
 
+//User represents gitlab user info from webhook payload
 type User struct {
 	Name      string `json:"name"`
 	Email     string `json:"email"`
 	Username  string `json:"username"`
-	AvatarUrl string `json:"avatar_url"`
+	AvatarURL string `json:"avatar_url"`
 }
 
+//GitlabPushRequest represents gitlab push notification payload
 type GitlabPushRequest struct {
 	GitlabWebHook
 	Before            string     `json:"before"`
 	After             string     `json:"after"`
 	Ref               string     `json:"ref"`
-	UserId            int        `json:"user_id"`
+	UserID            int        `json:"user_id"`
 	UserName          string     `json:"user_name"`
 	UserEmail         string     `json:"user_email"`
-	ProjectId         int        `json:"project_id"`
+	ProjectID         int        `json:"project_id"`
 	TotalCommitsCount int        `json:"total_commits_count"`
 	Commits           []Commit   `json:"commits"`
 	Repository        Repository `json:"repository"`
 }
 
+//DaemonCmd is a command to start server in daemon mode
 var DaemonCmd = cli.Command{
 	Name: "daemon",
 	Flags: []cli.Flag{
@@ -120,7 +126,7 @@ func daemon(c *cli.Context) {
 			log.Fatalf("Docker error: %s", err)
 		}
 
-		log.Printf("GITLAB PAYLOAD %+v", gpr.Repository.GitHttpUrl)
+		log.Printf("GITLAB PAYLOAD %+v", gpr.Repository.GitHTTPURL)
 		return "QWERTY"
 	})
 	err := http.ListenAndServe("0.0.0.0:9000", m)
