@@ -81,13 +81,31 @@ func daemon(c *cli.Context) {
 		)
 
 		config := &docker.Config{
-			Image: "leanlabs/make-builder",
-			Cmd:   []string{"make"},
+			Image: "leanlabs/bsr",
+			Volumes: map[string]struct{}{
+				"/home":                {},
+				"/var/run/docker.sock": {},
+				"/var/run/docker.pid":  {},
+			},
+			WorkingDir: "/home",
+			Env: []string{
+				"REPOSITORY_GIT_HTTP_URL=https://github.com/leanlabsio/kanban.git",
+				"AFTER=c143783000e9e4f89d699e294cb5ecb05099c16b",
+				"REPOSITORY_NAME=kanban",
+			},
+		}
+
+		hostConfig := &docker.HostConfig{
+			Binds: []string{
+				"/home:/home",
+				"/var/run/docker.sock:/var/run/docker.sock",
+				"/var/run/docker.pid:/var/run/docker.pid",
+			},
 		}
 
 		options := docker.CreateContainerOptions{
 			Config:     config,
-			HostConfig: nil,
+			HostConfig: hostConfig,
 		}
 
 		container, err := client.CreateContainer(options)
