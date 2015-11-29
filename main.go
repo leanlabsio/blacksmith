@@ -1,4 +1,4 @@
-package main
+package main // import "github.com/vasiliy-t/blacksmith"
 
 import (
 	"github.com/codegangsta/cli"
