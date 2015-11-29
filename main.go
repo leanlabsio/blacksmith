@@ -1,11 +1,26 @@
 package main
 
 import (
-	"gitlab.com/blacksmith/go-reactor/push"
-	"net/http"
+	"github.com/codegangsta/cli"
+	"github.com/vasiliy-t/blacksmithci/cmd"
+	"os"
 )
 
 func main() {
-	http.Handle("/push", &push.PushHandler{})
-	http.ListenAndServe(":8080", nil)
+	app := cli.NewApp()
+	app.Name = "blacksmithci"
+	app.Authors = []cli.Author{
+		cli.Author{
+			Name:  "cnam",
+			Email: "support@leanlabs.io",
+		},
+		cli.Author{
+			Name:  "V",
+			Email: "support@leanlabs.io",
+		},
+	}
+	app.Commands = []cli.Command{
+		cmd.DaemonCmd,
+	}
+	app.Run(os.Args)
 }
