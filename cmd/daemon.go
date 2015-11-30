@@ -120,8 +120,20 @@ func daemon(c *cli.Context) {
 
 		container, err := client.CreateContainer(options)
 
-		if err != nil {
-			log.Fatalf("Docker error: %s", err)
+		if err == docker.ErrNoSuchImage {
+			client.PullImage(
+				docker.PullImageOptions{
+					Repository: "leanlabs/blacksmith-docker-runner",
+					Tag:        "latest",
+				},
+				docker.AuthConfiguration{},
+			)
+
+			container, err = client.CreateContainer(options)
+
+			if err != nil {
+				log.Fatalf("Docker error: %s", err)
+			}
 		}
 
 		err = client.StartContainer(container.ID, nil)
@@ -131,6 +143,7 @@ func daemon(c *cli.Context) {
 		}
 
 		log.Printf("GITLAB PAYLOAD %+v", gpr.Repository.GitHTTPURL)
+
 		return "QWERTY"
 	})
 	err := http.ListenAndServe("0.0.0.0:9000", m)
