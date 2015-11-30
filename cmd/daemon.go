@@ -86,8 +86,12 @@ func daemon(c *cli.Context) {
 			fmt.Sprintf("%s/ca.pem", c.String("docker-cert-path")),
 		)
 
+		gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", gpr.Repository.GitHTTPURL)
+		commit := fmt.Sprintf("AFTER=%s", gpr.After)
+		reponame := fmt.Sprintf("REPOSITORY_NAME=%s", gpr.Repository.Name)
+
 		config := &docker.Config{
-			Image: "leanlabs/bsr",
+			Image: "leanlabs/blacksmith-docker-runner",
 			Volumes: map[string]struct{}{
 				"/home":                {},
 				"/var/run/docker.sock": {},
@@ -95,9 +99,9 @@ func daemon(c *cli.Context) {
 			},
 			WorkingDir: "/home",
 			Env: []string{
-				"REPOSITORY_GIT_HTTP_URL=https://github.com/leanlabsio/kanban.git",
-				"AFTER=c143783000e9e4f89d699e294cb5ecb05099c16b",
-				"REPOSITORY_NAME=kanban",
+				gitURL,
+				commit,
+				reponame,
 			},
 		}
 
