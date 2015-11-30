@@ -7,4 +7,6 @@ COPY ./blacksmith /
 
 VOLUME ["/certs"]
 
+EXPOSE 9000
+
 ENTRYPOINT ["/blacksmith"]
