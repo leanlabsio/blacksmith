@@ -2,7 +2,7 @@ package main // import "github.com/vasiliy-t/blacksmith"
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/vasiliy-t/blacksmithci/cmd"
+	"github.com/vasiliy-t/blacksmith/cmd"
 	"os"
 )
 
