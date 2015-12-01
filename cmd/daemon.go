@@ -79,12 +79,20 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
 	m.Post("/push", binding.Json(GitlabPushRequest{}), func(gpr GitlabPushRequest) string {
-		client, err := docker.NewTLSClient(
-			c.String("docker-host"),
-			fmt.Sprintf("%s/cert.pem", c.String("docker-cert-path")),
-			fmt.Sprintf("%s/key.pem", c.String("docker-cert-path")),
-			fmt.Sprintf("%s/ca.pem", c.String("docker-cert-path")),
-		)
+		certPath := c.String("docker-cert-path")
+
+		var client *docker.Client
+
+		if len(certPath) > 0 {
+			client, _ = docker.NewTLSClient(
+				c.String("docker-host"),
+				fmt.Sprintf("%s/cert.pem", c.String("docker-cert-path")),
+				fmt.Sprintf("%s/key.pem", c.String("docker-cert-path")),
+				fmt.Sprintf("%s/ca.pem", c.String("docker-cert-path")),
+			)
+		} else {
+			client, _ = docker.NewClient(c.String("docker-host"))
+		}
 
 		gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", gpr.Repository.GitHTTPURL)
 		commit := fmt.Sprintf("AFTER=%s", gpr.After)
