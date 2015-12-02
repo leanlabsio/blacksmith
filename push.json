@@ -2,7 +2,7 @@
     "object_kind": "push",
     "before": "95790bf891e76fee5e1747ab589903a6a1f80f22",
     "after": "5a4c7bc2c1f74e50c1791ecf7e28d9e62c0394e0",
-    "ref": "refs/heads/master",
+    "ref": "refs/heads/experimental_ci_build",
     "user_id": 4,
     "user_name": "John Smith",
     "user_email": "john@example.com",

@@ -95,6 +95,7 @@ func daemon(c *cli.Context) {
 		}
 
 		gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", gpr.Repository.GitHTTPURL)
+		ref := fmt.Sprintf("REF=%s", gpr.Ref)
 		commit := fmt.Sprintf("AFTER=%s", gpr.After)
 		reponame := fmt.Sprintf("REPOSITORY_NAME=%s", gpr.Repository.Name)
 
@@ -110,6 +111,7 @@ func daemon(c *cli.Context) {
 				gitURL,
 				commit,
 				reponame,
+				ref,
 			},
 		}
 
