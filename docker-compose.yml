@@ -5,6 +5,8 @@ blacksmith:
     - DOCKER_TLS_VERIFY=0
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+  links:
+    - redis:redis
   ports:
     - 80:9000
   command: daemon 
@@ -16,4 +18,6 @@ dockerui:
     - /var/run/docker.sock:/var/run/docker.sock
   ports:
     - 8080:9000 
-    
+
+redis:
+  image: leanlabs/redis
