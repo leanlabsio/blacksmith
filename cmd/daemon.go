@@ -70,6 +70,10 @@ var DaemonCmd = cli.Command{
 			Name:   "docker-cert-path",
 			EnvVar: "DOCKER_CERT_PATH",
 		},
+		cli.BoolFlag{
+			Name:   "docker-tls-verify",
+			EnvVar: "DOCKER_TLS_VERIFY",
+		},
 	},
 	Action: daemon,
 }
@@ -79,16 +83,16 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
 	m.Post("/push", binding.Json(GitlabPushRequest{}), func(gpr GitlabPushRequest) string {
-		certPath := c.String("docker-cert-path")
 
 		var client *docker.Client
 
-		if len(certPath) > 0 {
+		if c.Bool("docker-tls-verify") {
+			certPath := c.String("docker-cert-path")
 			client, _ = docker.NewTLSClient(
 				c.String("docker-host"),
-				fmt.Sprintf("%s/cert.pem", c.String("docker-cert-path")),
-				fmt.Sprintf("%s/key.pem", c.String("docker-cert-path")),
-				fmt.Sprintf("%s/ca.pem", c.String("docker-cert-path")),
+				fmt.Sprintf("%s/cert.pem", certPath),
+				fmt.Sprintf("%s/key.pem", certPath),
+				fmt.Sprintf("%s/ca.pem", certPath),
 			)
 		} else {
 			client, _ = docker.NewClient(c.String("docker-host"))

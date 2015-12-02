@@ -1,0 +1,19 @@
+blacksmith:
+  image: leanlabs/blacksmith
+  environment:
+    - DOCKER_HOST=unix:///var/run/docker.sock
+    - DOCKER_TLS_VERIFY=0
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  ports:
+    - 80:9000
+  command: daemon 
+
+dockerui:
+  image: dockerui/dockerui
+  privileged: true
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  ports:
+    - 8080:9000 
+    
