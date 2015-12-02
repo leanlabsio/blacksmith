@@ -3,6 +3,7 @@ blacksmith:
   environment:
     - DOCKER_HOST=unix:///var/run/docker.sock
     - DOCKER_TLS_VERIFY=0
+    - REDIS_ADDR=redis:6379
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   links:
