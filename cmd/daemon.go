@@ -120,7 +120,6 @@ func daemon(c *cli.Context) {
 			Volumes: map[string]struct{}{
 				"/home":                {},
 				"/var/run/docker.sock": {},
-				"/var/run/docker.pid":  {},
 			},
 			WorkingDir: "/home",
 			Env: []string{
@@ -135,7 +134,6 @@ func daemon(c *cli.Context) {
 			Binds: []string{
 				"/home:/home",
 				"/var/run/docker.sock:/var/run/docker.sock",
-				"/var/run/docker.pid:/var/run/docker.pid",
 			},
 		}
 
