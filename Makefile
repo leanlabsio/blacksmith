@@ -3,7 +3,7 @@ VERSION = 0.0.1
 
 all: build_image
 
-blacksmith: $(find $(CURDIR) -name "*.go" -type f)
+blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/src \
 		leanlabs/golang-builder
