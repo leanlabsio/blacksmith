@@ -6,6 +6,7 @@ import (
 	"github.com/fsouza/go-dockerclient"
 	"github.com/go-macaron/binding"
 	"github.com/vasiliy-t/blacksmith/gitlab"
+	"github.com/vasiliy-t/blacksmith/webhook"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
@@ -62,7 +63,7 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Logger())
 	m.Map(redisClient)
 	m.Map(client)
-	m.Post("/push", binding.Json(&gitlab.Push{}), func(gpr gitlab.Push, client *docker.Client) string {
+	m.Post("/push", webhook.Resolve(), binding.Json(gitlab.Push{}), func(gpr gitlab.Push, client *docker.Client) string {
 		gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", gpr.Repository.GitHTTPURL)
 		ref := fmt.Sprintf("REF=%s", gpr.Ref)
 		commit := fmt.Sprintf("AFTER=%s", gpr.After)
