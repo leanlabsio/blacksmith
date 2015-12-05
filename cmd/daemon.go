@@ -5,6 +5,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/vasiliy-t/blacksmith/job"
+	"github.com/vasiliy-t/blacksmith/route"
 	"github.com/vasiliy-t/blacksmith/webhook"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
@@ -124,6 +125,9 @@ func daemon(c *cli.Context) {
 
 		return "QWERTY"
 	})
+
+	m.Post("/env", route.PostEnv()...)
+
 	err := http.ListenAndServe("0.0.0.0:9000", m)
 
 	if err != nil {
