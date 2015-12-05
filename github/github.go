@@ -6,12 +6,13 @@ import (
 
 //Push represents github push webhook payload
 type Push struct {
-	Ref          string   `json:"ref"`
-	Head         string   `json:"head"`
-	Before       string   `json:"before"`
-	Size         int64    `json:"size"`
-	DistinctSize int64    `json:"distinct_size"`
-	Commits      []Commit `json:"commits"`
+	Ref          string     `json:"ref"`
+	Head         string     `json:"head"`
+	Before       string     `json:"before"`
+	Size         int64      `json:"size"`
+	DistinctSize int64      `json:"distinct_size"`
+	Commits      []Commit   `json:"commits"`
+	Repository   Repository `json:"repository"`
 }
 
 //Commit represents github webhook payload commit info
@@ -26,12 +27,21 @@ type Commit struct {
 //User represents github webhook payload user info
 type User struct{}
 
+//Repository represents github webhook payload repo info
+type Repository struct {
+	Name     string `json:"name"`
+	CloneURL string `json:"clone_url"`
+}
+
 //MapToJob maps webhook payload to executable job
 func (p *Push) MapToJob() *job.Job {
 	j := &job.Job{
-		Commit:     p.Head,
-		Ref:        p.Ref,
-		Repository: job.Repository{},
+		Commit: p.Head,
+		Ref:    p.Ref,
+		Repository: job.Repository{
+			Name: p.Repository.Name,
+			URL:  p.Repository.CloneURL,
+		},
 	}
 	return j
 }
