@@ -7,7 +7,7 @@ import (
 //Push represents github push webhook payload
 type Push struct {
 	Ref          string     `json:"ref"`
-	Head         string     `json:"head"`
+	After        string     `json:"after"`
 	Before       string     `json:"before"`
 	Size         int64      `json:"size"`
 	DistinctSize int64      `json:"distinct_size"`
@@ -36,7 +36,7 @@ type Repository struct {
 //MapToJob maps webhook payload to executable job
 func (p *Push) MapToJob() *job.Job {
 	j := &job.Job{
-		Commit: p.Head,
+		Commit: p.After,
 		Ref:    p.Ref,
 		Repository: job.Repository{
 			Name: p.Repository.Name,
