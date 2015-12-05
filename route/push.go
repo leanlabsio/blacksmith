@@ -1,7 +1,6 @@
 package route
 
 import (
-	"fmt"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/vasiliy-t/blacksmith/job"
 	"github.com/vasiliy-t/blacksmith/webhook"
@@ -14,13 +13,8 @@ import (
 func PostPush() []macaron.Handler {
 	return []macaron.Handler{
 		webhook.Resolve(),
+		job.Resolve(),
 		func(job *job.Job, client *docker.Client) string {
-			log.Printf("%+v", job)
-			gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", job.Repository.URL)
-			ref := fmt.Sprintf("REF=%s", job.Ref)
-			commit := fmt.Sprintf("AFTER=%s", job.Commit)
-			reponame := fmt.Sprintf("REPOSITORY_NAME=%s", job.Repository.Name)
-
 			config := &docker.Config{
 				Image: "leanlabs/blacksmith-docker-runner",
 				Volumes: map[string]struct{}{
@@ -28,12 +22,7 @@ func PostPush() []macaron.Handler {
 					"/var/run/docker.sock": {},
 				},
 				WorkingDir: "/home",
-				Env: []string{
-					gitURL,
-					commit,
-					reponame,
-					ref,
-				},
+				Env:        job.EnvVars,
 			}
 
 			hostConfig := &docker.HostConfig{

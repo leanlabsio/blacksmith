@@ -15,7 +15,7 @@ type Env struct {
 
 //PostEnv is an API endpoint to store user defined environment
 //variables in database
-//POST Content-Type: application/json [{"ENVNAME:ENVVAL"}]
+//POST Content-Type: application/json [{"name":"ENVNAME", "value":"envvalue"}]
 func PostEnv() []macaron.Handler {
 	return []macaron.Handler{
 		binding.Json([]Env{}),
