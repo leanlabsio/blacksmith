@@ -65,6 +65,7 @@ func daemon(c *cli.Context) {
 
 	m.Post("/push", route.PostPush()...)
 	m.Post("/env", route.PostEnv()...)
+	m.Post("/job", route.PostJob()...)
 
 	err := http.ListenAndServe("0.0.0.0:9000", m)
 
