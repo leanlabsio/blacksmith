@@ -1,5 +1,9 @@
 package gitlab
 
+import (
+	"github.com/vasiliy-t/blacksmith/job"
+)
+
 //WebHook is a basic struct representing any gitlab webhook payload
 type WebHook struct {
 	ObjectKind string `json:"object_kind"`
@@ -63,4 +67,17 @@ type TagPush struct {
 	Repository        Repository `json:"repository"`
 	Commits           []Commit   `json:"commits"`
 	TotalCommitsCount int        `json:"total_commit_count"`
+}
+
+//MapToJob maps webhook payload to executable job
+func (p *Push) MapToJob() *job.Job {
+	j := &job.Job{
+		Commit: p.After,
+		Ref:    p.Ref,
+		Repository: job.Repository{
+			Name: p.Repository.Name,
+			URL:  p.Repository.GitHTTPURL,
+		},
+	}
+	return j
 }

@@ -1,5 +1,9 @@
 package github
 
+import (
+	"github.com/vasiliy-t/blacksmith/job"
+)
+
 //Push represents github push webhook payload
 type Push struct {
 	Ref          string   `json:"ref"`
@@ -21,3 +25,13 @@ type Commit struct {
 
 //User represents github webhook payload user info
 type User struct{}
+
+//MapToJob maps webhook payload to executable job
+func (p *Push) MapToJob() *job.Job {
+	j := &job.Job{
+		Commit:     p.Head,
+		Ref:        p.Ref,
+		Repository: job.Repository{},
+	}
+	return j
+}

@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/go-macaron/binding"
-	"github.com/vasiliy-t/blacksmith/gitlab"
+	"github.com/vasiliy-t/blacksmith/job"
 	"github.com/vasiliy-t/blacksmith/webhook"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
@@ -63,11 +62,12 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Logger())
 	m.Map(redisClient)
 	m.Map(client)
-	m.Post("/push", webhook.Resolve(), binding.Json(gitlab.Push{}), func(gpr gitlab.Push, client *docker.Client) string {
-		gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", gpr.Repository.GitHTTPURL)
-		ref := fmt.Sprintf("REF=%s", gpr.Ref)
-		commit := fmt.Sprintf("AFTER=%s", gpr.After)
-		reponame := fmt.Sprintf("REPOSITORY_NAME=%s", gpr.Repository.Name)
+	m.Post("/push", webhook.Resolve(), func(job *job.Job, client *docker.Client) string {
+		log.Printf("%+v", job)
+		gitURL := fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", job.Repository.URL)
+		ref := fmt.Sprintf("REF=%s", job.Ref)
+		commit := fmt.Sprintf("AFTER=%s", job.Commit)
+		reponame := fmt.Sprintf("REPOSITORY_NAME=%s", job.Repository.Name)
 
 		config := &docker.Config{
 			Image: "leanlabs/blacksmith-docker-runner",
@@ -120,7 +120,7 @@ func daemon(c *cli.Context) {
 			log.Fatalf("Docker error: %s", err)
 		}
 
-		log.Printf("GITLAB PAYLOAD %+v", gpr.Repository.GitHTTPURL)
+		log.Printf("Job executed %+v", job)
 
 		return "QWERTY"
 	})
