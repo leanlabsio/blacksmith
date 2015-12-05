@@ -1,7 +1,7 @@
 IMAGE = leanlabs/blacksmith
 VERSION = 0.0.1
 
-all: build_image
+all: release
 
 blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
@@ -11,3 +11,6 @@ blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 build_image: blacksmith
 	@docker build -t $(IMAGE) .
 
+release: builde_image
+	@docker login --email=$$DOCKER_HUB_EMAIL --username=$$DOCKER_HUB_LOGIN --password=$$DOCKER_HUB_PASSWORD
+	@docker push $(IMAGE):latest
