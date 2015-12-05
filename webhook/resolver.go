@@ -12,7 +12,7 @@ import (
 func Resolve() macaron.Handler {
 	return func(ctx *macaron.Context) {
 		defer ctx.Req.Request.Body.Close()
-		h := ctx.Req.Header.Get("X-Github-Event")
+		h := ctx.Req.Header.Get("X-GitHub-Event")
 		if len(h) > 0 {
 			var message github.Push
 			err := json.NewDecoder(ctx.Req.Request.Body).Decode(&message)
