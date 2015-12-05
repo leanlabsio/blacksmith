@@ -42,18 +42,18 @@ func daemon(c *cli.Context) {
 		DB:       0,
 	})
 
-	var client *docker.Client
+	var dockerClient *docker.Client
 
 	if c.Bool("docker-tls-verify") {
 		certPath := c.String("docker-cert-path")
-		client, _ = docker.NewTLSClient(
+		dockerClient, _ = docker.NewTLSClient(
 			c.String("docker-host"),
 			fmt.Sprintf("%s/cert.pem", certPath),
 			fmt.Sprintf("%s/key.pem", certPath),
 			fmt.Sprintf("%s/ca.pem", certPath),
 		)
 	} else {
-		client, _ = docker.NewClient(c.String("docker-host"))
+		dockerClient, _ = docker.NewClient(c.String("docker-host"))
 	}
 
 	m := macaron.New()
@@ -61,7 +61,7 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Logger())
 
 	m.Map(redisClient)
-	m.Map(client)
+	m.Map(dockerClient)
 
 	m.Post("/push", route.PostPush()...)
 	m.Post("/env", route.PostEnv()...)
