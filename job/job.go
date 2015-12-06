@@ -48,7 +48,7 @@ func Resolve() macaron.Handler {
 			job.EnvVars,
 			fmt.Sprintf("REPOSITORY_GIT_HTTP_URL=%s", job.Repository.URL),
 			fmt.Sprintf("REF=%s", job.Ref),
-			fmt.Sprintf("AFTER=%s", job.Commit),
+			fmt.Sprintf("COMMIT=%s", job.Commit),
 			fmt.Sprintf("REPOSITORY_NAME=%s", job.Repository.Name),
 		)
 	}
