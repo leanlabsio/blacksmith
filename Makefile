@@ -23,7 +23,7 @@ dev_redis:
 		docker run -d -p 6379:6379 --name bs_dev_redis leanlabs/redis
 
 dev: dev_redis
-	@docker -d \
+	@docker run -d \
 		--link bs_dev_redis:redis \
 		--name bs_dev \
 		-v $(CURDIR):$(CWD) \

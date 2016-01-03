@@ -1,0 +1,45 @@
+{
+	"ImportPath": "github.com/vasiliy-t/blacksmith",
+	"GoVersion": "go1.5",
+	"Deps": [
+		{
+			"ImportPath": "github.com/Unknwon/com",
+			"Rev": "28b053d5a2923b87ce8c5a08f3af779894a72758"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/cli",
+			"Comment": "1.2.0-187-gc31a797",
+			"Rev": "c31a7975863e7810c92e2e288a9ab074f9a88f29"
+		},
+		{
+			"ImportPath": "github.com/fsouza/go-dockerclient",
+			"Rev": "e0d22d30691bcc996eca51f729a4777b8c7dc2a8"
+		},
+		{
+			"ImportPath": "github.com/go-macaron/binding",
+			"Rev": "2502aaf4bce3a4e6451b4610847bfb8dffdb6266"
+		},
+		{
+			"ImportPath": "github.com/go-macaron/inject",
+			"Rev": "c5ab7bf3a307593cd44cb272d1a5beea473dd072"
+		},
+		{
+			"ImportPath": "gopkg.in/bsm/ratelimit.v1",
+			"Rev": "f14ad9c78b155f69b480cfa41cb655259baac260"
+		},
+		{
+			"ImportPath": "gopkg.in/ini.v1",
+			"Comment": "v1.8.5",
+			"Rev": "77178f22699a4ecafce485fb8d86b7afeb7e3e28"
+		},
+		{
+			"ImportPath": "gopkg.in/macaron.v1",
+			"Rev": "1c6dd87797ae9319b4658cbd48d1d0420b279fd5"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v3",
+			"Comment": "v3.2.26",
+			"Rev": "aa0a9697d83d57be721f4ef8176d367c63873855"
+		}
+	]
+}
