@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/vasiliy-t/blacksmith/route"
+	"github.com/vasiliy-t/blacksmith/api"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
@@ -64,9 +64,9 @@ func daemon(c *cli.Context) {
 
 	m.Map(redisClient)
 	m.Map(dockerClient)
-	m.Post("/push", route.PostPush()...)
-	m.Post("/env", route.PostEnv()...)
-	m.Post("/job", route.PostJob()...)
+	m.Post("/push", api.PostPush()...)
+	m.Post("/env", api.PostEnv()...)
+	m.Post("/job", api.PostJob()...)
 
 	m.Get("/*", func(ctx *macaron.Context){
 		ctx.HTML(200, "index")

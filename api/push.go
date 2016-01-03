@@ -1,4 +1,4 @@
-package route
+package api
 
 import (
 	"github.com/fsouza/go-dockerclient"
