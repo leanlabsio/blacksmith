@@ -60,6 +60,7 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
 	m.Use(macaron.Renderer())
+	m.Use(macaron.Static("web"))
 
 	m.Map(redisClient)
 	m.Map(dockerClient)

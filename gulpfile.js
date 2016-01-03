@@ -17,7 +17,12 @@ gulp.task("copy", function() {
         .pipe(gulp.dest("web/js/"));
 });
 
-gulp.task("styles", function() {
+gulp.task("js", function() {
+    return gulp.src("src/*.js")
+        .pipe(gulp.dest("web/js"));
+});
+
+gulp.task("css", function() {
     return gulp.src("src/scss/styles.scss")
         .pipe(sass(sassOptions).on("error", sass.logError))
         .pipe(gulp.dest("web/css"));
