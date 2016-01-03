@@ -24,6 +24,7 @@ dev_redis:
 
 dev: dev_redis
 	@docker run -d \
+		-p 80:80 \
 		--link bs_dev_redis:redis \
 		--name bs_dev \
 		-v $(CURDIR):$(CWD) \

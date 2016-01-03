@@ -59,15 +59,19 @@ func daemon(c *cli.Context) {
 	m := macaron.New()
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
+	m.Use(macaron.Renderer())
 
 	m.Map(redisClient)
 	m.Map(dockerClient)
-
 	m.Post("/push", route.PostPush()...)
 	m.Post("/env", route.PostEnv()...)
 	m.Post("/job", route.PostJob()...)
 
-	err := http.ListenAndServe("0.0.0.0:9000", m)
+	m.Get("/*", func(ctx *macaron.Context){
+		ctx.HTML(200, "index")
+	})
+
+	err := http.ListenAndServe("0.0.0.0:80", m)
 
 	if err != nil {
 		log.Fatalf("Failed to start %s", err)
