@@ -3,3 +3,4 @@ blacksmith
 *.swo
 \#*\#
 *~
+node_modules

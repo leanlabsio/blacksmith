@@ -1,0 +1,29 @@
+{
+  "name": "blacksmith",
+  "version": "0.0.1",
+  "description": "Blacksmith continious integration server",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vasiliy-t/blacksmith.git"
+  },
+  "author": "V",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vasiliy-t/blacksmith/issues"
+  },
+  "homepage": "https://github.com/vasiliy-t/blacksmith",
+  "dependencies": {
+    "angular": "^1.5.0-rc.0",
+    "foundation-sites": "^6.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}

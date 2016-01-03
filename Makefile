@@ -29,5 +29,6 @@ dev: dev_redis
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
 		-e GO15VENDOREXPERIMENT=1 \
+		-e REDIS_ADDR=redis:6379 \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 run -v main.go --redis-addr redis:6379
+		golang:1.5.2 run -v main.go daemon
