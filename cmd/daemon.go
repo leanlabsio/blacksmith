@@ -31,6 +31,14 @@ var DaemonCmd = cli.Command{
 			Name:   "redis-addr",
 			EnvVar: "REDIS_ADDR",
 		},
+		cli.StringFlag{
+			Name: "github-client-id",
+			EnvVar: "GITHUB_CLIENT_ID",
+		},
+		cli.StringFlag{
+			Name: "github-client-secret",
+			EnvVar: "GITHUB_CLIENT_SECRET",
+		},
 	},
 	Action: daemon,
 }
@@ -67,8 +75,17 @@ func daemon(c *cli.Context) {
 	m.Post("/push", api.PostPush()...)
 	m.Post("/env", api.PostEnv()...)
 	m.Post("/job", api.PostJob()...)
+	m.Post("/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)
 
-	m.Get("/*", func(ctx *macaron.Context){
+	m.Get("/*", func(ctx *macaron.Context) {
+		ctx.Data["BSConfig"] = map[string]interface{}{
+			"version": "1.0.0",
+			"github": map[string]interface{}{
+				"oauth": map[string]string{
+					"clientid": c.String("github-client-id"),
+				},
+			},
+		}
 		ctx.HTML(200, "index")
 	})
 

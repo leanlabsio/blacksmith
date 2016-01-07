@@ -1,11 +1,18 @@
 <!doctype html>
-<html data-ng-app="bs" data-ng-strict-di>
+<html ng-app="bs">
     <head>
         <link rel="stylesheet" href="/css/styles.css"/>
+        <script type="text/javascript">
+            var bsconfig = {{.BSConfig}}
+        </script>
     </head>
     <body>
-
+        <app></app>
         <script type="text/javascript" src="/js/angular.js"></script>
         <script type="text/javascript" src="/js/blacksmith.module.js"></script>
+        <script type="text/javascript" src="/js/satellizer.min.js"></script>
+        <script type="text/javascript" src="/js/angular_1_router.js"></script>
+        <script type="text/javascript" src="/js/user/user.module.js"></script>
+        <script type="text/javascript" src="/js/user/components/login.js"></script>
     </body>
 </html>
