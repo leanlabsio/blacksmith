@@ -32,11 +32,11 @@ var DaemonCmd = cli.Command{
 			EnvVar: "REDIS_ADDR",
 		},
 		cli.StringFlag{
-			Name: "github-client-id",
+			Name:   "github-client-id",
 			EnvVar: "GITHUB_CLIENT_ID",
 		},
 		cli.StringFlag{
-			Name: "github-client-secret",
+			Name:   "github-client-secret",
 			EnvVar: "GITHUB_CLIENT_SECRET",
 		},
 	},

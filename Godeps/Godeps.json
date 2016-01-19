@@ -13,11 +13,7 @@
 		},
 		{
 			"ImportPath": "github.com/fsouza/go-dockerclient",
-			"Rev": "e0d22d30691bcc996eca51f729a4777b8c7dc2a8"
-		},
-		{
-			"ImportPath": "github.com/go-macaron/binding",
-			"Rev": "2502aaf4bce3a4e6451b4610847bfb8dffdb6266"
+			"Rev": "6fb38e6bb3d544d7eb5b55fd396cd4e6850802d8"
 		},
 		{
 			"ImportPath": "github.com/go-macaron/inject",
@@ -29,17 +25,17 @@
 		},
 		{
 			"ImportPath": "gopkg.in/ini.v1",
-			"Comment": "v1.8.5",
-			"Rev": "77178f22699a4ecafce485fb8d86b7afeb7e3e28"
+			"Comment": "v1.8.6",
+			"Rev": "afbd495e5aaea13597b5e14fe514ddeaa4d76fc3"
 		},
 		{
 			"ImportPath": "gopkg.in/macaron.v1",
-			"Rev": "1c6dd87797ae9319b4658cbd48d1d0420b279fd5"
+			"Rev": "564f398778297b0b083aaa070dda26e217f1e6b3"
 		},
 		{
 			"ImportPath": "gopkg.in/redis.v3",
-			"Comment": "v3.2.26",
-			"Rev": "aa0a9697d83d57be721f4ef8176d367c63873855"
+			"Comment": "v3.2.27",
+			"Rev": "dd1ac33826064181d7abaa20d976eab31ec12b58"
 		}
 	]
 }

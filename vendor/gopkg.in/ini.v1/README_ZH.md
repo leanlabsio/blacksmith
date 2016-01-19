@@ -15,7 +15,19 @@
 
 ## 下载安装
 
+使用一个特定版本：
+
     go get gopkg.in/ini.v1
+
+使用最新版：
+
+	go get github.com/go-ini/ini
+
+### 测试安装
+
+如果您想要在自己的机器上运行测试，请使用 `-t` 标记：
+
+	go get -t gopkg.in/ini.v1
 
 ## 开始使用
 
