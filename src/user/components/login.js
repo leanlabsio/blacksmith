@@ -1,11 +1,13 @@
 (function() {
     'use strict';
 
-    angular.module('bs.user').component('login', {
-        restrict: 'EA',
-        controller: ['$auth', UserController],
-        templateUrl: '/html/user/components/login.html',
-        controllerAs: 'lc'
+    angular.module('bs.user').directive('login', function() {
+        return {
+            restrict: 'EA',
+            controller: ['$auth', UserController],
+            templateUrl: '/html/user/components/login.html',
+            controllerAs: 'lc'
+        };
     });
 
     function UserController($auth) {

@@ -10,7 +10,6 @@
     }]);
 
     app.component('app', {
-        restrict: 'E',
         template: '<ng-outlet></ng-outlet>',
         controller: ['$router', AppDirectiveController]
     });
@@ -27,11 +26,14 @@
         }]);
     }
 
-    app.component('home', {
-        restrict: 'EA',
-        controller: HomeController,
-        template: 'Blackmith main page'
+    app.directive('home', function() {
+        return {
+            controller: HomeController,
+            template: 'Blackmith main page'
+        };
     });
 
-    function HomeController() {}
+    function HomeController() {
+        console.log("fsdfsdf");
+    }
 }(window.angular));
