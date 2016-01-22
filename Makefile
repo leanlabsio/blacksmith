@@ -50,7 +50,7 @@ dev_redis:
 .PHONY: dev_watcher
 dev_watcher: node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
-		docker run -d -v $(CURDIR):$(CWD) -w $(CWD) leanlabs/npm-builder gulp watch
+		docker run -d -v $(CURDIR):$(CWD) -w $(CWD) leanlabs/npm-builder gulp clean copy js css html watch
 
 # Start golang server
 .PHONY: dev
