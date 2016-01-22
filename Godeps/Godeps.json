@@ -16,8 +16,20 @@
 			"Rev": "6fb38e6bb3d544d7eb5b55fd396cd4e6850802d8"
 		},
 		{
+			"ImportPath": "github.com/go-macaron/binding",
+			"Rev": "2502aaf4bce3a4e6451b4610847bfb8dffdb6266"
+		},
+		{
 			"ImportPath": "github.com/go-macaron/inject",
 			"Rev": "c5ab7bf3a307593cd44cb272d1a5beea473dd072"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "c92cdcb05f66ce5b61460e23498d2dc5fcf69aaf"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "2baa8a1b9338cf13d9eeb27696d761155fa480be"
 		},
 		{
 			"ImportPath": "gopkg.in/bsm/ratelimit.v1",

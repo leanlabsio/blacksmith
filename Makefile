@@ -18,7 +18,13 @@ blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		-e CGO_ENABLED=0 \
-		golang:1.5.2 go build -ldflags '-s' -v -o $@
+		golang:1.5.3 go build -ldflags '-s' -v -o $@
+
+node_modules/: package.json
+	@docker run --rm \
+		-v $(CURDIR):$(CWD) \
+		-w $(CWD) \
+		leanlabs/npm-builder npm install
 
 .PHONY: build_image
 build_image: blacksmith
@@ -34,16 +40,19 @@ release: build_image
 
 # Development related targets
 
+# Start Redis server
 .PHONY: dev_redis
 dev_redis:
 	@docker inspect -f {{.State.Running}} bs_dev_redis || \
 		docker run -d -p 6379:6379 --name bs_dev_redis leanlabs/redis
 
+# Install nodejs modules and start Gulp watcher
 .PHONY: dev_watcher
-dev_watcher:
+dev_watcher: node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
 		docker run -d -v $(CURDIR):$(CWD) -w $(CWD) leanlabs/npm-builder gulp watch
 
+# Start golang server
 .PHONY: dev
 dev: dev_redis dev_watcher
 	-docker rm -f bs_dev
@@ -58,4 +67,4 @@ dev: dev_redis dev_watcher
 		-e GITHUB_CLIENT_ID=$(GITHUB_CLIENT_ID) \
 		-e GITHUB_CLIENT_SECRET=$(GITHUB_CLIENT_SECRET) \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 run -v main.go daemon
+		golang:1.5.3 run -v main.go daemon

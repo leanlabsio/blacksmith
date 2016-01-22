@@ -5,3 +5,4 @@ blacksmith
 *~
 node_modules
 web
+.tern-port

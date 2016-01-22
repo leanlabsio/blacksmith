@@ -1,6 +1,6 @@
 (function(angular) {
     'use strict';
-    
+
     var app = angular.module('bs', ['ngComponentRouter', 'bs.user', 'satellizer']);
 
     app.config(['$authProvider', function($authProvider) {
@@ -16,18 +16,15 @@
     });
 
     function AppDirectiveController($router) {
-        $router.config([
-            {
-                path: '/',
-                component: 'home',
-                name: 'Home'
-            },
-            {
-                path: '/login',
-                component: 'login',
-                name: 'Login'
-            }
-        ]);
+        $router.config([{
+            path: '/',
+            component: 'home',
+            name: 'Home'
+        }, {
+            path: '/login',
+            component: 'login',
+            name: 'Login'
+        }]);
     }
 
     app.component('home', {
@@ -36,6 +33,5 @@
         template: 'Blackmith main page'
     });
 
-    function HomeController() {
-    }
+    function HomeController() {}
 }(window.angular));
