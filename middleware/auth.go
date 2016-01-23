@@ -12,7 +12,9 @@ func Auth() macaron.Handler {
 		header := ctx.Req.Header.Get("Authorization")
 		if len(header) == 0 {
 		}
-		token, err := jwt.Parse(header, func(token *jwt.Token) (interface{}, error) {
+		t := header[7:]
+
+		token, err := jwt.Parse(t, func(token *jwt.Token) (interface{}, error) {
 			return []byte("qwerty"), nil
 		})
 
@@ -35,6 +37,7 @@ func Auth() macaron.Handler {
 			Name:        data["name"],
 			AccessToken: data["access_token"],
 			AvatarURL:   data["avatar_url"],
+			Login:       data["login"],
 		}
 
 		ctx.Map(user)

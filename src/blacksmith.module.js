@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    var app = angular.module('bs', ['ngComponentRouter', 'bs.user', 'satellizer']);
+    var app = angular.module('bs', ['ngComponentRouter', 'bs.user', 'bs.repo', 'satellizer']);
 
     app.config(['$authProvider', function($authProvider) {
         $authProvider.github({
@@ -23,6 +23,10 @@
             path: '/login',
             component: 'login',
             name: 'Login'
+        }, {
+            path: '/repos',
+            component: 'repo.list',
+            name: 'Repo.list'
         }]);
     }
 

@@ -32,6 +32,10 @@ var DaemonCmd = cli.Command{
 			EnvVar: "REDIS_ADDR",
 		},
 		cli.StringFlag{
+			Name:   "token-sign",
+			EnvVar: "TOKEN_SIGN",
+		},
+		cli.StringFlag{
 			Name:   "github-client-id",
 			EnvVar: "GITHUB_CLIENT_ID",
 		},

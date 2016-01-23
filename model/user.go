@@ -5,4 +5,5 @@ type User struct {
 	Name        string
 	AvatarURL   string
 	AccessToken string
+	Login       string
 }

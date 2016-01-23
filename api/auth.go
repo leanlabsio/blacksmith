@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-macaron/binding"
 	ghapi "github.com/google/go-github/github"
@@ -9,6 +10,7 @@ import (
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
+	"strconv"
 	"time"
 )
 
@@ -46,13 +48,16 @@ func PostGitHubAuth(ghcid, ghcs string) []macaron.Handler {
 
 			}
 
-			_, err = redis.HMSet("github:user:"+string(*user.ID), "id", string(*user.ID), "name", *user.Name, "avatar", *user.AvatarURL, "access_token", token.AccessToken).Result()
+			uid := strconv.Itoa(*user.ID)
+			id := fmt.Sprintf("github:user:%s", uid)
+
+			_, err = redis.HMSet(id, "id", uid, "name", *user.Name, "avatar", *user.AvatarURL, "access_token", token.AccessToken, "login", *user.Login).Result()
 
 			if err != nil {
 			}
 
 			jwtToken := jwt.New(jwt.SigningMethodHS256)
-			jwtToken.Claims["name"] = "github:user:" + string(*user.ID)
+			jwtToken.Claims["name"] = id
 			jwtToken.Claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
 			signed, _ := jwtToken.SignedString([]byte("qwerty"))
 
