@@ -5,7 +5,7 @@
         return {
             restrict: 'EA',
             controller: ['$auth', '$router', UserController],
-            templateUrl: '/html/user/components/login.html',
+            templateUrl: '/html/components/user/login.html',
             controllerAs: 'lc'
         };
     });

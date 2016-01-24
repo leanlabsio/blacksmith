@@ -4,7 +4,7 @@
     angular.module('bs.repo').directive('repo.list', function() {
         return {
             controller: ['$http', RepoListController],
-            templateUrl: '/html/repo/components/repo.list.html',
+            templateUrl: '/html/components/repo/repo_list.html',
             controllerAs: 'ctrl'
         };
     });
