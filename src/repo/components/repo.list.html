@@ -1,0 +1,10 @@
+<div class="row align-center">
+    <div class="small-12 columns">
+        <div ng-repeat="repo in ctrl.repos">
+            {{repo.clone_url}}
+            <button class="button" ng-click="ctrl.enableBuild(repo)">
+                Enable build
+            </button>
+        </div>
+    </div>
+</div>

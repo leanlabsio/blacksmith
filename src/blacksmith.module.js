@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    var app = angular.module('bs', ['ngComponentRouter', 'bs.user', 'bs.repo', 'satellizer']);
+    var app = angular.module('bs', ['ngComponentRouter', 'bs.home', 'bs.user', 'bs.repo', 'bs.build', 'satellizer']);
 
     app.config(['$authProvider', function($authProvider) {
         $authProvider.github({
@@ -17,27 +17,16 @@
     function AppDirectiveController($router) {
         $router.config([{
             path: '/',
-            component: 'home',
+            component: 'bs.home',
             name: 'Home'
-        }, {
-            path: '/login',
-            component: 'login',
-            name: 'Login'
         }, {
             path: '/repos',
             component: 'repo.list',
             name: 'Repo.list'
+        }, {
+            path: '/build',
+            component: 'bs.build',
+            name: 'Build.index'
         }]);
-    }
-
-    app.directive('home', function() {
-        return {
-            controller: HomeController,
-            template: 'Blackmith main page'
-        };
-    });
-
-    function HomeController() {
-        console.log("fsdfsdf");
     }
 }(window.angular));
