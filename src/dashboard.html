@@ -1,10 +1,12 @@
 <div class="row align-center">
     <div class="small-12 columns">
-        <div ng-repeat="repo in ctrl.repos">
-            {{repo.clone_url}}
-            <button class="button" ng-click="ctrl.enableBuild(repo)">
+        <div *ngFor="#job of jobs">
+            {{job.repository}}
+            <button class="button" (click)="enable(job)">
                 Enable build
             </button>
         </div>
     </div>
 </div>
+
+

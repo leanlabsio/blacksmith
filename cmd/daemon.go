@@ -79,7 +79,9 @@ func daemon(c *cli.Context) {
 	m.Get("/repo", api.ListRepo()...)
 	m.Post("/push", api.PostPush()...)
 	m.Post("/env", api.PostEnv()...)
-	m.Post("/job", api.PostJob()...)
+	m.Put("/jobs", api.PutJob()...)
+	m.Get("/jobs", api.ListJob()...)
+	m.Get("/jobs/*", api.GetJob()...)
 	m.Post("/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)
 
 	m.Get("/*", func(ctx *macaron.Context) {

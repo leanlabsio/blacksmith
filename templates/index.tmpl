@@ -1,25 +1,35 @@
 <!doctype html>
-<html ng-app="bs">
-    <head>
-        <link rel="stylesheet" href="/css/styles.css"/>
+<html>
+  <head>
+    <base href="/"/>
+    <link rel="stylesheet" href="/css/styles.css"/>
         <script type="text/javascript">
             var bsconfig = {{.BSConfig}}
         </script>
     </head>
     <body>
-        <app></app>
-        <script type="text/javascript" src="/js/angular.js"></script>
-        <script type="text/javascript" src="/js/blacksmith.module.js"></script>
-        <script type="text/javascript" src="/js/satellizer.min.js"></script>
-        <script type="text/javascript" src="/js/angular_1_router.js"></script>
-        <script type="text/javascript" src="/js/components/user/user.module.js"></script>
-        <script type="text/javascript" src="/js/components/user/login.js"></script>
-        <script type="text/javascript" src="/js/components/user/user_badge.js"></script>
-        <script type="text/javascript" src="/js/components/repo/repo.module.js"></script>
-        <script type="text/javascript" src="/js/components/repo/repo_list.js"></script>
-        <script type="text/javascript" src="/js/components/home/home.js"></script>
-        <script type="text/javascript" src="/js/components/build/build.module.js"></script>
-        <script type="text/javascript" src="/js/components/build/build.js"></script>
-        <script type="text/javascript" src="/js/components/build/build_list.js"></script>
+        <app>Loading...</app>
+        <script src="/js/es6-shim.min.js"></script>
+        <script src="/js/system-polyfills.js"></script>
+
+        <script src="/js/angular2-polyfills.js"></script>
+        <script src="/js/system.src.js"></script>
+        <script src="/js/Rx.js"></script>
+        <script src="/js/angular2.dev.js"></script>
+        <script src="/js/router.dev.js"></script>
+        <script src="js/http.dev.js"></script>
+
+        <script>
+      System.config({
+        packages: {        
+          js: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('js/boot.js')
+            .then(null, console.error.bind(console));
+    </script>
     </body>
 </html>

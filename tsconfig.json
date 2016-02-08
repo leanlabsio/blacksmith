@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "system",
+    "target": "es5",
+    "noImplicitAny": true,
+    "outDir": "web",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
