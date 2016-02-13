@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/fsouza/go-dockerclient"
+	"github.com/leanlabsio/sockets"
 	"github.com/vasiliy-t/blacksmith/api"
+	"github.com/vasiliy-t/ws"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
@@ -82,6 +84,7 @@ func daemon(c *cli.Context) {
 	m.Get("/jobs", api.ListJob()...)
 	m.Get("/jobs/*", api.GetJob()...)
 	m.Post("/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)
+	m.Get("/ws/*", sockets.Messages(), ws.ListenAndServe)
 
 	m.Get("/*", func(ctx *macaron.Context) {
 		ctx.Data["BSConfig"] = map[string]interface{}{

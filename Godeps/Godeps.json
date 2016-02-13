@@ -37,6 +37,18 @@
 			"Rev": "2a60fc2ba6c19de80291203597d752e9ba58e4c0"
 		},
 		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Rev": "3986be78bf859e01f01af631ad76da5b269d270c"
+		},
+		{
+			"ImportPath": "github.com/leanlabsio/sockets",
+			"Rev": "555ea7145f564a420c51194bb8b91eef028c7437"
+		},
+		{
+			"ImportPath": "github.com/vasiliy-t/ws",
+			"Rev": "510bb4dc11995fbd1f4a0dacb625a08956eb4931"
+		},
+		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "c92cdcb05f66ce5b61460e23498d2dc5fcf69aaf"
 		},
