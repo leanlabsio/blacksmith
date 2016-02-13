@@ -1,11 +1,16 @@
 <form #jobForm="ngForm">
+
     <div class="row">
-        <input #name="ngForm" ngControl="repository" [(ngModel)]="job.repository">
+        <input type="text" #name="ngForm" ngControl="repository" [(ngModel)]="job.repository">
     </div>
 
     <div *ngFor="#env of job.env; #idx=index" class="row">
-        <input #name="ngForm" ngControl="envname" [(ngModel)]="job.env[idx].name">
-        <input #name="ngForm" ngControl="envvalue" [(ngModel)]="job.env[idx].value">
+        <div class="medium-6 columns">
+            <input type="text" #name="ngForm" ngControl="envname" [(ngModel)]="job.env[idx].name">
+        </div>
+        <div class="medium-6 columns">
+            <input type="text" #name="ngForm" ngControl="envvalue" [(ngModel)]="job.env[idx].value">
+        </div>
     </div>
 
     <div class="row">

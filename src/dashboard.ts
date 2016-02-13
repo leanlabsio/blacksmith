@@ -6,17 +6,20 @@ import {Inject} from "angular2/core";
 import {RequestOptions} from "https";
 import {Headers} from "angular2/http";
 import {Router} from "angular2/router";
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 export class Job {
     repository: string;
     enabled: boolean;
     env: Array<Env>;
+    name: string;
 
     static create(data) {
         return new Job(data);
     }
 
     constructor(data) {
+        this.name = data.name;
         this.repository = data.repository;
         this.enabled = data.enabled;
         this.env = [];
@@ -36,6 +39,7 @@ export class Env {
 @Component({})
 @View({
     templateUrl: "html/dashboard.html",
+    directives: [ROUTER_DIRECTIVES],
 })
 export class Dashboard {
 
@@ -55,5 +59,14 @@ export class Dashboard {
             .put("/jobs",JSON.stringify(job), {headers: hs})
             .map(res => res.json())
             .subscribe(res => this.router.navigate(['Job', {repo: res.repository}]));
+    }
+
+    disable(job: Job) {
+        var hs = new Headers();
+        job.enabled = false;
+        hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        this.http.put("/jobs", JSON.stringify(job), {headers: hs})
+        .map(res => res.json())
+        .subscribe(val => job = Job.create(val))
     }
 }

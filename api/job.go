@@ -10,11 +10,11 @@ import (
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
-	"strconv"
 )
 
 //Job represents single API payload entry
 type Job struct {
+	Name       string `json:"name"`
 	Repository string `json:"repository"`
 	EnvVars    []Env  `json:"env"`
 	Enabled    bool   `json:"enabled"`
@@ -59,14 +59,15 @@ func ListJob() []macaron.Handler {
 
 			var resp []*Job
 			for _, repo := range repos {
-				j := &Job{Repository: *repo.CloneURL, Enabled: false}
-				job, _ := redis.HGetAllMap(*repo.CloneURL).Result()
-
-				if len(job) != 0 {
-					e, _ := strconv.ParseBool(job["enabled"])
-					j.Enabled = e
+				record, _ := redis.Get(*repo.CloneURL).Result()
+				if len(record) != 0 {
+					var j *Job
+					json.Unmarshal([]byte(record), &j)
+					resp = append(resp, j)
+				} else {
+					j := &Job{Repository: *repo.CloneURL, Name: *repo.FullName, Enabled: false}
+					resp = append(resp, j)
 				}
-				resp = append(resp, j)
 			}
 
 			ctx.JSON(200, resp)
@@ -78,19 +79,13 @@ func GetJob() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		func(ctx *macaron.Context, user *model.User, redis *redis.Client) {
-			data, err := redis.HGetAllMap(ctx.Params("*")).Result()
+			data, err := redis.Get(ctx.Params("*")).Result()
 			if err != nil {
 			}
+			var j *Job
+			json.Unmarshal([]byte(data), &j)
 
-			e, _ := strconv.ParseBool(data["enabled"])
-
-			job := &Job{
-				Repository: ctx.Params("*"),
-				Enabled:    e,
-			}
-			log.Printf("REPO %s", ctx.Params("*"))
-
-			ctx.JSON(200, job)
+			ctx.JSON(200, j)
 		},
 	}
 }

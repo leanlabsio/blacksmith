@@ -1,12 +1,15 @@
-<div class="row align-center">
-    <div class="small-12 columns">
-        <div *ngFor="#job of jobs">
-            {{job.repository}}
-            <button class="button" (click)="enable(job)">
-                Enable build
-            </button>
-        </div>
+<div *ngFor="#job of jobs" class="row align-center">
+    <div class="columns medium-8">
+        <a [routerLink]="['Job', {repo: job.repository}]">
+            {{job.name}}
+        </a>
+    </div>
+    <div class="columns medium-4">
+        <button *ngIf="job.enabled == false" class="button success" (click)="enable(job)">
+            Enable build
+        </button>
+        <button *ngIf="job.enabled == true" class="button alert" (click)="disable(job)">
+            Disable build
+        </button>
     </div>
 </div>
-
-
