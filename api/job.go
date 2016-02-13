@@ -9,28 +9,13 @@ import (
 	"golang.org/x/oauth2"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
-	"log"
 )
-
-//Job represents single API payload entry
-type Job struct {
-	Name       string `json:"name"`
-	Repository string `json:"repository"`
-	EnvVars    []Env  `json:"env"`
-	Enabled    bool   `json:"enabled"`
-}
-
-type Env struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
 
 //PostJob is an API endpoint to store jobs configuration
 func PutJob() []macaron.Handler {
 	return []macaron.Handler{
-		binding.Json(Job{}),
-		func(ctx *macaron.Context, j Job, redis *redis.Client) {
-			log.Printf("JOB %+v", j)
+		binding.Json(model.Job{}),
+		func(ctx *macaron.Context, j model.Job, redis *redis.Client) {
 			v, _ := json.Marshal(j)
 			_, err := redis.Set(j.Repository, v, 0).Result()
 
@@ -57,15 +42,15 @@ func ListJob() []macaron.Handler {
 			}
 			repos, _, _ := client.Repositories.List(user.Login, opts)
 
-			var resp []*Job
+			var resp []*model.Job
 			for _, repo := range repos {
 				record, _ := redis.Get(*repo.CloneURL).Result()
 				if len(record) != 0 {
-					var j *Job
+					var j *model.Job
 					json.Unmarshal([]byte(record), &j)
 					resp = append(resp, j)
 				} else {
-					j := &Job{Repository: *repo.CloneURL, Name: *repo.FullName, Enabled: false}
+					j := &model.Job{Repository: *repo.CloneURL, Name: *repo.FullName, Enabled: false}
 					resp = append(resp, j)
 				}
 			}
@@ -82,7 +67,7 @@ func GetJob() []macaron.Handler {
 			data, err := redis.Get(ctx.Params("*")).Result()
 			if err != nil {
 			}
-			var j *Job
+			var j *model.Job
 			json.Unmarshal([]byte(data), &j)
 
 			ctx.JSON(200, j)

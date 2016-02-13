@@ -1,10 +1,11 @@
 package job
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/vasiliy-t/blacksmith/model"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
-	"log"
 )
 
 //Job represents single CI job to execute
@@ -25,22 +26,15 @@ type Repository struct {
 //which should be passed to runner
 func Resolve() macaron.Handler {
 	return func(redis *redis.Client, job *Job) {
-		varRefences, err := redis.SMembers(job.Repository.URL).Result()
-		if err != nil {
-			log.Printf("JOB error: %s", err)
-		}
+		var j *model.Job
+		data, _ := redis.Get(job.Repository.URL).Result()
 
-		if len(varRefences) > 0 {
-			vars, err := redis.MGet(varRefences...).Result()
+		json.Unmarshal([]byte(data), &j)
 
-			if err != nil {
-				log.Printf("JOB error: %s", err)
-			}
-
-			for _, v := range vars {
-				if str, ok := v.(string); ok {
-					job.EnvVars = append(job.EnvVars, str)
-				}
+		if len(j.EnvVars) > 0 {
+			for _, e := range j.EnvVars {
+				env := fmt.Sprintf("%s=%s", e.Name, e.Value)
+				job.EnvVars = append(job.EnvVars, env)
 			}
 		}
 

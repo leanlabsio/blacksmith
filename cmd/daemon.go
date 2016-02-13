@@ -78,7 +78,6 @@ func daemon(c *cli.Context) {
 	m.Map(dockerClient)
 	m.Get("/repo", api.ListRepo()...)
 	m.Post("/push", api.PostPush()...)
-	m.Post("/env", api.PostEnv()...)
 	m.Put("/jobs", api.PutJob()...)
 	m.Get("/jobs", api.ListJob()...)
 	m.Get("/jobs/*", api.GetJob()...)
