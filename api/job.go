@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"github.com/go-macaron/binding"
 	"github.com/google/go-github/github"
 	"github.com/vasiliy-t/blacksmith/middleware"
@@ -14,9 +15,14 @@ import (
 
 //Job represents single API payload entry
 type Job struct {
-	Repository    string   `json:"repository"`
-	EnvReferences []string `json:"env"`
-	Enabled       bool     `json:"enabled"`
+	Repository string `json:"repository"`
+	EnvVars    []Env  `json:"env"`
+	Enabled    bool   `json:"enabled"`
+}
+
+type Env struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 //PostJob is an API endpoint to store jobs configuration
@@ -24,7 +30,9 @@ func PutJob() []macaron.Handler {
 	return []macaron.Handler{
 		binding.Json(Job{}),
 		func(ctx *macaron.Context, j Job, redis *redis.Client) {
-			_, err := redis.HSet(j.Repository, "enabled", strconv.FormatBool(j.Enabled)).Result()
+			log.Printf("JOB %+v", j)
+			v, _ := json.Marshal(j)
+			_, err := redis.Set(j.Repository, v, 0).Result()
 
 			if err != nil {
 

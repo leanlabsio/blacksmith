@@ -7,12 +7,6 @@ import (
 	"log"
 )
 
-//Env represents single API payload entry
-type Env struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
-
 //PostEnv is an API endpoint to store user defined environment
 //variables in database
 //POST Content-Type: application/json [{"name":"ENVNAME", "value":"envvalue"}]

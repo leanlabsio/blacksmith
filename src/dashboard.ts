@@ -7,9 +7,30 @@ import {RequestOptions} from "https";
 import {Headers} from "angular2/http";
 import {Router} from "angular2/router";
 
-export interface Job {
+export class Job {
     repository: string;
     enabled: boolean;
+    env: Array<Env>;
+
+    static create(data) {
+        return new Job(data);
+    }
+
+    constructor(data) {
+        this.repository = data.repository;
+        this.enabled = data.enabled;
+        this.env = [];
+    }
+}
+
+export class Env {
+    name: string;
+    value: string;
+
+    constructor(data) {
+        this.name = data.name;
+        this.value = data.value;
+    }
 }
 
 @Component({})

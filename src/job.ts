@@ -7,21 +7,22 @@ import {Http} from "angular2/http";
 import {Headers} from "angular2/http";
 import {JobForm} from "./job.form";
 import {ChangeDetectionStrategy} from "angular2/core";
+import {CORE_DIRECTIVES} from "angular2/common";
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPushObserve
 })
 @View({
     template: `
-    <job-form [job]="job"></job-form>
+    <job-form [job]="job | async"></job-form>
     `,
-    directives: [JobForm]
+    directives: [JobForm, CORE_DIRECTIVES]
 })
 export class JobPage {
-    private job: Job;
+    public job:any;
     constructor(@Inject(RouteParams) private params: RouteParams, @Inject(Http) private http: Http) {
         var hs = new Headers();
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        http.get("/jobs/"+params.get("repo"), {headers: hs}).map(res => res.json()).subscribe(val => this.job = val);
+        this.job = http.get("/jobs/"+params.get("repo"), {headers: hs}).map(res => res.json())
+        .map(raw => Job.create(raw));
     }
 }
