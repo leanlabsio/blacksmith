@@ -5,6 +5,12 @@ import {Login} from './login';
 })
 @View({
     directives: [Login],
-    template: '<login></login>'
+    template: '<login [ghclient]="ghclientid"></login>'
 })
-export class Home{}
+export class Home{
+    private ghclientid: string;
+
+    constructor() {
+        this.ghclientid = window.bsconfig.github.oauth.clientid;
+    }
+}
