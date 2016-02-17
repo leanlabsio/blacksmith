@@ -33,14 +33,13 @@ export class JobForm implements OnInit
     }
 
     addenv() {
-        console.log(this.job);
         this.job.env.push(new Env({}));
     }
 
     save() {
         var hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
-        this.http.put("/jobs", JSON.stringify(this.job), {headers:hs})
+        this.http.put("/api/jobs", JSON.stringify(this.job), {headers:hs})
         .map(res => res.json())
         .subscribe(val => console.log(val));
     }

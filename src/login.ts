@@ -10,7 +10,15 @@ import {Input} from "angular2/core";
     selector: 'login'
 })
 @View({
-    templateUrl: 'html/login.html'
+    template: `
+    <div class="row align-center">
+        <div class="medium-6 large-4 text-center columns">
+            <button class="button" (click)="authenticate('github')">
+                <i class="fa fa-github"></i>&nbsp;&nbsp;sign in with github
+            </button>
+        </div>
+    </div>
+    `
 })
 export class Login{
     @Input() ghclient: string;
@@ -28,7 +36,7 @@ export class Login{
             if (redirectUri === uri) {
                 let url = parser.parse(popup.location.search);
                 let j = JSON.stringify({code: url.params.code});
-                http.post('/auth/github', j)
+                http.post('/api/auth/github', j)
                     .map(res => res.json())
                     .subscribe(value => {localStorage.setItem("jwt", value.token); router.navigate(['Dashboard', {}]) });
 

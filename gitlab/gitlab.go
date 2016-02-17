@@ -46,6 +46,7 @@ type Push struct {
 	UserID            int        `json:"user_id"`
 	UserName          string     `json:"user_name"`
 	UserEmail         string     `json:"user_email"`
+	UserAvatar        string     `json:"user_avatar"`
 	ProjectID         int        `json:"project_id"`
 	Commits           []Commit   `json:"commits"`
 	Repository        Repository `json:"repository"`

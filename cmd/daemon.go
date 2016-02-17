@@ -78,12 +78,15 @@ func daemon(c *cli.Context) {
 
 	m.Map(redisClient)
 	m.Map(dockerClient)
+
 	m.Get("/repo", api.ListRepo()...)
 	m.Post("/push", api.PostPush()...)
-	m.Put("/jobs", api.PutJob()...)
-	m.Get("/jobs", api.ListJob()...)
-	m.Get("/jobs/*", api.GetJob()...)
-	m.Post("/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)
+	m.Put("/api/jobs", api.PutJob()...)
+	m.Get("/api/jobs", api.ListJob()...)
+	m.Get("/api/builds/*", api.ListBuild()...)
+	m.Get("/api/logs/*", api.GetBuild()...)
+	m.Get("/api/jobs/*", api.GetJob()...)
+	m.Post("/api/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)
 	m.Get("/ws/*", sockets.Messages(), ws.ListenAndServe)
 
 	m.Get("/*", func(ctx *macaron.Context) {

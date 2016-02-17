@@ -26,11 +26,9 @@ node_modules/: package.json
 		-w $(CWD) \
 		leanlabs/npm-builder npm install
 
-.PHONY: build_image
 build_image: blacksmith
 	@docker build -t $(IMAGE) .
 
-.PHONY: release
 release: build_image
 	@docker login \
 		--email=$$DOCKER_HUB_EMAIL \
@@ -41,19 +39,16 @@ release: build_image
 # Development related targets
 
 # Start Redis server
-.PHONY: dev_redis
 dev_redis:
 	@docker inspect -f {{.State.Running}} bs_dev_redis || \
 		docker run -d -p 6379:6379 --name bs_dev_redis leanlabs/redis
 
 # Install nodejs modules and start Gulp watcher
-.PHONY: dev_watcher
 dev_watcher: node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
 		docker run -d -v $(CURDIR):$(CWD) -w $(CWD) leanlabs/npm-builder gulp copy scripts css html watch
 
 # Start golang server
-.PHONY: dev
 dev: dev_redis dev_watcher
 	-docker rm -f bs_dev
 	@docker run -d \
@@ -61,10 +56,12 @@ dev: dev_redis dev_watcher
 		--link bs_dev_redis:redis \
 		--name bs_dev \
 		-v $(CURDIR):$(CWD) \
+		-v /var/run/docker.sock:/var/run/docker.sock \
 		-w $(CWD) \
 		-e GO15VENDOREXPERIMENT=1 \
 		-e REDIS_ADDR=redis:6379 \
 		-e GITHUB_CLIENT_ID=$(GITHUB_CLIENT_ID) \
 		-e GITHUB_CLIENT_SECRET=$(GITHUB_CLIENT_SECRET) \
+		-e DOCKER_HOST=unix:///var/run/docker.sock \
 		--entrypoint=/usr/local/go/bin/go \
 		golang:1.5.3 run -v main.go daemon

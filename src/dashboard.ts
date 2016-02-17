@@ -38,7 +38,23 @@ export class Env {
 
 @Component({})
 @View({
-    templateUrl: "html/dashboard.html",
+    template: `
+    <div *ngFor="#job of jobs" class="row align-center">
+        <div class="columns medium-8">
+            <a [routerLink]="['BuildList', {repo: job.repository}]">
+                {{job.name}}
+            </a>
+        </div>
+        <div class="columns medium-4">
+            <button *ngIf="job.enabled == false" class="button success" (click)="enable(job)">
+                Enable build
+            </button>
+            <button *ngIf="job.enabled == true" class="button alert" (click)="disable(job)">
+                Disable build
+            </button>
+        </div>
+    </div>
+    `,
     directives: [ROUTER_DIRECTIVES],
 })
 export class Dashboard {
@@ -48,7 +64,7 @@ export class Dashboard {
     constructor(@Inject(Http) public http: Http, @Inject(Router) private router: Router) {
         var hs = new Headers();
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        this.http.get('/jobs', {headers: hs}).map(res => res.json()).subscribe(jobs => this.jobs = jobs);
+        this.http.get('/api/jobs', {headers: hs}).map(res => res.json()).subscribe(jobs => this.jobs = jobs);
     }
 
     enable(job: Job) {
@@ -56,7 +72,7 @@ export class Dashboard {
         job.enabled = true;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http
-            .put("/jobs",JSON.stringify(job), {headers: hs})
+            .put("/api/jobs",JSON.stringify(job), {headers: hs})
             .map(res => res.json())
             .subscribe(res => this.router.navigate(['Job', {repo: res.repository}]));
     }
@@ -65,7 +81,7 @@ export class Dashboard {
         var hs = new Headers();
         job.enabled = false;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        this.http.put("/jobs", JSON.stringify(job), {headers: hs})
+        this.http.put("/api/jobs", JSON.stringify(job), {headers: hs})
         .map(res => res.json())
         .subscribe(val => job = Job.create(val))
     }

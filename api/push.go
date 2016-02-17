@@ -1,21 +1,22 @@
 package api
 
 import (
+	"fmt"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/vasiliy-t/blacksmith/job"
 	"github.com/vasiliy-t/blacksmith/webhook"
-	"github.com/vasiliy-t/ws"
 	"gopkg.in/macaron.v1"
+	"gopkg.in/redis.v3"
 	"log"
 )
 
 type WsWriter struct {
-	name string
+	name  string
+	redis *redis.Client
 }
 
 func (w WsWriter) Write(p []byte) (int, error) {
-	s := ws.Server(w.name)
-	s.Broadcast(string(p))
+	w.redis.Append(w.name, string(p)).Result()
 	return len(p), nil
 }
 
@@ -25,7 +26,7 @@ func PostPush() []macaron.Handler {
 	return []macaron.Handler{
 		webhook.Resolve(),
 		job.Resolve(),
-		func(ctx *macaron.Context, job *job.Job, client *docker.Client) string {
+		func(ctx *macaron.Context, job *job.Job, client *docker.Client, r *redis.Client) string {
 
 			go func() {
 				config := &docker.Config{
@@ -69,10 +70,14 @@ func PostPush() []macaron.Handler {
 				}
 
 				err = client.StartContainer(container.ID, nil)
+				writer := &WsWriter{
+					name:  fmt.Sprintf("%s:%s:log", job.Repository.URL, job.Commit),
+					redis: r,
+				}
 				client.Logs(docker.LogsOptions{
 					Container:    container.ID,
-					OutputStream: &WsWriter{name: job.Repository.URL},
-					ErrorStream:  &WsWriter{name: job.Repository.URL},
+					OutputStream: writer,
+					ErrorStream:  writer,
 					Follow:       true,
 					Stdout:       true,
 					Stderr:       true,
