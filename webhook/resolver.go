@@ -23,6 +23,11 @@ func Resolve() macaron.Handler {
 				ctx.Map(err)
 			}
 			log.Printf("%s:%s", message.Repository.CloneURL, message.Ref)
+
+			key := fmt.Sprintf("%s:%s", message.Repository.CloneURL, message.After)
+			r.HMSet(key, "user_name", "qwerty", "commit", message.After).Result()
+			r.ZAdd(message.Repository.CloneURL+":builds", redis.Z{Score: float64(time.Now().Unix()), Member: key}).Result()
+
 			ctx.Map(message.MapToJob())
 			return
 		}
