@@ -7,3 +7,6 @@ node_modules
 web
 .tern-port
 .idea
+.DS_Store
+web/web.go
+templates/templates.go
