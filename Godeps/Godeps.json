@@ -17,8 +17,16 @@
 			"Rev": "afef698c326bfd906b11659432544e5aae441d44"
 		},
 		{
+			"ImportPath": "github.com/elazarl/go-bindata-assetfs",
+			"Rev": "57eb5e1fc594ad4b0b1dbea7b286d299e0cb43c2"
+		},
+		{
 			"ImportPath": "github.com/fsouza/go-dockerclient",
 			"Rev": "6fb38e6bb3d544d7eb5b55fd396cd4e6850802d8"
+		},
+		{
+			"ImportPath": "github.com/go-macaron/bindata",
+			"Rev": "de74a053830c7d338bf209adf3b711c969f63e59"
 		},
 		{
 			"ImportPath": "github.com/go-macaron/binding",

@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/fsouza/go-dockerclient"
+	"github.com/go-macaron/bindata"
 	"github.com/leanlabsio/sockets"
 	"github.com/vasiliy-t/blacksmith/api"
+	"github.com/vasiliy-t/blacksmith/templates"
+	"github.com/vasiliy-t/blacksmith/web"
 	"github.com/vasiliy-t/ws"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
@@ -73,8 +76,28 @@ func daemon(c *cli.Context) {
 	m := macaron.New()
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
-	m.Use(macaron.Renderer())
-	m.Use(macaron.Static("web"))
+	m.Use(macaron.Static("web", macaron.StaticOptions{
+		FileSystem: bindata.Static(bindata.Options{
+			Asset:      web.Asset,
+			AssetDir:   web.AssetDir,
+			AssetNames: web.AssetNames,
+			AssetInfo:  web.AssetInfo,
+			Prefix:     "web",
+		}),
+	}))
+
+	m.Use(macaron.Renderer(
+		macaron.RenderOptions{
+			Directory: "templates",
+			TemplateFileSystem: bindata.Templates(bindata.Options{
+				Asset:      templates.Asset,
+				AssetDir:   templates.AssetDir,
+				AssetNames: templates.AssetNames,
+				AssetInfo:  templates.AssetInfo,
+				Prefix:     "",
+			}),
+		},
+	))
 
 	m.Map(redisClient)
 	m.Map(dockerClient)
@@ -98,7 +121,7 @@ func daemon(c *cli.Context) {
 				},
 			},
 		}
-		ctx.HTML(200, "index")
+		ctx.HTML(200, "templates/index")
 	})
 
 	err := http.ListenAndServe("0.0.0.0:80", m)

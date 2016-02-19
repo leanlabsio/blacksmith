@@ -10,6 +10,22 @@ CWD     = /go/src/github.com/vasiliy-t/blacksmith
 
 all: release
 
+templates/templates.go: $(find $(CURDIR)/templates -name "*.html" ! -name "templates.go" -type f)
+	@docker run --rm \
+		-v $(CURDIR):$(CWD) \
+		-w $(CWD) \
+		leanlabs/go-bindata-builder \
+		$(DEBUG) \
+		-pkg=templates -o $@ templates/...
+
+web/web.go: $(find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
+	@docker run --rm \
+		-v $(CURDIR):$(CWD) \
+		-w $(CWD) \
+		leanlabs/go-bindata-builder \
+		$(DEBUG) \
+		-pkg=web -o $@ web/...
+
 blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
@@ -18,7 +34,7 @@ blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		-e CGO_ENABLED=0 \
-		golang:1.5.3 go build -ldflags '-s' -v -o $@
+		golang:1.5.3-alpine go build -ldflags '-s' -v -o $@
 
 node_modules/: package.json
 	@docker run --rm \
@@ -48,8 +64,10 @@ dev_watcher: node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
 		docker run -d -v $(CURDIR):$(CWD) -w $(CWD) leanlabs/npm-builder gulp copy scripts css html watch
 
+dev : DEBUG=-debug
+
 # Start golang server
-dev: dev_redis dev_watcher
+dev: web/web.go dev_redis dev_watcher
 	-docker rm -f bs_dev
 	@docker run -d \
 		-p 80:80 \
