@@ -26,7 +26,7 @@ export class Login{
     constructor(@Inject(Http) private http: Http, @Inject(Router) public router: Router) {}
 
     authenticate(provider: string) {
-        let popup = window.open('https://github.com/login/oauth/authorize?client_id='+this.ghclient);
+        let popup = window.open('https://github.com/login/oauth/authorize?client_id='+this.ghclient+"&scope=user:email,write:repo_hook");
         let redirectUri = window.location.origin + '/';
         let http = this.http;
         let router = this.router;

@@ -4,13 +4,13 @@ import {Login} from './login';
 @Component({
 })
 @View({
-    directives: [Login],
-    template: '<login [ghclient]="ghclientid"></login>'
+  directives: [Login],
+  template: '<login [ghclient]="ghclientid"></login>'
 })
 export class Home{
-    private ghclientid: string;
+  private ghclientid: string;
 
-    constructor() {
-        this.ghclientid = window.bsconfig.github.oauth.clientid;
-    }
+  constructor() {
+    this.ghclientid = window.bsconfig.github.oauth.clientid;
+  }
 }

@@ -13,6 +13,7 @@ export class Job {
     enabled: boolean;
     env: Array<Env>;
     name: string;
+    clone_url: string;
 
     static create(data) {
         return new Job(data);
@@ -20,7 +21,8 @@ export class Job {
 
     constructor(data) {
         this.name = data.name;
-        this.repository = data.repository;
+        this.clone_url = data.clone_url;
+        this.repository = data.clone_url;
         this.enabled = data.enabled;
         this.env = [];
     }
@@ -41,20 +43,20 @@ export class Env {
     template: `
     <div *ngFor="#job of jobs" class="row align-center">
         <div class="columns medium-8">
-            <a [routerLink]="['BuildList', {repo: job.repository}]">
-                {{job.name}}
-            </a>
+            <a [routerLink]="['BuildList', {repo: job.clone_url}]">
+        {{job.full_name}}
+    </a>
         </div>
         <div class="columns medium-4">
-            <button *ngIf="job.enabled == false" class="button success" (click)="enable(job)">
-                Enable build
-            </button>
-            <button *ngIf="job.enabled == true" class="button alert" (click)="disable(job)">
-                Disable build
-            </button>
+        <button *ngIf="job.enabled == false" class="button success" (click)="enable(job)">
+        Enable build
+    </button>
+        <button *ngIf="job.enabled == true" class="button alert" (click)="disable(job)">
+        Disable build
+    </button>
         </div>
-    </div>
-    `,
+        </div>
+        `,
     directives: [ROUTER_DIRECTIVES],
 })
 export class Dashboard {
@@ -73,7 +75,7 @@ export class Dashboard {
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http
             .put("/api/jobs",JSON.stringify(job), {headers: hs})
-            .map(res => res.json())
+            .map(res => Job.create(res.json()))
             .subscribe(res => this.router.navigate(['Job', {repo: res.repository}]));
     }
 
@@ -82,7 +84,8 @@ export class Dashboard {
         job.enabled = false;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http.put("/api/jobs", JSON.stringify(job), {headers: hs})
-        .map(res => res.json())
-        .subscribe(val => job = Job.create(val))
+            .map(res => res.json())
+            .map(data => Job.create(data))
+            .subscribe(val => job = val)
     }
 }

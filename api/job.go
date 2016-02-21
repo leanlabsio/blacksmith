@@ -9,18 +9,36 @@ import (
 	"golang.org/x/oauth2"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
+	"log"
 )
 
 //PostJob is an API endpoint to store jobs configuration
 func PutJob() []macaron.Handler {
 	return []macaron.Handler{
+		middleware.Auth(),
 		binding.Json(model.Job{}),
-		func(ctx *macaron.Context, j model.Job, redis *redis.Client) {
+		func(ctx *macaron.Context, j model.Job, redis *redis.Client, user *model.User) {
 			v, _ := json.Marshal(j)
 			_, err := redis.Set(j.Repository, v, 0).Result()
 
-			if err != nil {
+			token := oauth2.StaticTokenSource(
+				&oauth2.Token{AccessToken: user.AccessToken},
+			)
 
+			tc := oauth2.NewClient(oauth2.NoContext, token)
+			client := github.NewClient(tc)
+			hook := github.Hook{
+				Name:   github.String("web"),
+				Active: github.Bool(true),
+				Events: []string{"push", "pull_request"},
+				Config: map[string]interface{}{
+					"url": "http://" + ctx.Req.Host + "/push",
+				},
+			}
+
+			_, _, err = client.Repositories.CreateHook(user.Login, j.Name, &hook)
+			if err != nil {
+				log.Printf("ERROR %s", err)
 			}
 			ctx.JSON(200, j)
 		},
@@ -50,7 +68,7 @@ func ListJob() []macaron.Handler {
 					json.Unmarshal([]byte(record), &j)
 					resp = append(resp, j)
 				} else {
-					j := &model.Job{Repository: *repo.CloneURL, Name: *repo.FullName, Enabled: false}
+					j := &model.Job{Repository: *repo.CloneURL, Name: *repo.Name, FullName: *repo.FullName, Enabled: false}
 					resp = append(resp, j)
 				}
 			}
