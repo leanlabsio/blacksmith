@@ -30,7 +30,7 @@ func PostPush() []macaron.Handler {
 
 			go func() {
 				config := &docker.Config{
-					Image: "leanlabs/blacksmith-docker-runner",
+					Image: job.Builder.Name + ":" + job.Builder.Tag,
 					Volumes: map[string]struct{}{
 						"/home":                {},
 						"/var/run/docker.sock": {},
@@ -56,8 +56,8 @@ func PostPush() []macaron.Handler {
 				if err == docker.ErrNoSuchImage {
 					client.PullImage(
 						docker.PullImageOptions{
-							Repository: "leanlabs/blacksmith-docker-runner",
-							Tag:        "latest",
+							Repository: job.Builder.Name,
+							Tag:        job.Builder.Tag,
 						},
 						docker.AuthConfiguration{},
 					)

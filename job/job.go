@@ -8,12 +8,18 @@ import (
 	"gopkg.in/redis.v3"
 )
 
-//Job represents single CI job to execute
+//Job represents singleCI job to execute
 type Job struct {
+	Builder    Builder
 	Commit     string
 	Ref        string
 	Repository Repository
 	EnvVars    []string
+}
+
+type Builder struct {
+	Name string
+	Tag  string
 }
 
 //Repository represents CI job repository to act on
@@ -36,6 +42,10 @@ func Resolve() macaron.Handler {
 				env := fmt.Sprintf("%s=%s", e.Name, e.Value)
 				job.EnvVars = append(job.EnvVars, env)
 			}
+		}
+		job.Builder = Builder{
+			Name: j.Builder.Name,
+			Tag:  j.Builder.Tag,
 		}
 
 		job.EnvVars = append(

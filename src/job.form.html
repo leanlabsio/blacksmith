@@ -3,6 +3,14 @@
     <div class="row">
         <input type="text" #name="ngForm" ngControl="repository" [(ngModel)]="job.repository">
     </div>
+    <div class="row">
+        <div class="medium-6 columns">
+            <input type="text" #name="ngForm" ngControl="buildername" [(ngModel)]="job.builder.name">
+        </div>
+        <div class="medium-6 columns">
+            <input type="text" #name="ngForm" ngControl="buildertag" [(ngModel)]="job.builder.tag">
+        </div>
+    </div>
 
     <div *ngFor="#env of job.env; #idx=index" class="row">
         <div class="medium-6 columns">

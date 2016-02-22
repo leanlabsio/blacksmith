@@ -13,7 +13,9 @@ export class Job {
     enabled: boolean;
     env: Array<Env>;
     name: string;
+    full_name: string;
     clone_url: string;
+    builder: Builder;
 
     static create(data) {
         return new Job(data);
@@ -21,10 +23,22 @@ export class Job {
 
     constructor(data) {
         this.name = data.name;
+        this.full_name = data.full_name;
         this.clone_url = data.clone_url;
         this.repository = data.clone_url;
         this.enabled = data.enabled;
+        this.builder = new Builder(data.builder);
         this.env = [];
+    }
+}
+
+export class Builder {
+    name: string;
+    tag: string;
+
+    constructor(data) {
+        this.name = data.name;
+        this.tag = data.tag;
     }
 }
 
@@ -45,7 +59,7 @@ export class Env {
         <div class="columns medium-8">
             <a [routerLink]="['BuildList', {repo: job.clone_url}]">
         {{job.full_name}}
-    </a>
+        </a>
         </div>
         <div class="columns medium-4">
         <button *ngIf="job.enabled == false" class="button success" (click)="enable(job)">

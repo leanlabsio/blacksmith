@@ -39,7 +39,7 @@ node_modules/: package.json
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
-		leanlabs/npm-builder npm install
+		leanlabs/npm:1.1.0 npm install
 
 build_image: blacksmith
 	@docker build -t $(IMAGE) .
@@ -61,7 +61,11 @@ dev_redis:
 # Install nodejs modules and start Gulp watcher
 dev_watcher: node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
-		docker run -d -v $(CURDIR):$(CWD) -w $(CWD) leanlabs/npm-builder gulp copy scripts css html watch
+		docker run -d \
+			--name bs_dev_watcher \
+			-v $(CURDIR):$(CWD) \
+			-w $(CWD) \
+			leanlabs/npm:1.1.0 gulp copy scripts css html watch
 
 dev : DEBUG=-debug
 

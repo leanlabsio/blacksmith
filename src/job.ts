@@ -13,16 +13,12 @@ import {CORE_DIRECTIVES} from "angular2/common";
 })
 @View({
     template: `
-    <job-form [job]="job | async"></job-form>
+    <job-form></job-form>
     `,
     directives: [JobForm, CORE_DIRECTIVES]
 })
 export class JobPage {
     public job:any;
     constructor(@Inject(RouteParams) private params: RouteParams, @Inject(Http) private http: Http) {
-        var hs = new Headers();
-        hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        this.job = http.get("/api/jobs/"+params.get("repo"), {headers: hs}).map(res => res.json())
-        .map(raw => Job.create(raw));
     }
 }

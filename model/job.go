@@ -2,11 +2,17 @@ package model
 
 //Job represents single API payload entry
 type Job struct {
-	Name       string `json:"name"`
-	FullName   string `json:"full_name"`
-	Repository string `json:"clone_url"`
-	EnvVars    []Env  `json:"env"`
-	Enabled    bool   `json:"enabled"`
+	Name       string  `json:"name"`
+	Builder    Builder `json:"builder,omitempty"`
+	FullName   string  `json:"full_name"`
+	Repository string  `json:"clone_url"`
+	EnvVars    []Env   `json:"env"`
+	Enabled    bool    `json:"enabled"`
+}
+
+type Builder struct {
+	Name string `json:"name"`
+	Tag  string `json:"tag"`
 }
 
 type Env struct {
