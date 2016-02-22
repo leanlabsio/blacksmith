@@ -32,7 +32,8 @@ func PutJob() []macaron.Handler {
 				Active: github.Bool(true),
 				Events: []string{"push", "pull_request"},
 				Config: map[string]interface{}{
-					"url": "http://" + ctx.Req.Host + "/push",
+					"url":          "http://" + ctx.Req.Host + "/push",
+					"content_type": "json",
 				},
 			}
 
