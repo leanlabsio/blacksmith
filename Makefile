@@ -30,11 +30,10 @@ blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
-		-e GO15VENDOREXPERIMENT=1 \
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		-e CGO_ENABLED=0 \
-		golang:1.5.3-alpine go build -ldflags '-s' -v -o $@
+		golang:1.6-alpine go build -ldflags '-s' -v -o $@
 
 node_modules/: package.json
 	@docker run --rm \
@@ -76,10 +75,9 @@ dev: web/web.go dev_redis dev_watcher
 		-v $(CURDIR):$(CWD) \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-w $(CWD) \
-		-e GO15VENDOREXPERIMENT=1 \
 		-e REDIS_ADDR=redis:6379 \
 		-e GITHUB_CLIENT_ID=$(GITHUB_CLIENT_ID) \
 		-e GITHUB_CLIENT_SECRET=$(GITHUB_CLIENT_SECRET) \
 		-e DOCKER_HOST=unix:///var/run/docker.sock \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.3 run -v main.go daemon
+		golang:1.6-alpine run -v main.go daemon
