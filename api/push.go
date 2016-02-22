@@ -3,8 +3,8 @@ package api
 import (
 	"fmt"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/vasiliy-t/blacksmith/job"
-	"github.com/vasiliy-t/blacksmith/webhook"
+	"github.com/leanlabsio/blacksmith/job"
+	"github.com/leanlabsio/blacksmith/webhook"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"

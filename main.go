@@ -1,8 +1,8 @@
-package main // import "github.com/vasiliy-t/blacksmith"
+package main // import "github.com/leanlabsio/blacksmith"
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/vasiliy-t/blacksmith/cmd"
+	"github.com/leanlabsio/blacksmith/cmd"
 	"os"
 )
 

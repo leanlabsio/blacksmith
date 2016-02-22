@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/google/go-github/github"
-	"github.com/vasiliy-t/blacksmith/middleware"
-	"github.com/vasiliy-t/blacksmith/model"
+	"github.com/leanlabsio/blacksmith/middleware"
+	"github.com/leanlabsio/blacksmith/model"
 	"golang.org/x/oauth2"
 	"gopkg.in/macaron.v1"
 )

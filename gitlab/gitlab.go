@@ -1,7 +1,7 @@
 package gitlab
 
 import (
-	"github.com/vasiliy-t/blacksmith/job"
+	"github.com/leanlabsio/blacksmith/job"
 )
 
 //WebHook is a basic struct representing any gitlab webhook payload

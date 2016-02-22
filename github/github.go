@@ -1,7 +1,7 @@
 package github
 
 import (
-	"github.com/vasiliy-t/blacksmith/job"
+	"github.com/leanlabsio/blacksmith/job"
 )
 
 //Push represents github push webhook payload

@@ -3,8 +3,8 @@ package webhook
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/vasiliy-t/blacksmith/github"
-	"github.com/vasiliy-t/blacksmith/gitlab"
+	"github.com/leanlabsio/blacksmith/github"
+	"github.com/leanlabsio/blacksmith/gitlab"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"

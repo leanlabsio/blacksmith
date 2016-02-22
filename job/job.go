@@ -3,7 +3,7 @@ package job
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/vasiliy-t/blacksmith/model"
+	"github.com/leanlabsio/blacksmith/model"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 )

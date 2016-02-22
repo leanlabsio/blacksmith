@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/vasiliy-t/blacksmith/model"
+	"github.com/leanlabsio/blacksmith/model"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 )

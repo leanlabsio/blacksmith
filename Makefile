@@ -6,7 +6,7 @@ VERSION = 0.0.1
 
 # Current working directory for all targets
 # executed in docker builders
-CWD     = /go/src/github.com/vasiliy-t/blacksmith
+CWD     = /go/src/github.com/leanlabsio/blacksmith
 
 all: release
 
