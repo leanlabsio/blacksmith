@@ -29,6 +29,9 @@ export class Job {
         this.enabled = data.enabled;
         this.builder = new Builder(data.builder);
         this.env = [];
+        if (data.env) {
+            data.env.forEach(e => this.env.push(new Env(e)));
+        }
     }
 }
 
