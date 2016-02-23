@@ -2,23 +2,16 @@ blacksmith:
   image: leanlabs/blacksmith
   environment:
     - DOCKER_HOST=unix:///var/run/docker.sock
-    - DOCKER_TLS_VERIFY=0
     - REDIS_ADDR=redis:6379
+    - GITHUB_CLIENT_ID=qwerty
+    - GITHUB_CLIENT_SECRET=qwerty
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   links:
     - redis:redis
   ports:
-    - 80:9000
-  command: daemon 
-
-dockerui:
-  image: dockerui/dockerui
-  privileged: true
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  ports:
-    - 8080:9000 
+    - 80:80
+  command: daemon
 
 redis:
   image: leanlabs/redis
