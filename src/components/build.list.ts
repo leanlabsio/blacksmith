@@ -27,6 +27,9 @@ export class Build {
 })
 @View({
     template: `
+    <div class="row align-center" *ngIf="!builds || builds.length == 0">
+        No builds yet
+    </div>
     <div class="row align-center" *ngFor="#build of builds">
         <div class="columns medium-1"></div>
         <div class="columns medium-9">

@@ -57,9 +57,10 @@ func ListJob() []macaron.Handler {
 			tc := oauth2.NewClient(oauth2.NoContext, token)
 			client := github.NewClient(tc)
 			opts := &github.RepositoryListOptions{
-				Type: "owner",
+				Type:        "all",
+				ListOptions: github.ListOptions{PerPage: 100, Page: 1},
 			}
-			repos, _, _ := client.Repositories.List(user.Login, opts)
+			repos, _, _ := client.Repositories.List("", opts)
 
 			var resp []*model.Job
 			for _, repo := range repos {

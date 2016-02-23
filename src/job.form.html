@@ -1,28 +1,42 @@
 <form #jobForm="ngForm">
 
     <div class="row">
-        <input type="text" #name="ngForm" ngControl="repository" [(ngModel)]="job.repository">
+        <div class="medium-12 columns">
+            <label>Repository clone URL
+                <input type="text" #name="ngForm" ngControl="repository" [(ngModel)]="job.repository" aria-describedby="repoHelpText">
+            </label>
+        </div>
     </div>
     <div class="row">
         <div class="medium-6 columns">
-            <input type="text" #name="ngForm" ngControl="buildername" [(ngModel)]="job.builder.name">
+            <label>Builder image name
+                <input type="text" #name="ngForm" ngControl="buildername" [(ngModel)]="job.builder.name">
+            </label>
         </div>
         <div class="medium-6 columns">
-            <input type="text" #name="ngForm" ngControl="buildertag" [(ngModel)]="job.builder.tag">
+            <label>Builder image tag
+                <input type="text" #name="ngForm" ngControl="buildertag" [(ngModel)]="job.builder.tag">
+            </label>
         </div>
     </div>
 
     <div *ngFor="#env of job.env; #idx=index" class="row">
         <div class="medium-6 columns">
-            <input type="text" #name="ngForm" ngControl="envname" [(ngModel)]="job.env[idx].name">
+            <label>Env var name
+                <input type="text" #name="ngForm" ngControl="envname" [(ngModel)]="job.env[idx].name">
+            </label>
         </div>
         <div class="medium-6 columns">
-            <input type="text" #name="ngForm" ngControl="envvalue" [(ngModel)]="job.env[idx].value">
+            <label>Env var value
+                <input type="text" #name="ngForm" ngControl="envvalue" [(ngModel)]="job.env[idx].value">
+            </label>
         </div>
     </div>
 
     <div class="row">
-        <button class="button" (click)="addenv()">add env</button>
-        <button class="button" (click)="save()">save</button>
+        <div class="medium-12 columns">
+            <button class="button" (click)="addenv()">add env</button>
+            <button class="button" (click)="save()">save</button>
+        </div>
     </div>
 </form>
