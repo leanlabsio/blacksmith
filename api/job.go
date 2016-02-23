@@ -10,6 +10,7 @@ import (
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
+	"strings"
 )
 
 //PostJob is an API endpoint to store jobs configuration
@@ -37,10 +38,17 @@ func PutJob() []macaron.Handler {
 				},
 			}
 
-			_, _, err = client.Repositories.CreateHook(user.Login, j.Name, &hook)
+			if strings.Contains(j.FullName, user.Login) {
+				_, _, err = client.Repositories.CreateHook(user.Login, j.Name, &hook)
+			} else {
+				org := strings.Split(j.FullName, "/")[0]
+				_, _, err = client.Repositories.CreateHook(org, j.Name, &hook)
+			}
+
 			if err != nil {
 				log.Printf("ERROR %s", err)
 			}
+
 			ctx.JSON(200, j)
 		},
 	}
