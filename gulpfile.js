@@ -29,7 +29,7 @@ gulp.task("clean", function() {
     return del(["web"]);
 });
 
-gulp.task("copy", ["fonts"], function() {
+gulp.task("vendor", function() {
     return gulp.src(vendoredDeps)
         .pipe(gulp.dest("web/js/"));
 });
@@ -40,7 +40,7 @@ gulp.task("fonts", function() {
 });
 
 gulp.task('scripts', function() {
-    var tsResult = tsProject.src() 
+    var tsResult = tsProject.src()
         .pipe(ts(tsProject));
 
     return tsResult.js.pipe(gulp.dest('web/js'));
