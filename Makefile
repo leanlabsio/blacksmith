@@ -51,6 +51,16 @@ release: build_image
 		--password=$$DOCKER_HUB_PASSWORD
 	@docker push $(IMAGE):latest
 
+build: node_modules
+	@docker run --rm \
+		-v $(CURDIR):$(CWD) \
+		-w $(CWD) \
+		leanlabs/npm:1.1.0 gulp vendor fonts scripts css html
+
+clean:
+	@rm -rf $(CURDIR)/web
+	@rm -f $(CURDIR)/templates/templates.go
+
 # Development related targets
 
 # Start Redis server
@@ -65,12 +75,12 @@ dev_watcher: node_modules/
 			--name bs_dev_watcher \
 			-v $(CURDIR):$(CWD) \
 			-w $(CWD) \
-			leanlabs/npm:1.1.0 gulp copy scripts css html watch
+			leanlabs/npm:1.1.0 gulp watch
 
 dev : DEBUG=-debug
 
 # Start golang server
-dev: web/web.go dev_redis dev_watcher
+dev: build web/web.go templates/templates.go dev_watcher dev_redis
 	-docker rm -f bs_dev
 	@docker run -d \
 		-p 80:80 \
