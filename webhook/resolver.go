@@ -17,6 +17,11 @@ func Resolve() macaron.Handler {
 		defer ctx.Req.Request.Body.Close()
 		h := ctx.Req.Header.Get("X-GitHub-Event")
 		if len(h) > 0 {
+			if h == "ping" {
+				ctx.Resp.WriteHeader(200)
+				ctx.Resp.Write([]byte("Ping ok"))
+			}
+
 			var message github.Push
 			err := json.NewDecoder(ctx.Req.Request.Body).Decode(&message)
 			if err != nil {
