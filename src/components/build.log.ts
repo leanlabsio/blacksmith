@@ -7,8 +7,7 @@ import {Headers} from "angular2/http";
 import {Build} from "./build.list";
 import {OnInit} from "angular2/core";
 
-@Component({})
-@View({
+@Component({
     template: `
     <div class="row align-center">
     <pre>{{build.log}}</pre>

@@ -55,8 +55,7 @@ export class Env {
     }
 }
 
-@Component({})
-@View({
+@Component({
     template: `
     <div *ngFor="#job of jobs" class="row align-center">
         <div class="medium-10 columns">

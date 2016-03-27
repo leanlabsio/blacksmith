@@ -7,9 +7,7 @@ import {Router} from "angular2/router";
 import {Input} from "angular2/core";
 
 @Component({
-    selector: 'login'
-})
-@View({
+    selector: 'login',
     template: `
     <div class="row align-center">
         <div class="medium-6 large-4 text-center columns">

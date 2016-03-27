@@ -14,9 +14,7 @@ import {BuildLog} from "./components/build.log";
     {path: '/jobs/:repo/:commit', component: BuildLog, name: 'BuildLog'}
 ])
 @Component({
-    selector: 'app'
-})
-@View({
+    selector: 'app',
     template: '<router-outlet></router-outlet>',
     directives: [ ROUTER_DIRECTIVES ]
 })

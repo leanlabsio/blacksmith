@@ -23,9 +23,7 @@ export class Build {
 }
 
 @Component({
-    selector: "build-list"
-})
-@View({
+    selector: "build-list",
     template: `
     <div class="row align-center" *ngIf="!builds || builds.length == 0">
         No builds yet

@@ -16,9 +16,7 @@ import {RouteParams} from "angular2/router";
 
 
 @Component({
-    selector: "job-form"
-})
-@View({
+    selector: "job-form",
     templateUrl: "html/job.form.html",
     directives: [FORM_DIRECTIVES],
 })
