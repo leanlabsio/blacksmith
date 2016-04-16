@@ -3,15 +3,11 @@ import {Inject} from "angular2/core";
 import {RouteParams} from "angular2/router";
 import {Http} from "angular2/http";
 import {Headers} from "angular2/http";
-import {Build} from "./build.list";
+import {Build} from "./../build-list/build.list.ts";
 import {OnInit} from "angular2/core";
 
 @Component({
-    template: `
-    <div class="row align-center">
-    <pre>{{build.log}}</pre>
-    </div>
-    `
+    template: require('./build.log.html')
 })
 export class BuildLog implements OnInit
 {

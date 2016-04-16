@@ -1,22 +1,22 @@
 import {Component} from "angular2/core";
 import {EventEmitter} from "angular2/core";
-import {Job} from "./dashboard";
+import {Job} from "./../dashboard/dashboard";
 import {ChangeDetectionStrategy} from "angular2/core";
 import {Observable} from "rxjs/Observable";
 import {Input} from "angular2/core";
 import {OnInit} from "angular2/core";
-import {Env} from "./dashboard";
+import {Env} from "./../dashboard/dashboard";
 import {FORM_DIRECTIVES} from "angular2/common";
 import {Headers} from "angular2/http";
 import {Inject} from "angular2/core";
 import {Http} from "angular2/http";
-import {Builder} from "./dashboard";
+import {Builder} from "./../dashboard/dashboard";
 import {RouteParams} from "angular2/router";
 
 
 @Component({
     selector: "job-form",
-    templateUrl: "html/job.form.html",
+    template: require('./job.form.html'),
     directives: [FORM_DIRECTIVES],
 })
 export class JobForm implements OnInit

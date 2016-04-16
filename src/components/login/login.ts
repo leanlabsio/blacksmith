@@ -8,15 +8,7 @@ import {Input} from "angular2/core";
 
 @Component({
     selector: 'login',
-    template: `
-    <div class="row align-center">
-        <div class="medium-6 large-4 text-center columns">
-            <button class="button" (click)="authenticate('github')">
-                <i class="fa fa-github"></i>&nbsp;&nbsp;sign in with github
-            </button>
-        </div>
-    </div>
-    `
+    template: require('./login.html')
 })
 export class Login{
     @Input() ghclient: string;

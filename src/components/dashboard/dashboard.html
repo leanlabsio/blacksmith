@@ -1,0 +1,22 @@
+<div *ngFor="#job of jobs" class="row align-center">
+    <div class="medium-10 columns">
+        <div class="callout small">
+            <div class="row">
+                <div class="columns medium-8">
+                    <a [routerLink]="['BuildList', {repo: job.clone_url}]">
+                        {{job.full_name}}
+                    </a>
+                </div>
+
+                <div class="columns medium-4 text-right">
+                    <button style="margin-bottom:0" *ngIf="job.enabled == false" class="button success" (click)="enable(job)">
+                        Enable build
+                    </button>
+                    <button style="margin-bottom:0" *ngIf="job.enabled == true" class="button alert" (click)="disable(job)">
+                        Disable build
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

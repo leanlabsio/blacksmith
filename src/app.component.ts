@@ -1,10 +1,10 @@
 import {Component} from 'angular2/core';
-import {Home} from './home';
+import {Home} from './components/home/home';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
-import {Dashboard} from "./dashboard";
-import {JobPage} from "./job";
-import {BuildList} from "./components/build.list";
-import {BuildLog} from "./components/build.log";
+import {Dashboard} from "./components/dashboard/dashboard";
+import {JobPage} from "./components/job/job";
+import {BuildList} from "./components/build-list/build.list.ts";
+import {BuildLog} from "./components/build-log/build.log.ts";
 
 @RouteConfig([
     {path: '/', component: Home, name: 'Home'},
