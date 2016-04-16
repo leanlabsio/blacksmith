@@ -1,4 +1,4 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {Home} from './home';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
 import {Dashboard} from "./dashboard";

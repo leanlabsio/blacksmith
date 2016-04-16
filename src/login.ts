@@ -1,4 +1,4 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {parser} from 'angular2/src/router/url_parser';
 import {Http} from 'angular2/http';
 import 'rxjs/Rx';

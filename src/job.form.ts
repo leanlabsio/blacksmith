@@ -1,5 +1,4 @@
 import {Component} from "angular2/core";
-import {View} from "angular2/core";
 import {EventEmitter} from "angular2/core";
 import {Job} from "./dashboard";
 import {ChangeDetectionStrategy} from "angular2/core";

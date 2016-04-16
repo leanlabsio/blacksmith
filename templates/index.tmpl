@@ -9,27 +9,7 @@
     </head>
     <body>
         <app>Loading...</app>
-        <script src="/js/es6-shim.min.js"></script>
-        <script src="/js/system-polyfills.js"></script>
-
         <script src="/js/angular2-polyfills.js"></script>
-        <script src="/js/system.src.js"></script>
-        <script src="/js/Rx.js"></script>
-        <script src="/js/angular2.dev.js"></script>
-        <script src="/js/router.dev.js"></script>
-        <script src="js/http.dev.js"></script>
-
-        <script>
-      System.config({
-        packages: {        
-          js: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        }
-      });
-      System.import('js/boot.js')
-            .then(null, console.error.bind(console));
-    </script>
+        <script src="/js/bundle.js"></script>
     </body>
 </html>
