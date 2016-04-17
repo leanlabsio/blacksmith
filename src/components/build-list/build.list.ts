@@ -23,7 +23,7 @@ export class Build {
 
 @Component({
     selector: "build-list",
-    template: require('./build.list.html'),
+    template: <string>require('./build.list.html'),
     directives: [ROUTER_DIRECTIVES],
 })
 export class BuildList

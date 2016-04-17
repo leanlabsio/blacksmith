@@ -7,7 +7,7 @@ import {Build} from "./../build-list/build.list.ts";
 import {OnInit} from "angular2/core";
 
 @Component({
-    template: require('./build.log.html')
+    template: <string>require('./build.log.html')
 })
 export class BuildLog implements OnInit
 {

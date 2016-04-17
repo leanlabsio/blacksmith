@@ -8,7 +8,7 @@ import {Input} from "angular2/core";
 
 @Component({
     selector: 'login',
-    template: require('./login.html')
+    template: <string>require('./login.html')
 })
 export class Login{
     @Input() ghclient: string;

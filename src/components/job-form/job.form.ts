@@ -16,7 +16,7 @@ import {RouteParams} from "angular2/router";
 
 @Component({
     selector: "job-form",
-    template: require('./job.form.html'),
+    template: <string>require('./job.form.html'),
     directives: [FORM_DIRECTIVES],
 })
 export class JobForm implements OnInit
@@ -27,16 +27,16 @@ export class JobForm implements OnInit
         let hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
         this.http.get("/api/jobs/"+params.get("repo"), {headers:hs})
-            .map(res => Job.create(res.json()))
+            .map(res => <Job>res.json())
             .subscribe(job => this.job = job);
     }
 
     ngOnInit() {
-        this.job = new Job({builder:new Builder({})});
+        this.job = <Job>({builder:<Builder>{}, env: Array<Env>});
     }
 
     addenv() {
-        this.job.env.push(new Env({}));
+        this.job.env.push(<Env>{});
     }
 
     save() {

@@ -3,7 +3,7 @@ import {Login} from './../login/login';
 
 @Component({
   directives: [Login],
-  template: require('./home.html')
+  template: <string>require('./home.html')
 })
 export class Home{
   private ghclientid: string;
