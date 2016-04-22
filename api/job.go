@@ -78,7 +78,13 @@ func ListJob() []macaron.Handler {
 					json.Unmarshal([]byte(record), &j)
 					resp = append(resp, j)
 				} else {
-					j := &model.Job{Repository: *repo.CloneURL, Name: *repo.Name, FullName: *repo.FullName, Enabled: false}
+					j := &model.Job{
+						Repository:  *repo.CloneURL,
+						Name:        *repo.Name,
+						FullName:    *repo.FullName,
+						Enabled:     false,
+						Description: *repo.Description,
+					}
 					resp = append(resp, j)
 				}
 			}

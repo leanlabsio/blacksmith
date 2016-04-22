@@ -1,42 +1,50 @@
-<form #jobForm="ngForm">
-
-    <div class="row">
-        <div class="medium-12 columns">
-            <label>Repository clone URL
-                <input type="text" #name="ngForm" ngControl="repository" [(ngModel)]="job.repository" aria-describedby="repoHelpText">
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-6 columns">
-            <label>Builder image name
-                <input type="text" #name="ngForm" ngControl="buildername" [(ngModel)]="job.builder.name">
-            </label>
-        </div>
-        <div class="medium-6 columns">
-            <label>Builder image tag
-                <input type="text" #name="ngForm" ngControl="buildertag" [(ngModel)]="job.builder.tag">
-            </label>
+<div class="mdl-cell mdl-cell--2-col">
+</div>
+<form #jobForm="ngForm" class="mdl-cell mdl-cell--8-col">
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <md-input [(ngModel)]="job.clone_url" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="clone_url">
+                <md-placeholder>Repository clone URL</md-placeholder>
+            </md-input>
         </div>
     </div>
 
-    <div *ngFor="#env of job.env; #idx=index" class="row">
-        <div class="medium-6 columns">
-            <label>Env var name
-                <input type="text" #name="ngForm" ngControl="envname" [(ngModel)]="job.env[idx].name">
-            </label>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--9-col">
+            <md-input [(ngModel)]="job.builder.name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="builder_name">
+                <md-placeholder>Builder image name</md-placeholder>
+            </md-input>
         </div>
-        <div class="medium-6 columns">
-            <label>Env var value
-                <input type="text" #name="ngForm" ngControl="envvalue" [(ngModel)]="job.env[idx].value">
-            </label>
+
+        <div class="mdl-cell mdl-cell--3-col">
+            <md-input [(ngModel)]="job.builder.tag" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="builder_tag">
+                <md-placeholder>Builder image tag</md-placeholder>
+            </md-input>
         </div>
     </div>
 
-    <div class="row">
-        <div class="medium-12 columns">
-            <button class="button" (click)="addenv()">add env</button>
-            <button class="button" (click)="save()">save</button>
+
+
+    <div class="mdl-grid" *ngFor="#env of job.env; #idx=index">
+        <div class="mdl-cell mdl-cell--6-col">
+            <md-input [(ngModel)]="job.env[idx].name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_name">
+                <md-placeholder>ENV var name</md-placeholder>
+            </md-input>
+        </div>
+        <div class="mdl-cell mdl-cell--6-col">
+            <md-input [(ngModel)]="job.env[idx].value" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_value">
+                <md-placeholder>
+                    ENV var value
+                </md-placeholder>
+            </md-input>
+        </div>
+    </div>
+
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <button class="mdl-button mdl-button--raised" (click)="save()">save</button>
+            <button class="mdl-button" (click)="addenv()">add env</button>
         </div>
     </div>
 </form>

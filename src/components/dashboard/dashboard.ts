@@ -26,6 +26,7 @@ export interface Env {
 }
 
 @Component({
+    selector: 'dashboard',
     template: <string>require('./dashboard.html'),
     directives: [ROUTER_DIRECTIVES],
 })

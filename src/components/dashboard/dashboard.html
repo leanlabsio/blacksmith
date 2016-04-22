@@ -1,22 +1,40 @@
-<div *ngFor="#job of jobs" class="row align-center">
-    <div class="medium-10 columns">
-        <div class="callout small">
-            <div class="row">
-                <div class="columns medium-8">
-                    <a [routerLink]="['BuildList', {repo: job.clone_url}]">
-                        {{job.full_name}}
-                    </a>
-                </div>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" href="">Logout</a>
+            </nav>
+        </div>
+    </header>
 
-                <div class="columns medium-4 text-right">
-                    <button style="margin-bottom:0" *ngIf="job.enabled == false" class="button success" (click)="enable(job)">
-                        Enable build
-                    </button>
-                    <button style="margin-bottom:0" *ngIf="job.enabled == true" class="button alert" (click)="disable(job)">
-                        Disable build
-                    </button>
+    <main class="mdl-layout__content">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell mdl-cell--8-col">
+                <div class="mdl-list">
+                    <div *ngFor="#job of jobs" class="mdl-list__item mdl-list__item--three-line">
+                        <span class="mdl-list__item-primary-content">
+                            <span>
+                                <a [routerLink]="['BuildList', {repo: job.clone_url}]">{{job.full_name}}</a>
+                            </span>
+                        <span class="mdl-list__item-text-body">
+                                {{job.description}}
+                            </span>
+                        </span>
+
+                        <span class="mdl-list__item-secondary-content">
+                            <button *ngIf="job.enabled == false" class="mdl-button mdl-js-button" (click)="enable(job)">
+                                Enable
+                            </button>
+                            <button *ngIf="job.enabled == true" class="mdl-button mdl-js-button" (click)="disable(job)">
+                                Disable
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
 </div>

@@ -6,9 +6,11 @@ import {Inject} from "angular2/core";
 import {Router} from "angular2/router";
 import {Input} from "angular2/core";
 
+const template: string = <string>require('./login.html');
+
 @Component({
     selector: 'login',
-    template: <string>require('./login.html')
+    template: template
 })
 export class Login{
     @Input() ghclient: string;

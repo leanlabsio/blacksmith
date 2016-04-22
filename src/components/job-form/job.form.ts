@@ -12,12 +12,12 @@ import {Inject} from "angular2/core";
 import {Http} from "angular2/http";
 import {Builder} from "./../dashboard/dashboard";
 import {RouteParams} from "angular2/router";
-
+import {MdInput} from "./../mdl-textfield/mdl.textfield";
 
 @Component({
     selector: "job-form",
     template: <string>require('./job.form.html'),
-    directives: [FORM_DIRECTIVES],
+    directives: [FORM_DIRECTIVES, MdInput],
 })
 export class JobForm implements OnInit
 {
@@ -32,10 +32,16 @@ export class JobForm implements OnInit
     }
 
     ngOnInit() {
-        this.job = <Job>({builder:<Builder>{}, env: Array<Env>});
+        let builder: Builder = {};
+        let env: Env[] = [];
+        this.job = <Job>({builder: builder, env: env});
     }
 
     addenv() {
+        if (!this.job.env || !this.job.env.length) {
+            let env: Env[] = [];
+            this.job.env = env;
+        }
         this.job.env.push(<Env>{});
     }
 

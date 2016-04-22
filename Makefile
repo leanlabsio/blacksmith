@@ -55,7 +55,7 @@ build: node_modules
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
-		leanlabs/npm:1.1.0 gulp vendor fonts css html
+		leanlabs/npm:1.1.0 gulp vendor
 
 clean:
 	@rm -rf $(CURDIR)/web
