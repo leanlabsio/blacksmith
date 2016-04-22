@@ -4,6 +4,9 @@ import {Inject} from "angular2/core";
 import {Headers} from "angular2/http";
 import {Router} from "angular2/router";
 import {ROUTER_DIRECTIVES} from "angular2/router";
+import {Navigation} from "./../navigation/navigation";
+
+const template: string = <string>require('./dashboard.html');
 
 export interface Job {
     repository: string;
@@ -27,8 +30,8 @@ export interface Env {
 
 @Component({
     selector: 'dashboard',
-    template: <string>require('./dashboard.html'),
-    directives: [ROUTER_DIRECTIVES],
+    template: template,
+    directives: [ROUTER_DIRECTIVES, Navigation],
 })
 export class Dashboard {
 

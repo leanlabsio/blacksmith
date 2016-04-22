@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {Login} from './../login/login';
 
 @Component({
+  selector: 'home',
   directives: [Login],
   template: <string>require('./home.html')
 })

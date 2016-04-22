@@ -4,6 +4,7 @@ import {Http} from "angular2/http";
 import {RouteParams} from "angular2/router";
 import {Headers} from "angular2/http";
 import {ROUTER_DIRECTIVES} from "angular2/router";
+import {Navigation} from "./../navigation/navigation";
 
 export class Build {
     public username: string;
@@ -24,7 +25,7 @@ export class Build {
 @Component({
     selector: "build-list",
     template: <string>require('./build.list.html'),
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, Navigation],
 })
 export class BuildList
 {
