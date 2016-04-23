@@ -10,11 +10,13 @@ export class Build {
     public username: string;
     public commit: string;
     public log:string;
+    public state:int;
 
     constructor(data) {
         this.username = data.username;
         this.commit = data.commit;
         this.log = data.log;
+        this.state = data.state;
     }
 
     static create(data) {

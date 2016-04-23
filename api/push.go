@@ -84,7 +84,9 @@ func PostPush() []macaron.Handler {
 				})
 
 				if err != nil {
-					log.Fatalf("Docker error: %s", err)
+					msg := fmt.Sprintf("Docker error: %s", err)
+					writer.Write([]byte(msg))
+					log.Fatal(msg)
 				}
 
 				log.Printf("Job executed %+v", job)

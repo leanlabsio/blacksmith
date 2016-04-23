@@ -21,7 +21,7 @@
                 <div class="mdl-list">
                     <div class="mdl-list__item" *ngFor="#build of builds">
                         <div class="mdl-list__item-primary-content">
-                            <a [routerLink]="['BuildLog', {repo: repo, commit: build.commit}]">
+                            <a [routerLink]="['BuildLog', {repo: repo, commit: build.commit}]" class="mdl-badge" [attr.data-badge]="build.state">
                                 {{build.commit}}
                             </a>
                         </div>

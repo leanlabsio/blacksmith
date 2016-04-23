@@ -9,12 +9,6 @@ import (
 	"log"
 )
 
-type Build struct {
-	Commit   string `json:"commit"`
-	UserName string `json:"username"`
-	Log      string `json:"log,omitempty"`
-}
-
 func ListBuild() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
@@ -22,10 +16,10 @@ func ListBuild() []macaron.Handler {
 			repo := ctx.Params("*")
 			log.Printf("REPO %s", repo)
 			data, _ := r.ZRevRangeByScoreWithScores(repo+":builds", redis.ZRangeByScore{Min: "-inf", Max: "+inf", Offset: 0, Count: 10}).Result()
-			var builds []Build
+			var builds []model.Build
 			for _, item := range data {
 				build, _ := r.HGetAllMap(item.Member.(string)).Result()
-				builds = append(builds, Build{UserName: build["user_name"], Commit: build["commit"]})
+				builds = append(builds, model.Build{UserName: build["user_name"], Commit: build["commit"], Status: model.BUILD_STATUS_FAILED})
 			}
 			ctx.JSON(200, builds)
 		},
@@ -40,7 +34,7 @@ func GetBuild() []macaron.Handler {
 			logKey := fmt.Sprintf("%s:log", key)
 			build, _ := r.HGetAllMap(key).Result()
 			data, _ := r.Get(logKey).Result()
-			ctx.JSON(200, Build{Log: data, UserName: build["user_name"], Commit: build["commit"]})
+			ctx.JSON(200, model.Build{Log: data, UserName: build["user_name"], Commit: build["commit"]})
 		},
 	}
 }
