@@ -1,0 +1,33 @@
+body {
+    @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    color: #767777;
+}
+
+.bs-layout-section--dark{
+    background-color: #f3f3f3;
+}
+.bs-slogan {
+    font-size: 60px;
+    padding-top: 90px;
+    line-height: 1;
+    font-weight: 500;
+}
+
+.bs-sub-slogan {
+    font-size: 21px;
+    padding-top: 24px;
+}
+
+@media (max-width: 900px) {
+    .bs-slogan {
+        font-size: 26px;
+        margin: 0 16px;
+        padding-top: 24px;
+    }
+    .bs-sub-slogan{
+        font-size: 16px;
+        margin: 0 16px;
+        padding-top: 8px;
+    }
+}
