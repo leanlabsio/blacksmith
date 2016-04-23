@@ -4,13 +4,13 @@ import {Inject} from "angular2/core";
 import {ElementRef} from "angular2/core";
 import {OnInit} from "angular2/core";
 import {AfterViewInit} from "angular2/core";
-import {Navigation} from "./../navigation/navigation";
+import {NAVIGATION_DIRECTIVES} from "./../navigation/navigation";
 
 const template: string = <string>require('./job.settings.html');
 
 @Component({
     template: template,
-    directives: [JobForm, Navigation]
+    directives: [JobForm, NAVIGATION_DIRECTIVES]
 })
 export class JobSettings implements OnInit {
 
