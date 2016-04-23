@@ -5,11 +5,11 @@ body {
 }
 
 .bs-layout-section--dark{
-    background-color: #f3f3f3;
+    background: url(../images/banner10.png) #f3f3f3 center center no-repeat;
 }
 .bs-slogan {
     font-size: 60px;
-    padding-top: 90px;
+    padding-top: 160px;
     line-height: 1;
     font-weight: 500;
 }
@@ -17,6 +17,7 @@ body {
 .bs-sub-slogan {
     font-size: 21px;
     padding-top: 24px;
+    padding-bottom: 280px;
 }
 
 @media (max-width: 900px) {
@@ -29,5 +30,6 @@ body {
         font-size: 16px;
         margin: 0 16px;
         padding-top: 8px;
+        padding-bottom: 10px;
     }
 }
