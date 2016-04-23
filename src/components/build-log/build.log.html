@@ -1,3 +1,23 @@
-<div class="row align-center">
-    <pre>{{build.log}}</pre>
+<div class="mdl-layout">
+    <nav class="mdl-layout__header">
+        <nav-title>
+            Build log
+        </nav-title>
+    </nav>
+
+    <div class="mdl-layout__content">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell mdl-cell--8-col">
+                <h5>{{build.commit}}</h5>
+            </div>
+        </div>
+
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell mdl-cell--8-col">
+                <pre>{{build.log}}</pre>
+            </div>
+        </div>
+    </div>
 </div>

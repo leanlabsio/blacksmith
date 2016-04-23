@@ -1,13 +1,23 @@
-import {Component} from "angular2/core";
-import {Inject} from "angular2/core";
+import {
+    Component,
+    Inject,
+    OnInit
+} from "angular2/core";
+
+import {
+    Http,
+    Headers
+} from "angular2/http";
+
 import {RouteParams} from "angular2/router";
-import {Http} from "angular2/http";
-import {Headers} from "angular2/http";
 import {Build} from "./../build-list/build.list.ts";
-import {OnInit} from "angular2/core";
+import {NAVIGATION_DIRECTIVES} from "./../navigation/navigation";
+
+const template: string = <string>require('./build.log.html');
 
 @Component({
-    template: <string>require('./build.log.html')
+    template: template,
+    directives: [NAVIGATION_DIRECTIVES]
 })
 export class BuildLog implements OnInit
 {
