@@ -23,7 +23,11 @@
         </div>
     </div>
 
-
+    <div class="mdl-grid" *ngIf="job.env">
+        <div class="mdl-cell mdl-cell--12-col">
+            <h5>Additional ENV vars to pass to builder</h5>
+        </div>
+    </div>
 
     <div class="mdl-grid" *ngFor="#env of job.env; #idx=index">
         <div class="mdl-cell mdl-cell--6-col">
@@ -39,7 +43,6 @@
             </md-input>
         </div>
     </div>
-
 
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">

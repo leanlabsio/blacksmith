@@ -1,20 +1,33 @@
 <div class="mdl-layout mdl-layout--fixed-header">
-    <navigation class="mdl-layout__header"></navigation>
+    <nav class="mdl-layout__header">
+        <nav-title>Builds</nav-title>
+    </nav>
 
-    <div class="row align-center" *ngIf="!builds || builds.length == 0">
-        No builds yet
-    </div>
-    <div class="row align-center" *ngFor="#build of builds">
-        <div class="columns medium-1"></div>
-        <div class="columns medium-9">
-            <a [routerLink]="['BuildLog', {repo: repo, commit: build.commit}]">
-            {{build.commit}}
-        </a>
-            <br/> {{build.username}}
+    <div class="mdl-layout__content">
+        <!-- NO BUILDS BLOCK -->
+        <div class="mdl-grid" *ngIf="!builds || builds.length == 0">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell mdl-cell--8-col">
+                <h5 class="mdl-typography--text-center">
+                    No builds yet
+                </h5>
+            </div>
         </div>
-        <div class="columns medium-2">
-            status
-        </div>
-    </div>
 
+        <!-- BUILD LIST BLOCK -->
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell mdl-cell--8-col">
+                <div class="mdl-list">
+                    <div class="mdl-list__item" *ngFor="#build of builds">
+                        <div class="mdl-list__item-primary-content">
+                            <a [routerLink]="['BuildLog', {repo: repo, commit: build.commit}]">
+                                {{build.commit}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

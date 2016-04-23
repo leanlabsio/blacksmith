@@ -8,7 +8,7 @@ import {
 const template: string = <string>require('./navigation.html');
 
 @Component({
-    selector: 'navigation',
+    selector: 'nav',
     template: template
 })
 export class Navigation {
