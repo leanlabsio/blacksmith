@@ -1,5 +1,10 @@
-    <div class="mdl-card">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" (click)="authenticate('github')">
-            <i class="fa fa-github"></i>&nbsp;&nbsp;sign in with github
-        </button>
-    </div>
+<div class="mdl-cell mdl-cell--12-col mdl-typography--text-center">
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" (click)="authenticate('github')">
+        <i class="fa fa-github"></i>&nbsp;&nbsp;sign in with github
+    </button>
+</div>
+<div class="mdl-cell mdl-cell--12-col mdl-typography--text-center">
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" (click)="authenticate('github')" disabled>
+        <i class="fa fa-github"></i>&nbsp;&nbsp;sign in with Gitlab
+    </button>
+</div>
