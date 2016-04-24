@@ -11,7 +11,7 @@ import {
 
 import {RouteParams} from "angular2/router";
 import {Build} from "./../build-list/build.list.ts";
-import {NAVIGATION_DIRECTIVES} from "./../navigation/navigation";
+import {NAVIGATION_DIRECTIVES} from "./../mdl-nav/mdl.nav";
 
 const template: string = <string>require('./build.log.html');
 

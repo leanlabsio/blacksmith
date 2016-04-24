@@ -1,10 +1,19 @@
-import {Component} from "angular2/core";
-import {Inject} from "angular2/core";
-import {Http} from "angular2/http";
-import {RouteParams} from "angular2/router";
-import {Headers} from "angular2/http";
-import {ROUTER_DIRECTIVES} from "angular2/router";
-import {Navigation} from "./../navigation/navigation";
+import {
+    Component,
+    Inject
+} from "angular2/core";
+
+import {
+    Http,
+    Headers
+} from "angular2/http";
+
+import {
+    RouteParams,
+    ROUTER_DIRECTIVES
+} from "angular2/router";
+
+import {Navigation} from "./../mdl-nav/mdl.nav";
 
 export class Build {
     public username: string;

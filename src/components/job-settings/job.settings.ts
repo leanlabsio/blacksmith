@@ -1,10 +1,12 @@
-import {Component} from "angular2/core";
+import {
+    Component,
+    Inject,
+    OnInit,
+    ElementRef
+} from "angular2/core";
+
 import {JobForm} from "./../job-form/job.form.ts";
-import {Inject} from "angular2/core";
-import {ElementRef} from "angular2/core";
-import {OnInit} from "angular2/core";
-import {AfterViewInit} from "angular2/core";
-import {NAVIGATION_DIRECTIVES} from "./../navigation/navigation";
+import {NAVIGATION_DIRECTIVES} from "./../mdl-nav/mdl.nav";
 
 const template: string = <string>require('./job.settings.html');
 

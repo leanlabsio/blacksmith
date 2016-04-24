@@ -1,10 +1,19 @@
-import {Component} from "angular2/core";
-import {Http} from "angular2/http";
-import {Inject} from "angular2/core";
-import {Headers} from "angular2/http";
-import {Router} from "angular2/router";
-import {ROUTER_DIRECTIVES} from "angular2/router";
-import {Navigation} from "./../navigation/navigation";
+import {
+    Component,
+    Inject
+} from "angular2/core";
+
+import {
+    Http,
+    Headers
+} from "angular2/http";
+
+import {
+    Router,
+    ROUTER_DIRECTIVES
+} from "angular2/router";
+
+import {Navigation} from "./../mdl-nav/mdl.nav";
 
 const template: string = <string>require('./dashboard.html');
 

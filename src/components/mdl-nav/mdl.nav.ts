@@ -5,11 +5,14 @@ import {
 } from "angular2/core";
 
 
-const template: string = <string>require('./navigation.html');
+const template: string = <string>require('./mdl.nav.html');
 
 @Component({
     selector: 'nav',
-    template: template
+    template: template,
+    host: {
+        '[class.mdl-layout__header]': 'true'
+    }
 })
 export class Navigation {
 }
