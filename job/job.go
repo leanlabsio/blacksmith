@@ -33,7 +33,7 @@ type Repository struct {
 //which should be passed to runner
 func Resolve() macaron.Handler {
 	return func(redis *redis.Client, job *Job) {
-		j := model.Job{}
+		j := model.Project{}
 		data, err := redis.Get(job.Repository.URL).Result()
 		if err != nil {
 			log.Printf("REDIS ERROR %s", err)

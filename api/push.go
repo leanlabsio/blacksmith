@@ -32,16 +32,13 @@ func PostPush() []macaron.Handler {
 				config := &docker.Config{
 					Image: job.Builder.Name + ":" + job.Builder.Tag,
 					Volumes: map[string]struct{}{
-						"/home":                {},
 						"/var/run/docker.sock": {},
 					},
-					WorkingDir: "/home",
-					Env:        job.EnvVars,
+					Env: job.EnvVars,
 				}
 
 				hostConfig := &docker.HostConfig{
 					Binds: []string{
-						"/home:/home",
 						"/var/run/docker.sock:/var/run/docker.sock",
 					},
 				}

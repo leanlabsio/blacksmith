@@ -1,7 +1,7 @@
 package model
 
-//Job represents single API payload entry
-type Job struct {
+//Project represents single API payload entry
+type Project struct {
 	Name        string  `json:"name"`
 	Builder     Builder `json:"builder,omitempty"`
 	FullName    string  `json:"full_name"`

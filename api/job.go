@@ -17,8 +17,8 @@ import (
 func PutJob() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		binding.Json(model.Job{}),
-		func(ctx *macaron.Context, j model.Job, redis *redis.Client, user *model.User) {
+		binding.Json(model.Project{}),
+		func(ctx *macaron.Context, j model.Project, redis *redis.Client, user *model.User) {
 			v, _ := json.Marshal(j)
 			_, err := redis.Set(j.Repository, v, 0).Result()
 
@@ -70,15 +70,15 @@ func ListJob() []macaron.Handler {
 			}
 			repos, _, _ := client.Repositories.List("", opts)
 
-			var resp []*model.Job
+			var resp []*model.Project
 			for _, repo := range repos {
 				record, _ := redis.Get(*repo.CloneURL).Result()
 				if len(record) != 0 {
-					var j *model.Job
+					var j *model.Project
 					json.Unmarshal([]byte(record), &j)
 					resp = append(resp, j)
 				} else {
-					j := &model.Job{
+					j := &model.Project{
 						Repository:  *repo.CloneURL,
 						Name:        *repo.Name,
 						FullName:    *repo.FullName,
@@ -101,7 +101,7 @@ func GetJob() []macaron.Handler {
 			data, err := redis.Get(ctx.Params("*")).Result()
 			if err != nil {
 			}
-			var j *model.Job
+			var j *model.Project
 			json.Unmarshal([]byte(data), &j)
 
 			ctx.JSON(200, j)
