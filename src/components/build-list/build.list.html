@@ -19,11 +19,14 @@
             <div class="mdl-cell mdl-cell--2-col"></div>
             <div class="mdl-cell mdl-cell--8-col">
                 <div class="mdl-list">
-                    <div class="mdl-list__item" *ngFor="#build of builds">
+                    <div class="mdl-list__item mdl-list__item--two-line" *ngFor="#build of builds">
                         <div class="mdl-list__item-primary-content">
                             <a [routerLink]="['BuildLog', {repo: repo, commit: build.commit}]" class="mdl-badge" [attr.data-badge]="build.state">
                                 {{build.commit}}
                             </a>
+                            <span class="mdl-list__item-sub-title">
+                                triggered by {{build.username}}
+                            </span>
                         </div>
                     </div>
                 </div>

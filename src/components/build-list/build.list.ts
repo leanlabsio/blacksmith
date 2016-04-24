@@ -10,7 +10,7 @@ export class Build {
     public username: string;
     public commit: string;
     public log:string;
-    public state:int;
+    private _state:int;
 
     constructor(data) {
         this.username = data.username;
@@ -21,6 +21,23 @@ export class Build {
 
     static create(data) {
         return new Build(data);
+    }
+
+    get state() {
+        if (this._state == 2) {
+            return "-";
+        }
+        if (this._state == 1) {
+            return "+";
+        }
+        if (this._state == 0) {
+
+        }
+        return this._state;
+    }
+
+    set state(state:int) {
+        this._state = state;
     }
 }
 
