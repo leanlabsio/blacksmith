@@ -11,7 +11,8 @@ import {
 } from "angular2/http";
 
 import {
-    Job,
+    Project,
+    Repository,
     Builder,
     Env
 } from "./../dashboard/dashboard";
@@ -28,20 +29,21 @@ import {MdInput} from "./../mdl-textfield/mdl.textfield";
 })
 export class JobForm implements OnInit
 {
-    job: Job;
+    job: Project;
 
     constructor(@Inject(Http) private http: Http, @Inject(RouteParams) private params: RouteParams) {
         let hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
         this.http.get("/api/jobs/"+params.get("repo"), {headers:hs})
-            .map(res => <Job>res.json())
+            .map(res => <Project>res.json())
             .subscribe(job => this.job = job);
     }
 
     ngOnInit() {
         let builder: Builder = {};
+        let repo: Repository = {clone_url: ""};
         let env: Env[] = [];
-        this.job = <Job>({builder: builder, env: env});
+        this.job = <Project>({builder: builder, env: env, repository: repo});
     }
 
     addenv() {

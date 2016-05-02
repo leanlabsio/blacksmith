@@ -10,10 +10,10 @@
                     <div *ngFor="#job of jobs" class="mdl-list__item mdl-list__item--three-line">
                         <span class="mdl-list__item-primary-content">
                             <span>
-                                <a [routerLink]="['BuildList', {repo: job.clone_url}]">{{job.full_name}}</a>
+                                <a [routerLink]="['BuildList', {repo: job.repository.clone_url}]">{{job.repository.full_name}}</a>
                             </span>
                         <span class="mdl-list__item-text-body">
-                                {{job.description}}
+                                {{job.repository.description}}
                             </span>
                         </span>
 

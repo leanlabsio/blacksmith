@@ -6,6 +6,8 @@ import (
 	"github.com/google/go-github/github"
 	"github.com/leanlabsio/blacksmith/middleware"
 	"github.com/leanlabsio/blacksmith/model"
+	"github.com/leanlabsio/blacksmith/project"
+	"github.com/leanlabsio/blacksmith/repo"
 	"golang.org/x/oauth2"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
@@ -14,13 +16,13 @@ import (
 )
 
 //PostJob is an API endpoint to store jobs configuration
-func PutJob() []macaron.Handler {
+func PutProject() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		binding.Json(model.Project{}),
-		func(ctx *macaron.Context, j model.Project, redis *redis.Client, user *model.User) {
+		binding.Json(project.Project{}),
+		func(ctx *macaron.Context, j project.Project, redis *redis.Client, user *model.User) {
 			v, _ := json.Marshal(j)
-			_, err := redis.Set(j.Repository, v, 0).Result()
+			_, err := redis.Set(j.Repository.CloneURL, v, 0).Result()
 
 			token := oauth2.StaticTokenSource(
 				&oauth2.Token{AccessToken: user.AccessToken},
@@ -38,11 +40,11 @@ func PutJob() []macaron.Handler {
 				},
 			}
 
-			if strings.Contains(j.FullName, user.Login) {
-				_, _, err = client.Repositories.CreateHook(user.Login, j.Name, &hook)
+			if strings.Contains(j.Repository.FullName, user.Login) {
+				_, _, err = client.Repositories.CreateHook(user.Login, j.Repository.Name, &hook)
 			} else {
-				org := strings.Split(j.FullName, "/")[0]
-				_, _, err = client.Repositories.CreateHook(org, j.Name, &hook)
+				org := strings.Split(j.Repository.FullName, "/")[0]
+				_, _, err = client.Repositories.CreateHook(org, j.Repository.Name, &hook)
 			}
 
 			if err != nil {
@@ -54,54 +56,33 @@ func PutJob() []macaron.Handler {
 	}
 }
 
-func ListJob() []macaron.Handler {
+func ListProject() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		func(ctx *macaron.Context, user *model.User, redis *redis.Client) {
+
 			token := oauth2.StaticTokenSource(
 				&oauth2.Token{AccessToken: user.AccessToken},
 			)
+			hosting := repo.NewGithub(token)
+			repository := project.New(&hosting, redis)
 
-			tc := oauth2.NewClient(oauth2.NoContext, token)
-			client := github.NewClient(tc)
-			opts := &github.RepositoryListOptions{
-				Type:        "all",
-				ListOptions: github.ListOptions{PerPage: 100, Page: 1},
-			}
-			repos, _, _ := client.Repositories.List("", opts)
+			repos := repository.List()
 
-			var resp []*model.Project
-			for _, repo := range repos {
-				record, _ := redis.Get(*repo.CloneURL).Result()
-				if len(record) != 0 {
-					var j *model.Project
-					json.Unmarshal([]byte(record), &j)
-					resp = append(resp, j)
-				} else {
-					j := &model.Project{
-						Repository:  *repo.CloneURL,
-						Name:        *repo.Name,
-						FullName:    *repo.FullName,
-						Enabled:     false,
-						Description: *repo.Description,
-					}
-					resp = append(resp, j)
-				}
-			}
-
-			ctx.JSON(200, resp)
+			ctx.JSON(200, repos)
 		},
 	}
 }
 
-func GetJob() []macaron.Handler {
+func GetProject() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		func(ctx *macaron.Context, user *model.User, redis *redis.Client) {
 			data, err := redis.Get(ctx.Params("*")).Result()
 			if err != nil {
+				log.Printf("REDIS ERR %s", err)
 			}
-			var j *model.Project
+			var j *project.Project
 			json.Unmarshal([]byte(data), &j)
 
 			ctx.JSON(200, j)

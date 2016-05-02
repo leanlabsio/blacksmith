@@ -17,14 +17,18 @@ import {Navigation} from "./../mdl-nav/mdl.nav";
 
 const template: string = <string>require('./dashboard.html');
 
-export interface Job {
-    repository: string;
+export interface Project {
     enabled: boolean;
     env: Array<Env>;
+    builder: Builder;
+    repository: Repository;
+}
+
+export interface Repository {
     name: string;
     full_name: string;
     clone_url: string;
-    builder: Builder;
+    description: string;
 }
 
 export class Builder {
@@ -44,7 +48,7 @@ export interface Env {
 })
 export class Dashboard {
 
-    jobs: Array<Job>;
+    jobs: Array<Project>;
 
     constructor(@Inject(Http) public http: Http, @Inject(Router) private router: Router) {
         var hs = new Headers();
@@ -58,8 +62,8 @@ export class Dashboard {
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http
             .put("/api/jobs", JSON.stringify(job), {headers: hs})
-            .map((res) => {let resp:Job = res.json(); return resp;})
-            .subscribe(res => this.router.navigate(['Job', {repo: res.clone_url}]));
+            .map((res) => {let resp:Project = res.json(); return resp;})
+            .subscribe(res => this.router.navigate(['Job', {repo: res.repository.clone_url}]));
     }
 
     disable(job: Job) {
@@ -68,7 +72,7 @@ export class Dashboard {
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http.put("/api/jobs", JSON.stringify(job), {headers: hs})
             .map(res => res.json())
-            .map(data => <Job>data)
+            .map(data => <Project>data)
             .subscribe(val => job = val)
     }
 }

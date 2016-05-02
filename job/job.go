@@ -3,7 +3,7 @@ package job
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/leanlabsio/blacksmith/model"
+	"github.com/leanlabsio/blacksmith/project"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 	"log"
@@ -33,7 +33,7 @@ type Repository struct {
 //which should be passed to runner
 func Resolve() macaron.Handler {
 	return func(redis *redis.Client, job *Job) {
-		j := model.Project{}
+		j := project.Project{}
 		data, err := redis.Get(job.Repository.URL).Result()
 		if err != nil {
 			log.Printf("REDIS ERROR %s", err)

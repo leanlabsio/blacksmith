@@ -104,11 +104,12 @@ func daemon(c *cli.Context) {
 
 	m.Get("/repo", api.ListRepo()...)
 	m.Post("/push", api.PostPush()...)
-	m.Put("/api/jobs", api.PutJob()...)
-	m.Get("/api/jobs", api.ListJob()...)
+	m.Put("/api/jobs", api.PutProject()...)
+	m.Get("/api/jobs", api.ListProject()...)
+	m.Get("/api/jobs/*", api.GetProject()...)
 	m.Get("/api/builds/*", api.ListBuild()...)
 	m.Get("/api/logs/*", api.GetBuild()...)
-	m.Get("/api/jobs/*", api.GetJob()...)
+
 	m.Post("/api/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)
 	m.Get("/ws/*", sockets.Messages(), ws.ListenAndServe)
 

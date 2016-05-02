@@ -3,7 +3,7 @@
 <form #jobForm="ngForm" class="mdl-cell mdl-cell--8-col">
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-            <md-input [(ngModel)]="job.clone_url" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="clone_url">
+            <md-input [(ngModel)]="job.repository.clone_url" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="clone_url">
                 <md-placeholder>Repository clone URL</md-placeholder>
             </md-input>
         </div>
