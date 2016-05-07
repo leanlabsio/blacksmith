@@ -102,11 +102,12 @@ func daemon(c *cli.Context) {
 	m.Map(redisClient)
 	m.Map(dockerClient)
 
-	m.Get("/repo", api.ListRepo()...)
-	m.Post("/push", api.PostPush()...)
-	m.Put("/api/jobs", api.PutProject()...)
-	m.Get("/api/jobs", api.ListProject()...)
-	m.Get("/api/jobs/*", api.GetProject()...)
+	m.Post("/api/trigger", api.PostTrigger()...)
+
+	m.Put("/api/projects/:host/:namespace/:name", api.PutProject()...)
+	m.Get("/api/projects", api.ListProject()...)
+	m.Get("/api/projects/:host/:namespace/:name", api.GetProject()...)
+
 	m.Get("/api/builds/*", api.ListBuild()...)
 	m.Get("/api/logs/*", api.GetBuild()...)
 

@@ -13,7 +13,8 @@ import {
 import {
     Project,
     Repository,
-    Builder,
+    Executor,
+    Image,
     Env
 } from "./../dashboard/dashboard";
 
@@ -34,31 +35,34 @@ export class JobForm implements OnInit
     constructor(@Inject(Http) private http: Http, @Inject(RouteParams) private params: RouteParams) {
         let hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
-        this.http.get("/api/jobs/"+params.get("repo"), {headers:hs})
+        this.http.get("/api/projects/"+this.params.get("host")+"/"+this.params.get("namespace")+"/"+this.params.get("name"), {headers:hs})
             .map(res => <Project>res.json())
             .subscribe(job => this.job = job);
     }
 
     ngOnInit() {
-        let builder: Builder = {};
+        let image: Image = {}
         let repo: Repository = {clone_url: ""};
         let env: Env[] = [];
-        this.job = <Project>({builder: builder, env: env, repository: repo});
+        let builder: Executor = {image: image, env: env};
+        this.job = <Project>({executor: builder, repository: repo});
     }
 
     addenv() {
-        if (!this.job.env || !this.job.env.length) {
+        console.log('asasdas')
+        if (!this.job.executor.env || !this.job.executor.env.length) {
             let env: Env[] = [];
-            this.job.env = env;
+            this.job.executor.env = env;
         }
-        this.job.env.push(<Env>{});
+        console.log(this.job)
+        this.job.executor.env.push(<Env>{name:"", value:""});
     }
 
     save() {
         var hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
         console.log(this.job);
-        this.http.put("/api/jobs", JSON.stringify(this.job), {headers:hs})
+        this.http.put("/api/projects/"+this.params.get("host")+"/"+this.params.get("namespace")+"/"+this.params.get("name"), JSON.stringify(this.job), {headers:hs})
             .map(res => res.json())
             .subscribe(val => console.log(val));
     }

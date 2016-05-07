@@ -11,32 +11,32 @@
 
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--9-col">
-            <md-input [(ngModel)]="job.builder.name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="builder_name">
+            <md-input [(ngModel)]="job.executor.image.name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="builder_name">
                 <md-placeholder>Builder image name</md-placeholder>
             </md-input>
         </div>
 
         <div class="mdl-cell mdl-cell--3-col">
-            <md-input [(ngModel)]="job.builder.tag" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="builder_tag">
+            <md-input [(ngModel)]="job.executor.image.tag" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="builder_tag">
                 <md-placeholder>Builder image tag</md-placeholder>
             </md-input>
         </div>
     </div>
 
-    <div class="mdl-grid" *ngIf="job.env">
+    <div class="mdl-grid" *ngIf="job.executor">
         <div class="mdl-cell mdl-cell--12-col">
             <h5>Additional ENV vars to pass to builder</h5>
         </div>
     </div>
 
-    <div class="mdl-grid" *ngFor="#env of job.env; #idx=index">
+    <div class="mdl-grid" *ngFor="#env of job.executor.env; #idx=index">
         <div class="mdl-cell mdl-cell--6-col">
-            <md-input [(ngModel)]="job.env[idx].name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_name">
+            <md-input [(ngModel)]="job.executor.env[idx].name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_name">
                 <md-placeholder>ENV var name</md-placeholder>
             </md-input>
         </div>
         <div class="mdl-cell mdl-cell--6-col">
-            <md-input [(ngModel)]="job.env[idx].value" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_value">
+            <md-input [(ngModel)]="job.executor.env[idx].value" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_value">
                 <md-placeholder>
                     ENV var value
                 </md-placeholder>

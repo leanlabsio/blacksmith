@@ -1,26 +1,26 @@
 package project
 
 import (
+	"github.com/leanlabsio/blacksmith/executor"
 	"github.com/leanlabsio/blacksmith/repo"
+	"github.com/leanlabsio/blacksmith/trigger"
 )
 
-//Project represents single project to build
+// Project represents single project to build
 type Project struct {
-	Builder    Builder         `json:"builder,omitempty"`
-	Repository repo.Repository `json:"repository"`
-	EnvVars    []Env           `json:"env"`
-	Enabled    bool            `json:"enabled"`
+	Repository repo.Repository         `json:"repository"`
+	Trigger    trigger.Trigger         `json:"trigger"`
+	Executor   executor.DockerExecutor `json:"executor"`
+
+	triggerRepo *trigger.TriggerRepository
 }
 
-// Builder describes task executor reference
-type Builder struct {
-	Name string `json:"name"`
-	Tag  string `json:"tag"`
-}
-
-// Env represents any additional confugration parameters
-// to be passed to Builder, in key - value format
-type Env struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
+func (p *Project) ToggleTrigger() {
+	if !p.Trigger.Active {
+		p.triggerRepo.CreateTrigger(p.Repository)
+		p.Trigger.Active = true
+	} else {
+		p.Trigger.Active = false
+		//p.triggerRepo.RemoveTrigger(p.Repository)
+	}
 }

@@ -1,8 +1,9 @@
 package repo
 
 type Hosting interface {
-	//	GetRepository() Repository
 	ListRepositories() []Repository
-	//	CreateWebhook()
+	GetRepository(namespace, name string) Repository
+	CreateWebhook(namespace, name string)
+	Host() string
 	//	RemoveWebhook()
 }

@@ -10,7 +10,7 @@
                     <div *ngFor="#job of jobs" class="mdl-list__item mdl-list__item--three-line">
                         <span class="mdl-list__item-primary-content">
                             <span>
-                                <a [routerLink]="['BuildList', {repo: job.repository.clone_url}]">{{job.repository.full_name}}</a>
+                                <a [routerLink]="['BuildList', {'host':'github.com', 'namespace':job.repository.owner.name, 'name':job.repository.name}]">{{job.repository.full_name}}</a>
                             </span>
                         <span class="mdl-list__item-text-body">
                                 {{job.repository.description}}
@@ -18,10 +18,10 @@
                         </span>
 
                         <span class="mdl-list__item-secondary-content">
-                            <button *ngIf="job.enabled == false" class="mdl-button mdl-js-button" (click)="enable(job)">
+                            <button *ngIf="job.trigger.active == false" class="mdl-button mdl-js-button" (click)="enable({host:'github.com','namespace':job.repository.owner.name, 'name':job.repository.name}, job)">
                                 Enable
                             </button>
-                            <button *ngIf="job.enabled == true" class="mdl-button mdl-js-button" (click)="disable(job)">
+                            <button *ngIf="job.trigger.active == true" class="mdl-button mdl-js-button" (click)="disable({host:'github.com','namespace':job.repository.owner.name, 'name':job.repository.name}, job)">
                                 Disable
                             </button>
                         </span>

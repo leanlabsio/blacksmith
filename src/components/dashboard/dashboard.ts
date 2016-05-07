@@ -18,10 +18,13 @@ import {Navigation} from "./../mdl-nav/mdl.nav";
 const template: string = <string>require('./dashboard.html');
 
 export interface Project {
-    enabled: boolean;
-    env: Array<Env>;
-    builder: Builder;
+    trigger: Trigger;
+    executor: DockerExecutor;
     repository: Repository;
+}
+
+export interface Trigger {
+    active: boolean;
 }
 
 export interface Repository {
@@ -31,7 +34,12 @@ export interface Repository {
     description: string;
 }
 
-export class Builder {
+export interface DockerExecutor {
+    image: Image;
+    env: Array<Env>;
+}
+
+export class Image {
     name: string;
     tag: string;
 }
@@ -53,24 +61,24 @@ export class Dashboard {
     constructor(@Inject(Http) public http: Http, @Inject(Router) private router: Router) {
         var hs = new Headers();
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        this.http.get('/api/jobs', {headers: hs}).map((res) => {var resp: Array<Job> = res.json(); return resp;}).subscribe(jobs => this.jobs = jobs);
+        this.http.get('/api/projects', {headers: hs}).map((res) => {var resp: Array<Job> = res.json(); return resp;}).subscribe(jobs => this.jobs = jobs);
     }
 
-    enable(job: Job) {
+    enable(params: any, job: Job) {
         var hs = new Headers();
-        job.enabled = true;
+        job.trigger.active = true;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http
-            .put("/api/jobs", JSON.stringify(job), {headers: hs})
+            .put("/api/projects/"+params.host+"/"+params.namespace+"/"+params.name, JSON.stringify(job), {headers: hs})
             .map((res) => {let resp:Project = res.json(); return resp;})
-            .subscribe(res => this.router.navigate(['Job', {repo: res.repository.clone_url}]));
+            .subscribe(res => this.router.navigate(['Job', params]));
     }
 
-    disable(job: Job) {
+    disable(params: any, job: Job) {
         var hs = new Headers();
-        job.enabled = false;
+        job.trigger.active = false;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        this.http.put("/api/jobs", JSON.stringify(job), {headers: hs})
+        this.http.put("/api/projects/"+params.host+"/"+params.namespace+"/"+params.name, JSON.stringify(job), {headers: hs})
             .map(res => res.json())
             .map(data => <Project>data)
             .subscribe(val => job = val)

@@ -9,8 +9,8 @@ import {BuildLog} from "./components/build-log/build.log.ts";
 @RouteConfig([
     {path: '/', component: Home, name: 'Home'},
     {path: '/jobs', component: Dashboard, name: 'Dashboard'},
-    {path: '/jobs/:repo', component: BuildList, name: 'BuildList'},
-    {path: '/jobs/:repo/settings', component: JobSettings, name: 'Job'},
+    {path: '/jobs/:host/:namespace/:name', component: BuildList, name: 'BuildList'},
+    {path: '/jobs/:host/:namespace/:name/settings', component: JobSettings, name: 'Job'},
     {path: '/jobs/:repo/:commit', component: BuildLog, name: 'BuildLog'}
 ])
 @Component({
