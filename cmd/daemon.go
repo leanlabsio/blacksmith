@@ -108,7 +108,7 @@ func daemon(c *cli.Context) {
 	m.Get("/api/projects", api.ListProject()...)
 	m.Get("/api/projects/:host/:namespace/:name", api.GetProject()...)
 
-	m.Get("/api/builds/*", api.ListBuild()...)
+	m.Get("/api/builds/:host/:namespace/:name", api.ListBuild()...)
 	m.Get("/api/logs/*", api.GetBuild()...)
 
 	m.Post("/api/auth/github", api.PostGitHubAuth(c.String("github-client-id"), c.String("github-client-secret"))...)

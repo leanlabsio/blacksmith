@@ -9,58 +9,24 @@ import (
 
 // DockerExecutor represents docker task executor
 type DockerExecutor struct {
-	Image   Image `json:"image"`
-	EnvVars []Env `json:"env"`
-	client  *docker.Client
-	logger  *logger.Writer
+	docker *docker.Client
+	logger *logger.Writer
 }
 
-// Env represents any additional confugration parameters
-// to be passed to Builder, in key - value format
-type Env struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
-
-// Image represents actual docker image to be used
-// for build
-type Image struct {
-	Name string `json:"name"`
-	Tag  string `json:"tag"`
-}
-
-func (e *DockerExecutor) SetClient(client *docker.Client) {
-	e.client = client
-}
-
-func (e *DockerExecutor) SetLogger(logger *logger.Writer) {
-	e.logger = logger
-}
-
-func (e *DockerExecutor) WithData(data string) {
-	env := Env{
-		Name:  "EVENT_PAYLOAD",
-		Value: data,
+func New(d *docker.Client, l *logger.Writer) *DockerExecutor {
+	return &DockerExecutor{
+		docker: d,
+		logger: l,
 	}
-	e.EnvVars = append(e.EnvVars, env)
 }
 
-func (e *DockerExecutor) Execute() {
-	var envs []string
-
-	if (len(e.EnvVars)) > 0 {
-		for _, e := range e.EnvVars {
-			env := fmt.Sprintf("%s=%s", e.Name, e.Value)
-			envs = append(envs, env)
-		}
-	}
-
+func (e *DockerExecutor) Execute(t Task) {
 	config := &docker.Config{
-		Image: e.Image.Name + ":" + e.Image.Tag,
+		Image: t.Builder.Name + ":" + t.Builder.Tag,
 		Volumes: map[string]struct{}{
 			"/var/run/docker.sock": {},
 		},
-		Env: envs,
+		Env: t.Vars.String(),
 	}
 
 	hostConfig := &docker.HostConfig{
@@ -74,30 +40,26 @@ func (e *DockerExecutor) Execute() {
 		HostConfig: hostConfig,
 	}
 
-	container, err := e.client.CreateContainer(options)
+	container, err := e.docker.CreateContainer(options)
 
 	if err == docker.ErrNoSuchImage {
-		e.client.PullImage(
+		e.docker.PullImage(
 			docker.PullImageOptions{
-				Repository: e.Image.Name,
-				Tag:        e.Image.Tag,
+				Repository: t.Builder.Name,
+				Tag:        t.Builder.Tag,
 			},
 			docker.AuthConfiguration{},
 		)
 
-		container, err = e.client.CreateContainer(options)
+		container, err = e.docker.CreateContainer(options)
 
 		if err != nil {
 			log.Printf("Docker error: %s", err)
 		}
 	}
 
-	err = e.client.StartContainer(container.ID, nil)
-	/*	writer := &WsWriter{
-		name:  fmt.Sprintf("%s:%s:log", job.Repository.URL, job.Commit),
-		redis: r,
-	}*/
-	e.client.Logs(docker.LogsOptions{
+	err = e.docker.StartContainer(container.ID, nil)
+	e.docker.Logs(docker.LogsOptions{
 		Container:    container.ID,
 		OutputStream: e.logger,
 		ErrorStream:  e.logger,

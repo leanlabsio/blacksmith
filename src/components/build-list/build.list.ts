@@ -62,10 +62,9 @@ export class BuildList
 
     constructor(@Inject(Http) private http: Http, @Inject(RouteParams) private params: RouteParams){
         this.builds = [];
-        this.repo = params.get("repo");
         var hs = new Headers();
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        http.get("/api/builds/"+this.repo, {headers:hs})
+        http.get("/api/builds/"+this.params.get("host")+"/"+this.params.get("namespace")+"/"+this.params.get("name"), {headers:hs})
             .map(res => res.json())
             .subscribe(val => {
                 if (val) {

@@ -71,6 +71,7 @@ func (r *ProjectRepository) Get(namespace, name string) *Project {
 	}
 
 	ret.triggerRepo = trigger.NewRepository(r.hosting)
+	ret.projectRepo = r
 
 	return &ret
 }

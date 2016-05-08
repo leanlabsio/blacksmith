@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/fsouza/go-dockerclient"
+	"github.com/leanlabsio/blacksmith/executor"
 	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/project"
 	"github.com/leanlabsio/blacksmith/repo"
@@ -23,12 +24,28 @@ func PostTrigger() []macaron.Handler {
 			repository := project.New(hosting, rc)
 
 			pr := repository.Get(namespace, name)
-			lg := logger.New("qwerty", rc)
 
-			pr.Executor.SetLogger(lg)
-			pr.Executor.SetClient(client)
-			pr.Executor.WithData(data)
-			go pr.Executor.Execute()
+			task := executor.Task{
+				Name: pr.Name(),
+				Builder: executor.Builder{
+					Name: pr.Executor.Image.Name,
+					Tag:  pr.Executor.Image.Tag,
+				},
+				Vars: executor.VarCollection{
+					0: executor.Var{
+						Name:  "EVENT_PAYLOAD",
+						Value: data,
+					},
+				},
+			}
+
+			for _, v := range pr.Executor.EnvVars {
+				task.Vars = append(task.Vars, executor.Var{Name: v.Name, Value: v.Value})
+			}
+
+			lg := logger.New(pr.Name(), rc)
+			e := executor.New(client, lg)
+			go e.Execute(task)
 
 			log.Printf("%+v", pr)
 		},
