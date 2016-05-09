@@ -5,19 +5,18 @@ import (
 )
 
 type LogEntry struct {
-	name      string
-	startTime int64
+	Name      string `json:"name"`
+	StartTime int64  `json:"start_time"`
 	event     interface{}
-	duration  time.Duration
+	Duration  time.Duration `json:"duration"`
 	writer    *Writer
 }
 
-func (e *LogEntry) Start() {
+func (e *LogEntry) Close() error {
+	d := time.Since(time.Unix(e.StartTime, 0))
+	e.Duration = d
 	e.writer.WriteEntry(e)
-}
-
-func (e *LogEntry) Finish() {
-	e.writer.WriteEntry(e)
+	return nil
 }
 
 func (e *LogEntry) Write(p []byte) (int, error) {

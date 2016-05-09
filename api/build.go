@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/middleware"
 	"github.com/leanlabsio/blacksmith/model"
 	"gopkg.in/macaron.v1"
@@ -11,19 +12,14 @@ import (
 func ListBuild() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		func(ctx *macaron.Context, user *model.User, r *redis.Client) {
+		func(ctx *macaron.Context, user *model.User, r *redis.Client, l *logger.Logger) {
 			host := ctx.Params(":host")
 			namespace := ctx.Params(":namespace")
 			name := ctx.Params(":name")
 
-			path := fmt.Sprintf("%s:%s:%s:builds", host, namespace, name)
+			entries := l.ListEntries(host, namespace, name)
 
-			data, _ := r.ZRevRangeByScoreWithScores(path, redis.ZRangeByScore{Min: "-inf", Max: "+inf", Offset: 0, Count: 10}).Result()
-			var builds []string
-			for _, item := range data {
-				builds = append(builds, item.Member.(string))
-			}
-			ctx.JSON(200, builds)
+			ctx.JSON(200, entries)
 		},
 	}
 }

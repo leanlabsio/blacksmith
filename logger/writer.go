@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"encoding/json"
 	"gopkg.in/redis.v3"
 )
 
@@ -10,7 +11,8 @@ type Writer struct {
 }
 
 func (w *Writer) WriteEntry(e *LogEntry) {
-	w.redis.HMSet(e.name, "user_name", "qwerty", "commit", "qwerty").Result()
+	data, _ := json.Marshal(e)
+	w.redis.Set(e.Name, data, 0)
 }
 
 func (w *Writer) Write(p []byte) (int, error) {

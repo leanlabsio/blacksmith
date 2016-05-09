@@ -10,10 +10,10 @@ import (
 // DockerExecutor represents docker task executor
 type DockerExecutor struct {
 	docker *docker.Client
-	logger io.Writer
+	logger io.WriteCloser
 }
 
-func New(d *docker.Client, l io.Writer) *DockerExecutor {
+func New(d *docker.Client, l io.WriteCloser) *DockerExecutor {
 	return &DockerExecutor{
 		docker: d,
 		logger: l,
@@ -73,6 +73,7 @@ func (e *DockerExecutor) Execute(t Task) {
 		e.logger.Write([]byte(msg))
 		log.Fatal(msg)
 	}
+	e.logger.Close()
 
 	log.Printf("Job executed %+v", e)
 }
