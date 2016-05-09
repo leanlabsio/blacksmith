@@ -6,20 +6,22 @@ import (
 	"github.com/leanlabsio/blacksmith/model"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
-	"log"
 )
 
 func ListBuild() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		func(ctx *macaron.Context, user *model.User, r *redis.Client) {
-			repo := ctx.Params("*")
-			log.Printf("REPO %s", repo)
-			data, _ := r.ZRevRangeByScoreWithScores(repo+":builds", redis.ZRangeByScore{Min: "-inf", Max: "+inf", Offset: 0, Count: 10}).Result()
-			var builds []model.Build
+			host := ctx.Params(":host")
+			namespace := ctx.Params(":namespace")
+			name := ctx.Params(":name")
+
+			path := fmt.Sprintf("%s:%s:%s:builds", host, namespace, name)
+
+			data, _ := r.ZRevRangeByScoreWithScores(path, redis.ZRangeByScore{Min: "-inf", Max: "+inf", Offset: 0, Count: 10}).Result()
+			var builds []string
 			for _, item := range data {
-				build, _ := r.HGetAllMap(item.Member.(string)).Result()
-				builds = append(builds, model.Build{UserName: build["user_name"], Commit: build["commit"], Status: model.BUILD_STATUS_FAILED})
+				builds = append(builds, item.Member.(string))
 			}
 			ctx.JSON(200, builds)
 		},

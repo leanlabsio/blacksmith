@@ -3,17 +3,17 @@ package executor
 import (
 	"fmt"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/leanlabsio/blacksmith/logger"
+	"io"
 	"log"
 )
 
 // DockerExecutor represents docker task executor
 type DockerExecutor struct {
 	docker *docker.Client
-	logger *logger.Writer
+	logger io.Writer
 }
 
-func New(d *docker.Client, l *logger.Writer) *DockerExecutor {
+func New(d *docker.Client, l io.Writer) *DockerExecutor {
 	return &DockerExecutor{
 		docker: d,
 		logger: l,

@@ -6,28 +6,28 @@ import (
 	"time"
 )
 
-func New(path string, r *redis.Client) *Writer {
-	timestamp := time.Now().Unix()
-	key := fmt.Sprintf("%s:builds", path)
+type Logger struct {
+	redis *redis.Client
+}
 
-	buildentry := fmt.Sprintf("%s:%d:build", path, timestamp)
-	logentry := fmt.Sprintf("%s:%d:log", path, timestamp)
-
-	r.HMSet(buildentry, "user_name", "qwerty", "commit", "qwerty", "timestamp", string(timestamp)).Result()
-	r.ZAdd(key, redis.Z{Score: float64(timestamp), Member: buildentry}).Result()
-
-	return &Writer{
-		name:  logentry,
+func New(r *redis.Client) *Logger {
+	return &Logger{
 		redis: r,
 	}
 }
 
-type Writer struct {
-	name  string
-	redis *redis.Client
+func (l *Logger) CreateEntry(name string) *LogEntry {
+	timestamp := time.Now().Unix()
+	buildentry := fmt.Sprintf("%s:%d", name, timestamp)
+
+	key := fmt.Sprintf("%s:builds", name)
+
+	l.redis.ZAdd(key, redis.Z{Score: float64(timestamp), Member: buildentry}).Result()
+
+	writer := &Writer{redis: l.redis, prefix: buildentry}
+	le := &LogEntry{writer: writer, startTime: timestamp, name: buildentry}
+
+	return le
 }
 
-func (w *Writer) Write(p []byte) (int, error) {
-	w.redis.Append(w.name, string(p)).Result()
-	return len(p), nil
-}
+func (l *Logger) ListEntries(name string) {}

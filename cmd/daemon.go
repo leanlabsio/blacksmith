@@ -6,6 +6,7 @@ import (
 	"github.com/fsouza/go-dockerclient"
 	"github.com/go-macaron/bindata"
 	"github.com/leanlabsio/blacksmith/api"
+	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/templates"
 	"github.com/leanlabsio/blacksmith/web"
 	"github.com/leanlabsio/sockets"
@@ -101,6 +102,7 @@ func daemon(c *cli.Context) {
 
 	m.Map(redisClient)
 	m.Map(dockerClient)
+	m.Map(logger.New(redisClient))
 
 	m.Post("/api/trigger", api.PostTrigger()...)
 

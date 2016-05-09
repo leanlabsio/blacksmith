@@ -13,7 +13,7 @@ import (
 
 func PostTrigger() []macaron.Handler {
 	return []macaron.Handler{
-		func(ctx *macaron.Context, rc *redis.Client, client *docker.Client) {
+		func(ctx *macaron.Context, rc *redis.Client, client *docker.Client, l *logger.Logger) {
 			data, _ := ctx.Req.Body().String()
 
 			host := ctx.Query("host")
@@ -43,8 +43,8 @@ func PostTrigger() []macaron.Handler {
 				task.Vars = append(task.Vars, executor.Var{Name: v.Name, Value: v.Value})
 			}
 
-			lg := logger.New(pr.Name(), rc)
-			e := executor.New(client, lg)
+			logEntry := l.CreateEntry(pr.Name())
+			e := executor.New(client, logEntry)
 			go e.Execute(task)
 
 			log.Printf("%+v", pr)
