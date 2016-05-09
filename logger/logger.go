@@ -18,15 +18,24 @@ func New(r *redis.Client) *Logger {
 }
 
 func (l *Logger) CreateEntry(name string) *LogEntry {
-	timestamp := time.Now().Unix()
-	buildentry := fmt.Sprintf("%s:%d", name, timestamp)
-
+	ts := time.Now()
+	unixTs := ts.Unix()
+	buildentry := fmt.Sprintf("%s:%d", name, unixTs)
 	key := fmt.Sprintf("%s:builds", name)
 
-	l.redis.ZAdd(key, redis.Z{Score: float64(timestamp), Member: buildentry}).Result()
+	l.redis.ZAdd(key, redis.Z{Score: float64(unixTs), Member: buildentry}).Result()
 
-	writer := &Writer{redis: l.redis, prefix: buildentry}
-	le := &LogEntry{writer: writer, StartTime: timestamp, Name: buildentry}
+	writer := &Writer{
+		redis:  l.redis,
+		prefix: buildentry,
+	}
+	le := &LogEntry{
+		writer: writer,
+		StartTime: Timestamp{
+			ts,
+		},
+		Name: buildentry,
+	}
 	writer.WriteEntry(le)
 
 	return le
