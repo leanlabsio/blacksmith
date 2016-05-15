@@ -1,17 +1,17 @@
 import {
     Component,
     Inject
-} from "angular2/core";
+} from "@angular/core";
 
 import {
     Http,
     Headers
-} from "angular2/http";
+} from "@angular/http";
 
 import {
     Router,
     ROUTER_DIRECTIVES
-} from "angular2/router";
+} from "@angular/router-deprecated";
 
 import {Navigation} from "./../mdl-nav/mdl.nav";
 
@@ -71,7 +71,7 @@ export class Dashboard {
         this.http
             .put("/api/projects/"+params.host+"/"+params.namespace+"/"+params.name, JSON.stringify(job), {headers: hs})
             .map((res) => {let resp:Project = res.json(); return resp;})
-            .subscribe(res => this.router.navigate(['Job', params]));
+            .subscribe(res => this.router.navigate(['JobSettings', params]));
     }
 
     disable(params: any, job: Job) {

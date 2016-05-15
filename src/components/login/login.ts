@@ -1,10 +1,12 @@
-import {Component} from 'angular2/core';
-import {parser} from 'angular2/src/router/url_parser';
-import {Http} from 'angular2/http';
+import {
+    Component,
+    Inject,
+    Input,
+} from '@angular/core';
+import {Http} from '@angular/http';
 import 'rxjs/Rx';
-import {Inject} from "angular2/core";
-import {Router} from "angular2/router";
-import {Input} from "angular2/core";
+import {Router} from "@angular/router-deprecated";
+import * as uri from 'urijs';
 
 const template: string = <string>require('./login.html');
 
@@ -21,18 +23,20 @@ export class Login{
         let scopes = ["user:email", "write:repo_hook", "repo", "admin:repo_hook"];
         let scope = scopes.join(",");
         let popup = window.open('https://github.com/login/oauth/authorize?client_id='+this.ghclient+"&scope="+scope);
-        let redirectUri = window.location.origin + '/';
+        let redirectUri = window.location.origin + '/oauth';
         let http = this.http;
         let router = this.router;
 
         let handle = setInterval(function() {
-            let uri = popup.location.protocol + '//' + popup.location.host + popup.location.pathname;
-            if (redirectUri === uri) {
-                let url = parser.parse(popup.location.search);
-                let j = JSON.stringify({code: url.params.code});
+            console.log(popup.location);
+            let loc = popup.location.href;
+            if (loc.indexOf(redirectUri) != -1) {
+                let url = new uri(popup.location.href);
+                let search = url.search(true);
+                let j = JSON.stringify({code: search.code});
                 http.post('/api/auth/github', j)
                     .map(res => res.json())
-                    .subscribe(value => {localStorage.setItem("jwt", value.token); router.navigate(['Dashboard', {}]) });
+                    .subscribe(value => {localStorage.setItem("jwt", value.token); router.navigate(['Dashboard']) });
 
                 popup.close();
                 clearInterval(handle);

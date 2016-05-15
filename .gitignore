@@ -10,3 +10,4 @@ web
 .DS_Store
 web/web.go
 templates/templates.go
+typings/

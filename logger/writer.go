@@ -12,7 +12,7 @@ type Writer struct {
 
 func (w *Writer) WriteEntry(e *LogEntry) {
 	data, _ := json.Marshal(e)
-	w.redis.Set(e.Name, data, 0)
+	w.redis.Set(e.GetID(), data, 0)
 }
 
 func (w *Writer) Write(p []byte) (int, error) {

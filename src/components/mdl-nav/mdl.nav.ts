@@ -2,7 +2,7 @@ import {
     Component,
     Directive,
     ContentChild
-} from "angular2/core";
+} from "@angular/core";
 
 
 const template: string = <string>require('./mdl.nav.html');

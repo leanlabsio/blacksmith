@@ -13,6 +13,7 @@ import (
 // PullRequestComment represents a comment left on a pull request.
 type PullRequestComment struct {
 	ID               *int       `json:"id,omitempty"`
+	InReplyTo        *int       `json:"in_reply_to,omitempty"`
 	Body             *string    `json:"body,omitempty"`
 	Path             *string    `json:"path,omitempty"`
 	DiffHunk         *string    `json:"diff_hunk,omitempty"`
@@ -23,6 +24,9 @@ type PullRequestComment struct {
 	User             *User      `json:"user,omitempty"`
 	CreatedAt        *time.Time `json:"created_at,omitempty"`
 	UpdatedAt        *time.Time `json:"updated_at,omitempty"`
+	URL              *string    `json:"url,omitempty"`
+	HTMLURL          *string    `json:"html_url,omitempty"`
+	PullRequestURL   *string    `json:"pull_request_url,omitempty"`
 }
 
 func (p PullRequestComment) String() string {

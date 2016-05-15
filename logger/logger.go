@@ -3,6 +3,7 @@ package logger
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/google/go-github/github"
 	"gopkg.in/redis.v3"
 	"time"
 )
@@ -17,28 +18,38 @@ func New(r *redis.Client) *Logger {
 	}
 }
 
-func (l *Logger) CreateEntry(name string) *LogEntry {
+func (l *Logger) NewEntry(event github.PushEvent, eventtype string, name string) *LogEntry {
 	ts := time.Now()
-	unixTs := ts.Unix()
-	buildentry := fmt.Sprintf("%s:%d", name, unixTs)
-	key := fmt.Sprintf("%s:builds", name)
 
-	l.redis.ZAdd(key, redis.Z{Score: float64(unixTs), Member: buildentry}).Result()
-
-	writer := &Writer{
-		redis:  l.redis,
-		prefix: buildentry,
-	}
 	le := &LogEntry{
-		writer: writer,
+		ID: fmt.Sprintf("%d", ts.Unix()),
 		StartTime: Timestamp{
 			ts,
 		},
-		Name: buildentry,
+		Name: name,
+		Event: Event{
+			ID:          *event.After,
+			Type:        eventtype,
+			Description: *event.HeadCommit.Message,
+			Sender: EventSender{
+				Name:       *event.Sender.Login,
+				AvatarURL:  *event.Sender.AvatarURL,
+				ProfileURL: *event.Sender.HTMLURL,
+			},
+		},
 	}
-	writer.WriteEntry(le)
+
+	le.writer = &Writer{
+		prefix: le.GetID(),
+		redis:  l.redis,
+	}
 
 	return le
+}
+
+func (l *Logger) CreateEntry(e *LogEntry) {
+	key := fmt.Sprintf("%s:builds", e.Name)
+	l.redis.ZAdd(key, redis.Z{Score: float64(e.StartTime.Time.Unix()), Member: e.GetID()}).Result()
 }
 
 func (l *Logger) ListEntries(host, namespace, name string) []LogEntry {

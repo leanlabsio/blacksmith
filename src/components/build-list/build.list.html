@@ -19,13 +19,15 @@
             <div class="mdl-cell mdl-cell--2-col"></div>
             <div class="mdl-cell mdl-cell--8-col">
                 <div class="mdl-list">
-                    <div class="mdl-list__item mdl-list__item--two-line" *ngFor="#build of builds">
+                    <div class="mdl-list__item mdl-list__item--three-line" *ngFor="let build of builds">
                         <div class="mdl-list__item-primary-content">
-                            <a [routerLink]="['BuildLog', {repo: repo, commit: build.commit}]" class="mdl-badge" [attr.data-badge]="build.state">
-                                {{build.commit}}
+                            <img src="{{build.event.sender.avatar}}" class="mdl-list__item-avatar">
+                            <a [routerLink]="['BuildLog', {'host':params.get('host'), 'namespace':params.get('namespace'), 'name': params.get('name'), 'timestamp':build.id,'commit':build.event.id}]">
+                                {{build.event.id}}
                             </a>
-                            <span class="mdl-list__item-sub-title">
-                                triggered by {{build.username}}
+                            <span class="mdl-list__item-text-body">
+                                {{build.fromnow}} by <a href="{{build.event.sender.profile}}" target="_blank">{{build.event.sender.name}}</a>&nbsp;
+                                {{build.description}}
                             </span>
                         </div>
                     </div>

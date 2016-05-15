@@ -1,7 +1,9 @@
 package api
 
 import (
+	"encoding/json"
 	"github.com/fsouza/go-dockerclient"
+	"github.com/google/go-github/github"
 	"github.com/leanlabsio/blacksmith/executor"
 	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/project"
@@ -15,6 +17,7 @@ func PostTrigger() []macaron.Handler {
 	return []macaron.Handler{
 		func(ctx *macaron.Context, rc *redis.Client, client *docker.Client, l *logger.Logger) {
 			data, _ := ctx.Req.Body().String()
+			eventType := ctx.Req.Header.Get("X-GitHub-Event")
 
 			host := ctx.Query("host")
 			namespace := ctx.Query("namespace")
@@ -43,7 +46,13 @@ func PostTrigger() []macaron.Handler {
 				task.Vars = append(task.Vars, executor.Var{Name: v.Name, Value: v.Value})
 			}
 
-			logEntry := l.CreateEntry(pr.Name())
+			var event github.PushEvent
+			json.Unmarshal([]byte(data), &event)
+
+			logEntry := l.NewEntry(event, eventType, pr.Name())
+			l.CreateEntry(logEntry)
+
+			logEntry.Start()
 			e := executor.New(client, logEntry)
 			go e.Execute(task)
 

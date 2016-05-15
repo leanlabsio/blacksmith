@@ -2,14 +2,14 @@ import {
     Component,
     Inject,
     OnInit
-} from "angular2/core";
+} from "@angular/core";
 
 import {
     Http,
     Headers
-} from "angular2/http";
+} from "@angular/http";
 
-import {RouteParams} from "angular2/router";
+import {RouteParams} from "@angular/router-deprecated";
 import {Build} from "./../build-list/build.list.ts";
 import {NAVIGATION_DIRECTIVES} from "./../mdl-nav/mdl.nav";
 

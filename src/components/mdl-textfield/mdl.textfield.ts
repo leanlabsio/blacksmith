@@ -11,12 +11,12 @@ import {
   ContentChildren,
   QueryList,
   OnChanges,
-} from 'angular2/core';
+} from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor
-} from 'angular2/src/common/forms/directives/control_value_accessor';
-import {BaseException} from 'angular2/src/facade/exceptions';
+} from '@angular/common';
+import {BaseException} from '@angular/core';
 
 const noop = () => {};
 

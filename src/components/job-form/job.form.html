@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="mdl-grid" *ngFor="#env of job.executor.env; #idx=index">
+    <div class="mdl-grid" *ngFor="let env of job.executor.env; let idx=index">
         <div class="mdl-cell mdl-cell--6-col">
             <md-input [(ngModel)]="job.executor.env[idx].name" class="mdl-textfield--floating-label mdl-textfield--full-width" ngControl="env_name">
                 <md-placeholder>ENV var name</md-placeholder>

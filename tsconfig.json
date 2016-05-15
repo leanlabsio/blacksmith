@@ -10,9 +10,12 @@
     "experimentalDecorators": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "typings/main.d.ts",
+    "typings/main"
   ],
   "files": [
-    "require.d.ts"
+    "require.d.ts",
+    "typings/browser.d.ts"
   ]
 }

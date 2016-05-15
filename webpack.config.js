@@ -1,10 +1,13 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './src/boot.ts',
+    entry: {
+        "app" : './src/boot.ts',
+        "polyfills": './src/polyfills.ts'
+    },
     output: {
         path: "web/js",
-        filename: 'bundle.js'
+        filename: '[name].js',
     },
     resolve: {
         extensions: ['', '.js', '.ts', '.tsx']

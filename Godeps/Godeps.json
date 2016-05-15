@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/vasiliy-t/blacksmith",
+	"ImportPath": "github.com/leanlabsio/blacksmith",
 	"GoVersion": "go1.5",
 	"Deps": [
 		{
@@ -38,7 +38,7 @@
 		},
 		{
 			"ImportPath": "github.com/google/go-github/github",
-			"Rev": "b8b4ac742977310ff6e75140a403a38dab109977"
+			"Rev": "a68a8707f3c18a3a47bb0975ca29a9239792dc01"
 		},
 		{
 			"ImportPath": "github.com/google/go-querystring/query",

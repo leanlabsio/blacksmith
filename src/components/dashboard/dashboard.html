@@ -2,17 +2,18 @@
     <nav>
         <nav-title>Projects</nav-title>
     </nav>
+
     <main class="mdl-layout__content">
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--2-col"></div>
             <div class="mdl-cell mdl-cell--8-col">
                 <div class="mdl-list">
-                    <div *ngFor="#job of jobs" class="mdl-list__item mdl-list__item--three-line">
+                    <div *ngFor="let job of jobs" class="mdl-list__item mdl-list__item--three-line">
                         <span class="mdl-list__item-primary-content">
                             <span>
-                                <a [routerLink]="['BuildList', {'host':'github.com', 'namespace':job.repository.owner.name, 'name':job.repository.name}]">{{job.repository.full_name}}</a>
+                                <a [routerLink]="['BuildList', {host:'github.com','namespace':job.repository.owner.name, 'name':job.repository.name}]">{{job.repository.full_name}}</a>
                             </span>
-                        <span class="mdl-list__item-text-body">
+                            <span class="mdl-list__item-text-body">
                                 {{job.repository.description}}
                             </span>
                         </span>
@@ -30,5 +31,4 @@
             </div>
         </div>
     </main>
-
 </div>

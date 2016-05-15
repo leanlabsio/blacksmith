@@ -1,36 +1,41 @@
 package logger
 
 import (
-	"strconv"
+	"fmt"
 	"time"
 )
 
-type Timestamp struct {
-	time.Time
-}
-
-func (t *Timestamp) MarshalJSON() ([]byte, error) {
-	ts := strconv.Itoa(int(t.Time.Unix()))
-	return []byte(ts), nil
-}
-
-func (t *Timestamp) UnmarshalJSON(b []byte) error {
-	ts, err := strconv.Atoi(string(b))
-
-	if err != nil {
-		return err
-	}
-
-	t.Time = time.Unix(int64(ts), 0)
-	return nil
-}
-
 type LogEntry struct {
-	Name      string    `json:"name"`
-	StartTime Timestamp `json:"start_time"`
-	event     interface{}
+	ID        string        `json:"id"`
+	Name      string        `json:"name"`
+	StartTime Timestamp     `json:"start_time"`
 	Duration  time.Duration `json:"duration"`
-	writer    *Writer
+	Event     Event         `json:"event"`
+	State     string        `json:"state"`
+
+	writer *Writer
+}
+
+type Event struct {
+	ID          string      `json:"id"`
+	Type        string      `json:"type"`
+	Sender      EventSender `json:"sender"`
+	Description string      `json:"description"`
+}
+
+type EventSender struct {
+	Name       string `json:"name"`
+	AvatarURL  string `json:"avatar_url"`
+	ProfileURL string `json:"profile_url"`
+}
+
+func (e *LogEntry) GetID() string {
+	return fmt.Sprintf("%s:%s:%s", e.Name, e.ID, e.Event.ID)
+}
+
+func (e *LogEntry) Start() error {
+	e.writer.WriteEntry(e)
+	return nil
 }
 
 func (e *LogEntry) Close() error {

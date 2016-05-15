@@ -3,7 +3,7 @@ import {
     Inject,
     OnInit,
     ElementRef
-} from "angular2/core";
+} from "@angular/core";
 
 import {JobForm} from "./../job-form/job.form.ts";
 import {NAVIGATION_DIRECTIVES} from "./../mdl-nav/mdl.nav";

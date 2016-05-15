@@ -3,24 +3,24 @@ import {
     Input,
     OnInit,
     Inject
-} from "angular2/core";
+} from "@angular/core";
 
 import {
     Headers,
     Http
-} from "angular2/http";
+} from "@angular/http";
 
 import {
     Project,
     Repository,
-    Executor,
+    DockerExecutor,
     Image,
     Env
 } from "./../dashboard/dashboard";
 
 import {Observable} from "rxjs/Observable";
-import {FORM_DIRECTIVES} from "angular2/common";
-import {RouteParams} from "angular2/router";
+import {FORM_DIRECTIVES} from "@angular/common";
+import {RouteParams} from "@angular/router-deprecated";
 import {MdInput} from "./../mdl-textfield/mdl.textfield";
 
 @Component({
@@ -44,7 +44,7 @@ export class JobForm implements OnInit
         let image: Image = {}
         let repo: Repository = {clone_url: ""};
         let env: Env[] = [];
-        let builder: Executor = {image: image, env: env};
+        let builder: DockerExecutor = {image: image, env: env};
         this.job = <Project>({executor: builder, repository: repo});
     }
 
