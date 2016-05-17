@@ -70,3 +70,9 @@ func (l *Logger) ListEntries(host, namespace, name string) []LogEntry {
 
 	return builds
 }
+
+func (l *Logger) GetLog(host, namespace, name, commit, timestamp string) string {
+	key := fmt.Sprintf("%s:%s:%s:%s:%s:log", host, namespace, name, timestamp, commit)
+	data, _ := l.redis.Get(key).Result()
+	return data
+}

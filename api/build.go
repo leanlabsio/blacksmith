@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/middleware"
 	"github.com/leanlabsio/blacksmith/model"
@@ -27,12 +26,16 @@ func ListBuild() []macaron.Handler {
 func GetBuild() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		func(ctx *macaron.Context, r *redis.Client) {
-			key := fmt.Sprintf("%s:%s", ctx.Params("*"), ctx.Query("commit"))
-			logKey := fmt.Sprintf("%s:log", key)
-			build, _ := r.HGetAllMap(key).Result()
-			data, _ := r.Get(logKey).Result()
-			ctx.JSON(200, model.Build{Log: data, UserName: build["user_name"], Commit: build["commit"]})
+		func(ctx *macaron.Context, l *logger.Logger) {
+			host := ctx.Params(":host")
+			namespace := ctx.Params(":namespace")
+			name := ctx.Params(":name")
+			commit := ctx.Params(":commit")
+			timestamp := ctx.Params(":timestamp")
+
+			log := l.GetLog(host, namespace, name, commit, timestamp)
+
+			ctx.JSON(200, log)
 		},
 	}
 }
