@@ -43,7 +43,7 @@ func (e *DockerExecutor) Execute(t Task) {
 	container, err := e.docker.CreateContainer(options)
 
 	if err == docker.ErrNoSuchImage {
-		e.docker.PullImage(
+		err = e.docker.PullImage(
 			docker.PullImageOptions{
 				Repository: t.Builder.Name,
 				Tag:        t.Builder.Tag,
@@ -51,11 +51,26 @@ func (e *DockerExecutor) Execute(t Task) {
 			docker.AuthConfiguration{},
 		)
 
+		if err != nil {
+			msg := fmt.Sprintf("Docker error: %s", err)
+			e.logger.Write([]byte(msg))
+			e.logger.Close()
+			return
+		}
+
 		container, err = e.docker.CreateContainer(options)
 
 		if err != nil {
-			log.Printf("Docker error: %s", err)
+			msg := fmt.Sprintf("Docker error: %s", err)
+			e.logger.Write([]byte(msg))
+			e.logger.Close()
+			return
 		}
+	} else {
+		msg := fmt.Sprintf("Docker error: %s", err)
+		e.logger.Write([]byte(msg))
+		e.logger.Close()
+		return
 	}
 
 	err = e.docker.StartContainer(container.ID, nil)
@@ -71,7 +86,6 @@ func (e *DockerExecutor) Execute(t Task) {
 	if err != nil {
 		msg := fmt.Sprintf("Docker error: %s", err)
 		e.logger.Write([]byte(msg))
-		log.Fatal(msg)
 	}
 	e.logger.Close()
 
