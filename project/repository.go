@@ -24,7 +24,7 @@ func New(h repo.Hosting, db *redis.Client) *ProjectRepository {
 	}
 }
 
-func (r *ProjectRepository) List() []Project {
+func (r *ProjectRepository) List(enabledOnly bool) []Project {
 	repos := r.hosting.ListRepositories()
 
 	var ret []Project
@@ -36,15 +36,20 @@ func (r *ProjectRepository) List() []Project {
 		if len(record) != 0 {
 			var j Project
 			json.Unmarshal([]byte(record), &j)
-			ret = append(ret, j)
-		} else {
-			j := Project{
-				Repository: repo,
-				Trigger: trigger.Trigger{
-					Active: false,
-				},
+			if j.Trigger.Active == false && enabledOnly == true {
+				continue
 			}
 			ret = append(ret, j)
+		} else {
+			if enabledOnly == false {
+				j := Project{
+					Repository: repo,
+					Trigger: trigger.Trigger{
+						Active: false,
+					},
+				}
+				ret = append(ret, j)
+			}
 		}
 	}
 

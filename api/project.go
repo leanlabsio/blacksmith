@@ -43,13 +43,14 @@ func ListProject() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		func(ctx *macaron.Context, user *model.User, redis *redis.Client) {
+			enabledOnly := ctx.QueryInt("enabled")
 			token := oauth2.StaticTokenSource(
 				&oauth2.Token{AccessToken: user.AccessToken},
 			)
 			hosting := repo.NewGithub(token)
 			repository := project.New(hosting, redis)
 
-			repos := repository.List()
+			repos := repository.List(enabledOnly != 0)
 
 			ctx.JSON(200, repos)
 		},

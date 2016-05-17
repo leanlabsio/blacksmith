@@ -1,9 +1,21 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
     <nav>
         <nav-title>Projects</nav-title>
     </nav>
 
     <main class="mdl-layout__content">
+
+        <div class="mdl-grid" *ngIf="!jobs || jobs.length == 0">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell mdl-cell--8-col">
+                <h5 class="mdl-typography--text-center">
+                    No projects to build yet.
+                    <a [routerLink]="['DashboardCreate', {'action':'create'}]">Create new from your repository</a>
+                </h5>
+            </div>
+        </div>
+
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--2-col"></div>
             <div class="mdl-cell mdl-cell--8-col">
@@ -30,5 +42,8 @@
                 </div>
             </div>
         </div>
+        <button title="Add more projects" [routerLink]="['DashboardCreate', {'action':'create'}]" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" style="position: fixed;right: 23px;bottom: 23px;z-index: 999;">
+            <i class="material-icons">add</i>
+        </button>
     </main>
 </div>

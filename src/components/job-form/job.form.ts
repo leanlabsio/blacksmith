@@ -20,7 +20,10 @@ import {
 
 import {Observable} from "rxjs/Observable";
 import {FORM_DIRECTIVES} from "@angular/common";
-import {RouteParams} from "@angular/router-deprecated";
+import {
+    RouteParams,
+    Router
+} from "@angular/router-deprecated";
 import {MdInput} from "./../mdl-textfield/mdl.textfield";
 
 @Component({
@@ -32,7 +35,7 @@ export class JobForm implements OnInit
 {
     job: Project;
 
-    constructor(@Inject(Http) private http: Http, @Inject(RouteParams) private params: RouteParams) {
+    constructor(@Inject(Http) private http: Http, @Inject(RouteParams) private params: RouteParams, @Inject(Router) private router:Router) {
         let hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
         this.http.get("/api/projects/"+this.params.get("host")+"/"+this.params.get("namespace")+"/"+this.params.get("name"), {headers:hs})
@@ -64,6 +67,6 @@ export class JobForm implements OnInit
         console.log(this.job);
         this.http.put("/api/projects/"+this.params.get("host")+"/"+this.params.get("namespace")+"/"+this.params.get("name"), JSON.stringify(this.job), {headers:hs})
             .map(res => res.json())
-            .subscribe(val => console.log(val));
+            .subscribe(val => this.router.navigate(['Dashboard']));
     }
 }

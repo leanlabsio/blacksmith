@@ -10,6 +10,7 @@ import {
 
 import {
     Router,
+    RouteParams,
     ROUTER_DIRECTIVES
 } from "@angular/router-deprecated";
 
@@ -58,13 +59,20 @@ export class Dashboard {
 
     jobs: Array<Project>;
 
-    constructor(@Inject(Http) public http: Http, @Inject(Router) private router: Router) {
+    constructor(@Inject(Http) public http: Http, @Inject(Router) private router: Router, @Inject(RouteParams) private params: RouteParams) {
         var hs = new Headers();
+        var qs = '';
+        let action = params.get('action');
+        if (action == 'create') {
+            qs = '?enabled=0';
+        } else {
+            qs = '?enabled=1';
+        }
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
-        this.http.get('/api/projects', {headers: hs}).map((res) => {var resp: Array<Job> = res.json(); return resp;}).subscribe(jobs => this.jobs = jobs);
+        this.http.get('/api/projects'+qs, {headers: hs}).map((res) => {var resp: Array<Job> = res.json(); return resp;}).subscribe(jobs => this.jobs = jobs);
     }
 
-    enable(params: any, job: Job) {
+    enable(params: any, job: Project) {
         var hs = new Headers();
         job.trigger.active = true;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
@@ -74,7 +82,7 @@ export class Dashboard {
             .subscribe(res => this.router.navigate(['JobSettings', params]));
     }
 
-    disable(params: any, job: Job) {
+    disable(params: any, job: Project) {
         var hs = new Headers();
         job.trigger.active = false;
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
