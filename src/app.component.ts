@@ -20,7 +20,7 @@ import {BuildLog} from "./components/build-log/build.log.ts";
     {path: '/jobs', component: Dashboard, name: 'Dashboard'},
     {path: '/log/:host/:namespace/:name', component: BuildList, name: 'BuildList'},
     {path: '/jobs/:host/:namespace/:name/settings', component: JobSettings, name: 'JobSettings'},
-    {path: '/log/:host/:namespace/:name/:commit/:timestamp', component: BuildLog, name: 'BuildLog'}
+    {path: '/logs/:host/:namespace/:name/:commit/:timestamp', component: BuildLog, name: 'BuildLog'}
 ])
 @Component({
     selector: 'app',

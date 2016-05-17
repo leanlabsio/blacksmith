@@ -9,7 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --color",
-    "watch": "npm run build -- --watch --progress"
+    "watch": "npm run build -- --watch --progress",
+    "typings": "typings",
+    "install": "npm install && npm run typings -- install"
   },
   "repository": {
     "type": "git",

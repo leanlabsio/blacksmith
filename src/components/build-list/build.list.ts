@@ -16,7 +16,6 @@ import {
 import * as moment from "moment";
 
 import {Navigation} from "./../mdl-nav/mdl.nav";
-import {BuildLog} from "./../build-log/build.log";
 
 export class LogEntry {
     public id: string;

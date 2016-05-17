@@ -6,11 +6,13 @@ import {
 
 import {
     Http,
-    Headers
+    Headers,
+    Response
 } from "@angular/http";
 
 import {RouteParams} from "@angular/router-deprecated";
-import {Build} from "./../build-list/build.list.ts";
+
+import {LogEntry} from "./../build-list/build.list.ts";
 import {NAVIGATION_DIRECTIVES} from "./../mdl-nav/mdl.nav";
 
 const template: string = <string>require('./build.log.html');
@@ -21,19 +23,23 @@ const template: string = <string>require('./build.log.html');
 })
 export class BuildLog implements OnInit
 {
-    public build:Build;
+    public build:string;
 
     constructor(@Inject(Http) private http: Http, @Inject(RouteParams) private params: RouteParams) {
-        let repo = params.get("repo");
+        let host = params.get("host");
+        let ns = params.get("namespace");
+        let name = params.get("name");
         let commit = params.get("commit");
+        let timestamp = params.get("timestamp");
+
         let hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
-        this.http.get("/api/logs/"+repo+"?commit="+commit, {headers:hs})
+        this.http.get("/api/logs/"+host+"/"+ns+"/"+name+"/"+commit+"/"+timestamp, {headers:hs})
             .map(res => res.json())
-            .subscribe(val => this.build = Build.create(val));
+            .subscribe(val => this.build = val);
     }
 
     ngOnInit() {
-        this.build = new Build({});
+        this.build = "";
     }
 }
