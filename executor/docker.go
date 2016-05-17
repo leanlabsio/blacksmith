@@ -66,7 +66,9 @@ func (e *DockerExecutor) Execute(t Task) {
 			e.logger.Close()
 			return
 		}
-	} else {
+	}
+
+	if err != nil {
 		msg := fmt.Sprintf("Docker error: %s", err)
 		e.logger.Write([]byte(msg))
 		e.logger.Close()
