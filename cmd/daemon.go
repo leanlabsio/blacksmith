@@ -85,6 +85,7 @@ func daemon(c *cli.Context) {
 			AssetInfo:  web.AssetInfo,
 			Prefix:     "web",
 		}),
+		Prefix: c.App.Version,
 	}))
 
 	m.Use(macaron.Renderer(
@@ -118,7 +119,7 @@ func daemon(c *cli.Context) {
 
 	m.Get("/*", func(ctx *macaron.Context) {
 		ctx.Data["BSConfig"] = map[string]interface{}{
-			"version": "1.0.0",
+			"version": c.App.Version,
 			"github": map[string]interface{}{
 				"oauth": map[string]string{
 					"clientid": c.String("github-client-id"),

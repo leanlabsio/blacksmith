@@ -55,7 +55,7 @@ blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		-e CGO_ENABLED=0 \
-		golang:1.6-alpine go build -ldflags '-s' -v -o $@
+		golang:1.6-alpine go build -ldflags '-X main.Version=$(VERSION)' -v -o $@
 
 ## Build docker image with application
 build_image: blacksmith

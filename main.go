@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+var Version string = "dev"
+
 func main() {
 	app := cli.NewApp()
 	app.Name = "blacksmithci"
@@ -22,6 +24,6 @@ func main() {
 	app.Commands = []cli.Command{
 		cmd.DaemonCmd,
 	}
-	app.Version = "0.0.1"
+	app.Version = Version
 	app.Run(os.Args)
 }
