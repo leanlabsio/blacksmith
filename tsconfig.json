@@ -15,7 +15,7 @@
     "typings/main"
   ],
   "files": [
-    "require.d.ts",
-    "typings/browser.d.ts"
+    "./require.d.ts",
+    "./typings/browser.d.ts"
   ]
 }

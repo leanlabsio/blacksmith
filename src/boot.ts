@@ -5,5 +5,7 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {AppComponent} from './app.component';
 import {enableProdMode} from '@angular/core';
 
-enableProdMode();
+if ('prod' == ENV) {
+    enableProdMode();
+}
 bootstrap(AppComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS]);

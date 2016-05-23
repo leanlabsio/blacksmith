@@ -24,6 +24,7 @@ build: node_modules
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
+		-e NODE_ENV=$(NODE_ENV) \
 		node:6.1.0-slim npm run build
 
 

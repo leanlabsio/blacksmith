@@ -15,6 +15,9 @@ module.exports = {
     plugins: [
         // Enable for not to produce compiled files in case of errors
         //new webpack.NoErrorsPlugin()
+        new webpack.DefinePlugin({
+            'ENV': JSON.stringify(process.env.NODE_ENV),
+        }),
     ],
     devtool: "source-map",
     module: {
