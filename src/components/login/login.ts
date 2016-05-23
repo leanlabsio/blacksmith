@@ -28,7 +28,6 @@ export class Login{
         let router = this.router;
 
         let handle = setInterval(function() {
-            console.log(popup.location);
             let loc = popup.location.href;
             if (loc.indexOf(redirectUri) != -1) {
                 let url = new uri(popup.location.href);

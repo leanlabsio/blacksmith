@@ -12,7 +12,7 @@ import (
 )
 
 // PutProject is an API endpoint to store project configuration
-func PutProject() []macaron.Handler {
+func PutProject(hostname string) []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		binding.Json(project.Project{}),
@@ -22,6 +22,7 @@ func PutProject() []macaron.Handler {
 			)
 
 			hosting := repo.NewGithub(token)
+			hosting.SetSelfHost(hostname)
 			repository := project.New(hosting, redis)
 
 			project := repository.Get(ctx.Params(":namespace"), ctx.Params(":name"))

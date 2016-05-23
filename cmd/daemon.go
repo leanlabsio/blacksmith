@@ -49,6 +49,10 @@ var DaemonCmd = cli.Command{
 			Name:   "github-client-secret",
 			EnvVar: "GITHUB_CLIENT_SECRET",
 		},
+		cli.StringFlag{
+			Name:   "server-hostname",
+			EnvVar: "BS_SERVER_HOSTNAME",
+		},
 	},
 	Action: daemon,
 }
@@ -107,7 +111,7 @@ func daemon(c *cli.Context) {
 
 	m.Post("/api/trigger", api.PostTrigger()...)
 
-	m.Put("/api/projects/:host/:namespace/:name", api.PutProject()...)
+	m.Put("/api/projects/:host/:namespace/:name", api.PutProject(c.String("server-hostname"))...)
 	m.Get("/api/projects", api.ListProject()...)
 	m.Get("/api/projects/:host/:namespace/:name", api.GetProject()...)
 

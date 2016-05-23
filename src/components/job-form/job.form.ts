@@ -52,19 +52,16 @@ export class JobForm implements OnInit
     }
 
     addenv() {
-        console.log('asasdas')
         if (!this.job.executor.env || !this.job.executor.env.length) {
             let env: Env[] = [];
             this.job.executor.env = env;
         }
-        console.log(this.job)
         this.job.executor.env.push(<Env>{name:"", value:""});
     }
 
     save() {
         var hs = new Headers();
         hs.append("Authorization", "Bearer "+localStorage.getItem("jwt"));
-        console.log(this.job);
         this.http.put("/api/projects/"+this.params.get("host")+"/"+this.params.get("namespace")+"/"+this.params.get("name"), JSON.stringify(this.job), {headers:hs})
             .map(res => res.json())
             .subscribe(val => this.router.navigate(['Dashboard']));

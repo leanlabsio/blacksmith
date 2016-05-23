@@ -8,8 +8,13 @@ import (
 )
 
 type GitHub struct {
-	client *github.Client
-	host   string
+	client   *github.Client
+	host     string
+	selfhost *url.URL
+}
+
+func (g *GitHub) SetSelfHost(host string) {
+	g.selfhost, _ = url.Parse(host)
 }
 
 func convertToRepository(r github.Repository) Repository {
@@ -71,9 +76,9 @@ func (g *GitHub) GetRepository(namespace, name string) Repository {
 // CreateWebhook creates webhook to Repository
 func (g *GitHub) CreateWebhook(namespace, name string) {
 	wh := url.URL{
-		Scheme: "http",
-		Host:   "qwerty.com", // todo pass host from config2
-		Path:   "trigger",
+		Scheme: g.selfhost.Scheme,
+		Host:   g.selfhost.Host, // todo pass host from config2
+		Path:   "api/trigger",
 	}
 	v := url.Values{}
 	v.Add("host", "github.com")

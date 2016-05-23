@@ -48,7 +48,7 @@ web/web.go: $(find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
 		-pkg=web -o $@ web/...
 
 ## Compile application
-blacksmith: $(shell find $(CURDIR) -name "*.go" -type f)
+blacksmith: build web/web.go templates/templates.go $(shell find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
@@ -64,7 +64,6 @@ build_image: blacksmith
 ## Publish image to docker hub
 release: build_image
 	@docker login \
-		--email=$$DOCKER_HUB_EMAIL \
 		--username=$$DOCKER_HUB_LOGIN \
 		--password=$$DOCKER_HUB_PASSWORD
 	@docker push $(IMAGE):latest
