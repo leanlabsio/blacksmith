@@ -15,9 +15,13 @@ import (
 
 func PostTrigger() []macaron.Handler {
 	return []macaron.Handler{
-		func(ctx *macaron.Context, rc *redis.Client, client *docker.Client, l *logger.Logger) {
+		func(ctx *macaron.Context, rc *redis.Client, client *docker.Client, l *logger.Logger) string {
 			data, _ := ctx.Req.Body().String()
 			eventType := ctx.Req.Header.Get("X-GitHub-Event")
+
+			if eventType == "ping" {
+				return "ok"
+			}
 
 			host := ctx.Query("host")
 			namespace := ctx.Query("namespace")
@@ -57,6 +61,7 @@ func PostTrigger() []macaron.Handler {
 			go e.Execute(task)
 
 			log.Printf("%+v", pr)
+			return "ok"
 		},
 	}
 }
