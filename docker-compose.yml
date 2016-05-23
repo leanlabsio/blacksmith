@@ -5,6 +5,7 @@ blacksmith:
     - REDIS_ADDR=redis:6379
     - GITHUB_CLIENT_ID=qwerty
     - GITHUB_CLIENT_SECRET=qwerty
+    - BS_SERVER_HOSTNAME=http://blacksmith.com
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   links:

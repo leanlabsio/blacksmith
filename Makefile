@@ -101,6 +101,7 @@ dev: build web/web.go templates/templates.go dev_watcher dev_redis
 		-e GITHUB_CLIENT_ID=$(GITHUB_CLIENT_ID) \
 		-e GITHUB_CLIENT_SECRET=$(GITHUB_CLIENT_SECRET) \
 		-e DOCKER_HOST=unix:///var/run/docker.sock \
+		-e BS_SERVER_HOSTNAME=$(BS_SERVER_HOSTNAME) \
 		--entrypoint=/usr/local/go/bin/go \
 		golang:1.6-alpine run -v main.go daemon
 
