@@ -1,5 +1,7 @@
 # Blacksmith CD server
 
+[![Join the chat at https://gitter.im/leanlabsio/blacksmith](https://badges.gitter.im/leanlabsio/blacksmith.svg)](https://gitter.im/leanlabsio/blacksmith?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Blacksmith is a powerful continuous integration/delivery server.
 
 ### Why another CI/CD server and how it's different?
