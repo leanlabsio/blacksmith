@@ -16,52 +16,29 @@ import {
 
 import {Navigation} from "./../mdl-nav/mdl.nav";
 
-const template: string = <string>require('./dashboard.html');
+import {
+    Project,
+    Repository,
+    Trigger,
+    Image,
+    DockerExecutor,
+    Env
+} from "./../dashboard/dashboard";
 
-export interface Project {
-    trigger: Trigger;
-    executor: DockerExecutor;
-    repository: Repository;
-}
-
-export interface Trigger {
-    active: boolean;
-}
-
-export interface Repository {
-    name: string;
-    full_name: string;
-    clone_url: string;
-    description: string;
-}
-
-export interface DockerExecutor {
-    image: Image;
-    env: Array<Env>;
-}
-
-export class Image {
-    name: string;
-    tag: string;
-}
-
-export interface Env {
-    name: string;
-    value: string;
-}
+const template: string = <string>require('./repo.browser.html');
 
 @Component({
-    selector: 'dashboard',
+    selector: 'repo-browser',
     template: template,
     directives: [ROUTER_DIRECTIVES, Navigation],
 })
-export class Dashboard {
+export class RepoBrowser {
 
     jobs: Array<Project>;
 
     constructor(@Inject(Http) public http: Http, @Inject(Router) private router: Router, @Inject(RouteParams) private params: RouteParams) {
         var hs = new Headers();
-        var qs = '?enabled=1';
+        var qs = '?enabled=0';
         hs.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         this.http.get('/api/projects'+qs, {headers: hs}).map((res) => {var resp: Array<Job> = res.json(); return resp;}).subscribe(jobs => this.jobs = jobs);
     }

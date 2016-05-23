@@ -5,17 +5,6 @@
     </nav>
 
     <main class="mdl-layout__content">
-
-        <div class="mdl-grid" *ngIf="!jobs || jobs.length == 0">
-            <div class="mdl-cell mdl-cell--2-col"></div>
-            <div class="mdl-cell mdl-cell--8-col">
-                <h5 class="mdl-typography--text-center">
-                    No projects to build yet.
-                    <a [routerLink]="['DashboardCreate']">Create new from your repository</a>
-                </h5>
-            </div>
-        </div>
-
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--2-col"></div>
             <div class="mdl-cell mdl-cell--8-col">
@@ -23,7 +12,7 @@
                     <div *ngFor="let job of jobs" class="mdl-list__item mdl-list__item--three-line">
                         <span class="mdl-list__item-primary-content">
                             <span>
-                                <a [routerLink]="['BuildList', {host:'github.com','namespace':job.repository.owner.name, 'name':job.repository.name}]">{{job.repository.full_name}}</a>
+                                <a (click)="enable({host:'github.com','namespace':job.repository.owner.name, 'name':job.repository.name}, job)">{{job.repository.full_name}}</a>
                             </span>
                             <span class="mdl-list__item-text-body">
                                 {{job.repository.description}}
@@ -42,8 +31,5 @@
                 </div>
             </div>
         </div>
-        <button title="Add more projects" [routerLink]="['DashboardCreate']" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" style="position: fixed;right: 23px;bottom: 23px;z-index: 999;">
-            <i class="material-icons">add</i>
-        </button>
     </main>
 </div>
