@@ -2,6 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"log"
+
 	"github.com/fsouza/go-dockerclient"
 	"github.com/google/go-github/github"
 	"github.com/leanlabsio/blacksmith/executor"
@@ -10,7 +12,6 @@ import (
 	"github.com/leanlabsio/blacksmith/repo"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
-	"log"
 )
 
 func PostTrigger() []macaron.Handler {

@@ -3,9 +3,10 @@ package logger
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/google/go-github/github"
 	"gopkg.in/redis.v3"
-	"time"
 )
 
 type Logger struct {

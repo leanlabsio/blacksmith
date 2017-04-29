@@ -1,7 +1,12 @@
 package api
 
 import (
+	"context"
 	"fmt"
+	"log"
+	"strconv"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-macaron/binding"
 	ghapi "github.com/google/go-github/github"
@@ -9,10 +14,6 @@ import (
 	"golang.org/x/oauth2/github"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
-	"log"
-	"strconv"
-	"time"
-	"context"
 )
 
 type Auth struct {
@@ -48,7 +49,7 @@ func PostGitHubAuth(ghcid, ghcs string) []macaron.Handler {
 
 			tc := oauth2.NewClient(oauth2.NoContext, ghauth)
 			client := ghapi.NewClient(tc)
-			user, _, err := client.Users.Get(context.Background(),"")
+			user, _, err := client.Users.Get(context.Background(), "")
 
 			if err != nil {
 

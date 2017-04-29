@@ -2,9 +2,10 @@ package executor
 
 import (
 	"fmt"
-	"github.com/fsouza/go-dockerclient"
 	"io"
 	"log"
+
+	"github.com/fsouza/go-dockerclient"
 )
 
 // DockerExecutor represents docker task executor

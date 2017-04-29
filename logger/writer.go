@@ -2,6 +2,7 @@ package logger
 
 import (
 	"encoding/json"
+
 	"gopkg.in/redis.v3"
 )
 

@@ -3,6 +3,7 @@ package project
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/leanlabsio/blacksmith/repo"
 	"github.com/leanlabsio/blacksmith/trigger"
 	"gopkg.in/redis.v3"

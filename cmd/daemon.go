@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/codegangsta/cli"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/go-macaron/bindata"
@@ -13,8 +16,6 @@ import (
 	"github.com/vasiliy-t/ws"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
-	"log"
-	"net/http"
 )
 
 //DaemonCmd is a command to start server in daemon mode

@@ -2,6 +2,7 @@ package project
 
 import (
 	"fmt"
+
 	"github.com/leanlabsio/blacksmith/repo"
 	"github.com/leanlabsio/blacksmith/trigger"
 )
@@ -31,7 +32,7 @@ type Project struct {
 	Trigger    trigger.Trigger `json:"trigger"`
 	Executor   Executor        `json:"executor"`
 
-	triggerRepo *trigger.TriggerRepository
+	triggerRepo *trigger.Repository
 	projectRepo *ProjectRepository
 }
 

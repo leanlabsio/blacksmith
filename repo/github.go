@@ -1,11 +1,12 @@
 package repo
 
 import (
-	"github.com/google/go-github/github"
-	"golang.org/x/oauth2"
+	"context"
 	"log"
 	"net/url"
-	"context"
+
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 )
 
 type GitHub struct {
@@ -54,7 +55,7 @@ func (g *GitHub) ListRepositories() []Repository {
 		ListOptions: github.ListOptions{PerPage: 100, Page: 1},
 	}
 
-	repos, _, _ := g.client.Repositories.List(context.Background(),"", opts)
+	repos, _, _ := g.client.Repositories.List(context.Background(), "", opts)
 
 	ret := []Repository{}
 

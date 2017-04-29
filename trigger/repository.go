@@ -4,16 +4,16 @@ import (
 	"github.com/leanlabsio/blacksmith/repo"
 )
 
-type TriggerRepository struct {
+type Repository struct {
 	hosting repo.Hosting
 }
 
-func NewRepository(c repo.Hosting) *TriggerRepository {
-	return &TriggerRepository{
+func NewRepository(c repo.Hosting) *Repository {
+	return &Repository{
 		hosting: c,
 	}
 }
 
-func (t *TriggerRepository) CreateTrigger(r repo.Repository) {
+func (t *Repository) CreateTrigger(r repo.Repository) {
 	t.hosting.CreateWebhook(r.Owner.Name, r.Name)
 }
