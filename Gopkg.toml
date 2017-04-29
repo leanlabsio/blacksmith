@@ -1,0 +1,28 @@
+
+[[dependencies]]
+  name = "github.com/dgrijalva/jwt-go"
+  version = "v3.0.0"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/go-macaron/bindata"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/go-macaron/binding"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/leanlabsio/sockets"
+
+[[dependencies]]
+  branch = "master"
+  name = "golang.org/x/oauth2"
+
+[[dependencies]]
+  name = "gopkg.in/macaron.v1"
+  version = "v1.2.1"
+
+[[dependencies]]
+  name = "gopkg.in/redis.v3"
+  version = "v3.6.4"

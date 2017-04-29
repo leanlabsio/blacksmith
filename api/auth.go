@@ -12,12 +12,18 @@ import (
 	"log"
 	"strconv"
 	"time"
+	"context"
 )
 
 type Auth struct {
 	ClientID    string `json:"clientId"`
 	Code        string `json:"code"`
 	RedirectUri string `json:"redirectUri"`
+}
+
+type Claims struct {
+	Name string
+	*jwt.StandardClaims
 }
 
 func PostGitHubAuth(ghcid, ghcs string) []macaron.Handler {
@@ -42,7 +48,7 @@ func PostGitHubAuth(ghcid, ghcs string) []macaron.Handler {
 
 			tc := oauth2.NewClient(oauth2.NoContext, ghauth)
 			client := ghapi.NewClient(tc)
-			user, _, err := client.Users.Get("")
+			user, _, err := client.Users.Get(context.Background(),"")
 
 			if err != nil {
 
@@ -56,9 +62,10 @@ func PostGitHubAuth(ghcid, ghcs string) []macaron.Handler {
 			if err != nil {
 			}
 
-			jwtToken := jwt.New(jwt.SigningMethodHS256)
-			jwtToken.Claims["name"] = id
-			jwtToken.Claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
+			jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, &Claims{})
+			claims := jwtToken.Claims.(*Claims)
+			claims.Name = id
+			claims.ExpiresAt = time.Now().Add(time.Hour * 1).Unix()
 			signed, _ := jwtToken.SignedString([]byte("qwerty"))
 
 			type resp struct {

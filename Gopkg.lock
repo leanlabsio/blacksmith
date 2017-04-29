@@ -1,0 +1,186 @@
+memo = "8bbffa5220a2d18b38d30a6d30f74d062b15e30eca1c4b3e7afe18916f279337"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/Azure/go-ansiterm"
+  packages = [".","winterm"]
+  revision = "fa152c58bc15761d0200cb75fe958b89a9d4888e"
+
+[[projects]]
+  name = "github.com/Microsoft/go-winio"
+  packages = ["."]
+  revision = "f3b1913901892ada21d52d0cffe1d4c7080d36b7"
+  version = "v0.3.9"
+
+[[projects]]
+  name = "github.com/Sirupsen/logrus"
+  packages = ["."]
+  revision = "ba1b36c82c5e05c4f912a88eab0dcd91a171688f"
+  version = "v0.11.5"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/Unknwon/com"
+  packages = ["."]
+  revision = "0db4a625e949e956314d7d1adea9bf82384cc10c"
+
+[[projects]]
+  name = "github.com/codegangsta/cli"
+  packages = ["."]
+  revision = "0bdeddeeb0f650497d603c4ad7b20cfe685682f6"
+  version = "v1.19.1"
+
+[[projects]]
+  name = "github.com/dgrijalva/jwt-go"
+  packages = ["."]
+  revision = "d2709f9f1f31ebcda9651b03077758c1f3a0018c"
+  version = "v3.0.0"
+
+[[projects]]
+  name = "github.com/docker/docker"
+  packages = ["api/types","api/types/blkiodev","api/types/container","api/types/filters","api/types/mount","api/types/network","api/types/registry","api/types/strslice","api/types/swarm","api/types/versions","opts","pkg/archive","pkg/fileutils","pkg/homedir","pkg/idtools","pkg/ioutils","pkg/jsonlog","pkg/jsonmessage","pkg/longpath","pkg/pools","pkg/promise","pkg/stdcopy","pkg/system","pkg/term","pkg/term/windows"]
+  revision = "092cba3727bb9b4a2f0e922cd6c0f93ea270e363"
+  version = "v1.13.1"
+
+[[projects]]
+  name = "github.com/docker/go-connections"
+  packages = ["nat"]
+  revision = "990a1a1a70b0da4c4cb70e117971a4f0babfbf1a"
+  version = "v0.2.1"
+
+[[projects]]
+  name = "github.com/docker/go-units"
+  packages = ["."]
+  revision = "f2d77a61e3c169b43402a0a1e84f06daf29b8190"
+  version = "v0.3.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/elazarl/go-bindata-assetfs"
+  packages = ["."]
+  revision = "30f82fa23fd844bd5bb1e5f216db87fd77b5eb43"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/fsouza/go-dockerclient"
+  packages = ["."]
+  revision = "122f334aa9063dcf87814c33c7331fccf1d88988"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/go-macaron/bindata"
+  packages = ["."]
+  revision = "85786f57eee3e5544a9cc24fa2afe425b97a8652"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/go-macaron/binding"
+  packages = ["."]
+  revision = "48920167fa152d02f228cfbece7e0f1e452d200a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/go-macaron/inject"
+  packages = ["."]
+  revision = "d8a0b8677191f4380287cfebd08e462217bac7ad"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  revision = "18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/google/go-github"
+  packages = ["github"]
+  revision = "e8d46665e050742f457a58088b1e6b794b2ae966"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/google/go-querystring"
+  packages = ["query"]
+  revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/gorilla/websocket"
+  packages = ["."]
+  revision = "a91eba7f97777409bc2c443f5534d41dd20c5720"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-cleanhttp"
+  packages = ["."]
+  revision = "3573b8b52aa7b37b9358d966a898feb387f62437"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/leanlabsio/sockets"
+  packages = ["."]
+  revision = "555ea7145f564a420c51194bb8b91eef028c7437"
+
+[[projects]]
+  name = "github.com/opencontainers/runc"
+  packages = ["libcontainer/system","libcontainer/user"]
+  revision = "baf6536d6259209c3edfa2b22237af82942d3dfa"
+  version = "v0.1.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/vasiliy-t/ws"
+  packages = ["."]
+  revision = "510bb4dc11995fbd1f4a0dacb625a08956eb4931"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["pbkdf2"]
+  revision = "9ef620b9ca2f82b55030ffd4f41327fa9e77a92c"
+
+[[projects]]
+  name = "golang.org/x/net"
+  packages = ["context","context/ctxhttp"]
+  revision = "f2499483f923065a842d38eb4c7f1927e6fc6e6d"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/oauth2"
+  packages = [".","github","internal"]
+  revision = "7fdf09982454086d5570c7db3e11f360194830ca"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix","windows"]
+  revision = "9ccfe848b9db8435a24c424abbc07a921adf1df5"
+
+[[projects]]
+  name = "google.golang.org/appengine"
+  packages = [".","internal","internal/app_identity","internal/base","internal/datastore","internal/log","internal/modules","internal/remote_api","internal/urlfetch","urlfetch"]
+  revision = "150dc57a1b433e64154302bdc40b6bb8aefa313a"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "v1"
+  name = "gopkg.in/bsm/ratelimit.v1"
+  packages = ["."]
+  revision = "db14e161995a5177acef654cb0dd785e8ee8bc22"
+
+[[projects]]
+  branch = "master"
+  name = "gopkg.in/ini.v1"
+  packages = ["."]
+  revision = "e7fea39b01aea8d5671f6858f0532f56e8bff3a5"
+
+[[projects]]
+  name = "gopkg.in/macaron.v1"
+  packages = ["."]
+  revision = "a325110f8b392bce3e5cdeb8c44bf98078ada3be"
+  version = "v1.2.1"
+
+[[projects]]
+  name = "gopkg.in/redis.v3"
+  packages = [".","internal","internal/consistenthash","internal/hashtag","internal/pool"]
+  revision = "b5e368500d0a508ef8f16e9c2d4025a8a46bcc29"
+  version = "v3.6.4"

@@ -5,6 +5,7 @@ import (
 	"golang.org/x/oauth2"
 	"log"
 	"net/url"
+	"context"
 )
 
 type GitHub struct {
@@ -17,7 +18,7 @@ func (g *GitHub) SetSelfHost(host string) {
 	g.selfhost, _ = url.Parse(host)
 }
 
-func convertToRepository(r github.Repository) Repository {
+func convertToRepository(r *github.Repository) Repository {
 	return Repository{
 		CloneURL:    *r.CloneURL,
 		FullName:    *r.FullName,
@@ -53,7 +54,7 @@ func (g *GitHub) ListRepositories() []Repository {
 		ListOptions: github.ListOptions{PerPage: 100, Page: 1},
 	}
 
-	repos, _, _ := g.client.Repositories.List("", opts)
+	repos, _, _ := g.client.Repositories.List(context.Background(),"", opts)
 
 	ret := []Repository{}
 
@@ -66,9 +67,9 @@ func (g *GitHub) ListRepositories() []Repository {
 }
 
 func (g *GitHub) GetRepository(namespace, name string) Repository {
-	repo, _, _ := g.client.Repositories.Get(namespace, name)
+	repo, _, _ := g.client.Repositories.Get(context.Background(), namespace, name)
 
-	ret := convertToRepository(*repo)
+	ret := convertToRepository(repo)
 
 	return ret
 }
@@ -95,5 +96,5 @@ func (g *GitHub) CreateWebhook(namespace, name string) {
 		},
 	}
 
-	g.client.Repositories.CreateHook(namespace, name, &hook)
+	g.client.Repositories.CreateHook(context.Background(), namespace, name, &hook)
 }

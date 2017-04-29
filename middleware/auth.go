@@ -7,6 +7,11 @@ import (
 	"gopkg.in/redis.v3"
 )
 
+type Claims struct {
+	Name string
+	*jwt.StandardClaims
+}
+
 func Auth() macaron.Handler {
 	return func(ctx *macaron.Context, redis *redis.Client) {
 		header := ctx.Req.Header.Get("Authorization")
@@ -14,18 +19,18 @@ func Auth() macaron.Handler {
 		}
 		t := header[7:]
 
-		token, err := jwt.Parse(t, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(t, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte("qwerty"), nil
 		})
 
 		if err != nil {
+
 		}
 		if !token.Valid {
 		}
+		claims := token.Claims.(*Claims)
 
-		name, _ := token.Claims["name"]
-
-		data, err := redis.HGetAllMap(name.(string)).Result()
+		data, err := redis.HGetAllMap(claims.Name).Result()
 
 		if err != nil {
 		}
