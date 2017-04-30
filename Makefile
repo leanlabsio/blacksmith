@@ -8,22 +8,25 @@ VERSION = 0.0.1
 # executed in docker builders
 CWD     = /go/src/github.com/leanlabsio/blacksmith
 
+# Current working directory for frontend targets
+FCWD    = $(CWD)/frontend
+
 all: release
 
 # Frontend application tasks
 
 ## Install frontend dependencies
-node_modules/: package.json
+frontend/node_modules/: frontend/package.json
 	@docker run --rm \
-		-v $(CURDIR):$(CWD) \
-		-w $(CWD) \
+		-v $(CURDIR)/frontend:$(FCWD) \
+		-w $(FCWD) \
 		node:6.1.0-slim npm run install
 
 ## Build frontend application
-build: node_modules
+build: frontend/node_modules
 	@docker run --rm \
-		-v $(CURDIR):$(CWD) \
-		-w $(CWD) \
+		-v $(CURDIR)/frontend:$(FCWD) \
+		-w $(FCWD) \
 		-e NODE_ENV=$(NODE_ENV) \
 		node:6.1.0-slim npm run build
 
@@ -78,12 +81,12 @@ dev_redis:
 		docker run -d -p 6379:6379 --name bs_dev_redis leanlabs/redis
 
 ## Install nodejs modules and start Gulp watcher
-dev_watcher: node_modules/
+dev_watcher: frontend/node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
 		docker run -d \
 			--name bs_dev_watcher \
-			-v $(CURDIR):$(CWD) \
-			-w $(CWD) \
+			-v $(CURDIR)/frontend:$(FCWD) \
+			-w $(FCWD) \
 			node:6.1.0-slim npm run watch
 
 dev : DEBUG=-debug
