@@ -2,8 +2,8 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        "app" : './src/boot.ts',
-        "polyfills": './src/polyfills.ts'
+        "app" : './frontend/boot.ts',
+        "polyfills": './frontend/polyfills.ts'
     },
     output: {
         path: "web/js",

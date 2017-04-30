@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/go-macaron/binding"
+	"github.com/leanlabsio/blacksmith/auth"
 	"github.com/leanlabsio/blacksmith/middleware"
-	"github.com/leanlabsio/blacksmith/model"
 	"github.com/leanlabsio/blacksmith/project"
 	"github.com/leanlabsio/blacksmith/repo"
 	"golang.org/x/oauth2"
@@ -16,7 +16,7 @@ func PutProject(hostname string) []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
 		binding.Json(project.Project{}),
-		func(ctx *macaron.Context, j project.Project, redis *redis.Client, user *model.User) {
+		func(ctx *macaron.Context, j project.Project, redis *redis.Client, user *auth.User) {
 			token := oauth2.StaticTokenSource(
 				&oauth2.Token{AccessToken: user.AccessToken},
 			)
@@ -43,7 +43,7 @@ func PutProject(hostname string) []macaron.Handler {
 func ListProject() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		func(ctx *macaron.Context, user *model.User, redis *redis.Client) {
+		func(ctx *macaron.Context, user *auth.User, redis *redis.Client) {
 			enabledOnly := ctx.QueryInt("enabled")
 			token := oauth2.StaticTokenSource(
 				&oauth2.Token{AccessToken: user.AccessToken},
@@ -62,7 +62,7 @@ func ListProject() []macaron.Handler {
 func GetProject() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		func(ctx *macaron.Context, user *model.User, redis *redis.Client) {
+		func(ctx *macaron.Context, user *auth.User, redis *redis.Client) {
 			token := oauth2.StaticTokenSource(
 				&oauth2.Token{AccessToken: user.AccessToken},
 			)

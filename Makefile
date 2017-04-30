@@ -16,17 +16,17 @@ all: release
 # Frontend application tasks
 
 ## Install frontend dependencies
-frontend/node_modules/: frontend/package.json
+node_modules/: package.json
 	@docker run --rm \
-		-v $(CURDIR)/frontend:$(FCWD) \
-		-w $(FCWD) \
+		-v $(CURDIR):$(CWD) \
+		-w $(CWD) \
 		node:6.1.0-slim npm run install
 
 ## Build frontend application
-build: frontend/node_modules
+build: node_modules
 	@docker run --rm \
-		-v $(CURDIR)/frontend:$(FCWD) \
-		-w $(FCWD) \
+		-v $(CURDIR):$(CWD) \
+		-w $(CWD) \
 		-e NODE_ENV=$(NODE_ENV) \
 		node:6.1.0-slim npm run build
 
@@ -59,7 +59,7 @@ blacksmith: build web/web.go templates/templates.go $(shell find $(CURDIR) -name
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		-e CGO_ENABLED=0 \
-		golang:1.6-alpine go build -ldflags '-X main.Version=$(VERSION)' -v -o $@
+		golang:1.8-alpine go build -ldflags '-X main.Version=$(VERSION)' -v -o $@
 
 ## Build docker image with application
 build_image: blacksmith
@@ -81,12 +81,12 @@ dev_redis:
 		docker run -d -p 6379:6379 --name bs_dev_redis leanlabs/redis
 
 ## Install nodejs modules and start Gulp watcher
-dev_watcher: frontend/node_modules/
+dev_watcher: node_modules/
 	@docker inspect -f {{.State.Running}} bs_dev_watcher || \
 		docker run -d \
 			--name bs_dev_watcher \
-			-v $(CURDIR)/frontend:$(FCWD) \
-			-w $(FCWD) \
+			-v $(CURDIR):$(CWD) \
+			-w $(CWD) \
 			node:6.1.0-slim npm run watch
 
 dev : DEBUG=-debug
@@ -107,7 +107,7 @@ dev: build web/web.go templates/templates.go dev_watcher dev_redis
 		-e DOCKER_HOST=unix:///var/run/docker.sock \
 		-e BS_SERVER_HOSTNAME=$(BS_SERVER_HOSTNAME) \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.6-alpine run -v main.go daemon
+		golang:1.8-alpine run -v main.go daemon
 
 clean:
 	@rm -rf $(CURDIR)/web

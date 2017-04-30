@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
-	"github.com/leanlabsio/blacksmith/cli"
+	bscli "github.com/leanlabsio/blacksmith/cli"
 )
 
 var Version string = "dev"
@@ -23,7 +23,7 @@ func main() {
 		},
 	}
 	app.Commands = []cli.Command{
-		cli.DaemonCmd,
+		bscli.DaemonCmd,
 	}
 	app.Version = Version
 	app.Run(os.Args)

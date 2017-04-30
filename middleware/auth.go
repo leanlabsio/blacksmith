@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/leanlabsio/blacksmith/model"
+	"github.com/leanlabsio/blacksmith/auth"
 	"gopkg.in/macaron.v1"
 	"gopkg.in/redis.v3"
 )
@@ -37,7 +37,7 @@ func Auth() macaron.Handler {
 		if len(data) == 0 {
 		}
 
-		user := &model.User{
+		user := &auth.User{
 			ID:          data["id"],
 			Name:        data["name"],
 			AccessToken: data["access_token"],
