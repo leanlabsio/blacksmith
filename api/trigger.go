@@ -6,7 +6,7 @@ import (
 
 	"github.com/fsouza/go-dockerclient"
 	"github.com/google/go-github/github"
-	"github.com/leanlabsio/blacksmith/executor"
+	"github.com/leanlabsio/blacksmith/runner"
 	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/project"
 	"github.com/leanlabsio/blacksmith/repo"
@@ -33,14 +33,14 @@ func PostTrigger() []macaron.Handler {
 
 			pr := repository.Get(namespace, name)
 
-			task := executor.Task{
+			task := runner.Task{
 				Name: pr.Name(),
-				Builder: executor.Builder{
+				Builder: runner.Builder{
 					Name: pr.Executor.Image.Name,
 					Tag:  pr.Executor.Image.Tag,
 				},
-				Vars: executor.VarCollection{
-					0: executor.Var{
+				Vars: runner.VarCollection{
+					0: runner.Var{
 						Name:  "EVENT_PAYLOAD",
 						Value: data,
 					},
@@ -48,7 +48,7 @@ func PostTrigger() []macaron.Handler {
 			}
 
 			for _, v := range pr.Executor.EnvVars {
-				task.Vars = append(task.Vars, executor.Var{Name: v.Name, Value: v.Value})
+				task.Vars = append(task.Vars, runner.Var{Name: v.Name, Value: v.Value})
 			}
 
 			var event github.PushEvent
@@ -58,7 +58,7 @@ func PostTrigger() []macaron.Handler {
 			l.CreateEntry(logEntry)
 
 			logEntry.Start()
-			e := executor.New(client, logEntry)
+			e := runner.New(client, logEntry)
 			go e.Execute(task)
 
 			log.Printf("%+v", pr)
