@@ -8,20 +8,20 @@ import (
 	"github.com/fsouza/go-dockerclient"
 )
 
-// DockerExecutor represents docker task executor
-type DockerExecutor struct {
+// Docker represents docker task executor
+type Docker struct {
 	docker *docker.Client
 	logger io.WriteCloser
 }
 
-func New(d *docker.Client, l io.WriteCloser) *DockerExecutor {
-	return &DockerExecutor{
+func New(d *docker.Client, l io.WriteCloser) *Docker {
+	return &Docker{
 		docker: d,
 		logger: l,
 	}
 }
 
-func (e *DockerExecutor) Execute(t Task) {
+func (e *Docker) Execute(t Task) {
 	config := &docker.Config{
 		Image: t.Builder.Name + ":" + t.Builder.Tag,
 		Volumes: map[string]struct{}{

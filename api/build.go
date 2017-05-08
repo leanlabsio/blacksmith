@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/leanlabsio/blacksmith/auth"
+	"github.com/leanlabsio/blacksmith/user"
 	"github.com/leanlabsio/blacksmith/logger"
 	"github.com/leanlabsio/blacksmith/middleware"
 	"gopkg.in/macaron.v1"
@@ -11,7 +11,7 @@ import (
 func ListBuild() []macaron.Handler {
 	return []macaron.Handler{
 		middleware.Auth(),
-		func(ctx *macaron.Context, user *auth.User, r *redis.Client, l *logger.Logger) {
+		func(ctx *macaron.Context, user *user.User, r *redis.Client, l *logger.Logger) {
 			host := ctx.Params(":host")
 			namespace := ctx.Params(":namespace")
 			name := ctx.Params(":name")
